@@ -1,13 +1,10 @@
-import { META_AUTHOR, META_DESCRIPTION, META_IMAGE, META_KEYWORDS, META_TITLE, META_TYPE, META_URL } from "@/constants";
+import { METADATA } from "@/constants";
 import { Helmet } from "react-helmet-async";
 
 /**
  * SEO component for setting metadata in the head of the document.
- *
- * @component
- *
+ * @type {React.FC<Metadata & ChildProps>}
  * @example
- * // Example usage of the SEO component
  * <SEO
  *   title="Page Title"
  *   description="Description of the page"
@@ -21,13 +18,9 @@ import { Helmet } from "react-helmet-async";
  * />
  */
 
-type SEOProps = Metadata & {
-    children?: React.ReactNode
-}
-
-const Seo: React.FC<SEOProps> = (props) => {
+const Seo = (props) => {
     // Construct the site title by combining the meta title and the provided title
-    const siteTitle = META_TITLE + (props.title ? ' - ' + props.title : '');
+    const siteTitle = METADATA.title + (props.title ? ' - ' + props.title : '');
 
     return (
         <Helmet>
@@ -35,15 +28,15 @@ const Seo: React.FC<SEOProps> = (props) => {
             {/* Meta tags for various properties */}
             <meta
                 name='description'
-                content={props.description || META_DESCRIPTION}
+                content={props.description || METADATA.description}
             />
             <meta
                 name='author'
-                content={props.author || META_AUTHOR}
+                content={props.author || METADATA.author}
             />
             <meta
                 name='keywords'
-                content={props.keywords || META_KEYWORDS}
+                content={props.keywords || METADATA.keywords}
             />
             <meta
                 name='og:title'
@@ -51,19 +44,19 @@ const Seo: React.FC<SEOProps> = (props) => {
             />
             <meta
                 name='og:description'
-                content={props.description || META_DESCRIPTION}
+                content={props.description || METADATA.description}
             />
             <meta
                 name='og:image'
-                content={props.image || META_IMAGE}
+                content={props.image || METADATA.image}
             />
             <meta
                 name='og:url'
-                content={props.url || META_URL}
+                content={props.url || METADATA.url}
             />
             <meta
                 name='og:type'
-                content={props.type || META_TYPE}
+                content={props.type || METADATA.type}
             />
             <meta
                 name='twitter:title'
@@ -71,13 +64,12 @@ const Seo: React.FC<SEOProps> = (props) => {
             />
             <meta
                 name='twitter:description'
-                content={props.description || META_DESCRIPTION}
+                content={props.description || METADATA.description}
             />
             <meta
                 name='twitter:image'
-                content={props.image || META_IMAGE}
+                content={props.image || METADATA.image}
             />
-            {/* Additional child components, if any */}
             {props.children}
         </Helmet>
     );

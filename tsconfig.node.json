@@ -16,7 +16,11 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* JS Support */
+    "allowJs": true,
+    "checkJs": true
   },
-  "include": ["vite.config.ts"]
+  "include": ["vite.config.js"]
 }
