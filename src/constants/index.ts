@@ -3,6 +3,7 @@ import {
     LayoutDashboard,
     Link as LinkIcon,
     Megaphone,
+    Layers3,
     NotebookPen,
     PackageOpen,
     PiggyBank,
@@ -22,32 +23,32 @@ export const overviewData: Array<{
     color: string;
 }> = [
     {
-        icon: LayoutDashboard, 
+        icon: Layers3, 
         name: "Total Inventory",
         amount: 4000,
         percentage: "+65%",
-        color: "bg-green-500" 
+        color: "bg-[#fbf2fd]" 
     },
     {
-        icon: Box, 
+        icon: PackageOpen, 
         name: "Product Sold",
         amount: 3000,
         percentage: "+65%",
-        color: "bg-blue-500" 
+        color: "bg-[#e7f7e8]" 
     },
     {
         icon: ShoppingBag, 
         name: "Orders",
         amount: 500,
         percentage: "-15%",
-        color: "bg-red-500"
+        color: "bg-[#eaecfd]"
     },
     {
         icon: Users,
         name: "New Customers",
         amount: 65,
         percentage: "+23%",
-        color: "bg-yellow-500"
+        color: "bg-[#fff9e6]"
     }
 ];
 

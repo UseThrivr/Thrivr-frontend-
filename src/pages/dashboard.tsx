@@ -11,7 +11,6 @@ const Dashboard = () => {
                     <p className="text-[1rem] leading-[22.4px] font-[500] text-[#5c636d]">An overview of how your business is fairing</p>
                 </div>
 
-                {/* Add the OverviewCard component here */}
                 <OverviewCard />
             </section>
         </>
