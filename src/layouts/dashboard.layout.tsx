@@ -13,9 +13,11 @@ const DashboardLayout: React.FC<NavBarProps> = (navBarProps) => {
                 style={{ "--sidebar-width": "var(--dashboard-sidebar-width)" }}
             >
                 <Sidebar />
-                <div>
+                <div className="w-full">
                     <Navbar {...navBarProps} />
-                    <Outlet />
+                    <div className="mt-[16.5vh] w-full">
+                        <Outlet />
+                    </div>
                 </div>
             </SidebarProvider>
         </>
