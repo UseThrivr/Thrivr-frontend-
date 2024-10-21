@@ -1,5 +1,5 @@
 import { Seo } from "@/components/global";
-import OverviewCard from '@/components/dashboard/'
+import OverviewCard from '@/components/dashboard/OverviewCard'
 
 const Dashboard = () => {
     return (
