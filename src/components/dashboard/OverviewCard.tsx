@@ -7,19 +7,21 @@ const OverviewCard: React.FC = () => {
             {overviewData.map((item, index) => (
                 <div
                     key={index}
-                    className={`p-6 rounded-lg shadow-md flex opacity-1 items-center justify-between text-white ${item.color}`} // Dynamically set background color
+                    className={`p-[16px] h-[166px] rounded-[8px] shadow-md flex flex-col text-white ${item.color} w-[240px] gap-[40px]`}
                 >
-                    <div className="flex items-center">
-                        {/* Properly render the icon */}
-                        <item.icon className="w-10 h-10 mr-4" />
+                    <div className="flex items-start justify-start flex-col gap-[8px] text-[#5c636d]">
+                        <item.icon className="w-[24px] h-[24px]" />
                         <div>
-                            <h3 className="text-lg font-semibold">{item.name}</h3>
-                            <p className="text-xl font-bold">{item.amount}</p>
+                            <h3 className="text-[1rem] leading-[24px] font-[500]">{item.name}</h3>
                         </div>
                     </div>
-                    <p className={`text-lg font-semibold ${item.percentage.startsWith("-") ? "text-red-600" : "text-green-400"}`}>
-                        {item.percentage}
-                    </p>
+                    <div className="flex justify-between items-center w-full h-[30px]">
+                        <p className="text-[20px] leading-[30px] text-primary font-[500]">{item.amount}</p>
+                        <p className={`text-[1rem] leading-[23.12px] font-[400] ${item.percentage.startsWith("-") ? "text-[#DC3545]" : "text-[#28a745]"}`}>
+                            {item.percentage}
+                        </p>
+                    </div>
+                    
                 </div>
             ))}
         </div>
