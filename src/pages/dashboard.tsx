@@ -1,4 +1,5 @@
 import { Seo } from "@/components/global";
+import OverviewCard from '@/components/dashboard/'
 
 const Dashboard = () => {
     return (
@@ -10,12 +11,11 @@ const Dashboard = () => {
                     <p className="text-[1rem] leading-[22.4px] font-[500] text-[#5c636d]">An overview of how your business is fairing</p>
                 </div>
 
-                <div className="">
-                    
-                </div>
+                {/* Add the OverviewCard component here */}
+                <OverviewCard />
             </section>
         </>
-    )
-}
+    );
+};
 
 export default Dashboard;
