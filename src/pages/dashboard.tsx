@@ -1,9 +1,9 @@
 import { Seo } from "@/components/global";
-import OverviewCard from '@/components/dashboard/OverviewCard'
+import OverviewCard from "@/components/dashboard/OverviewCard";
+
 import {
-    ChevronDown,
-    type LucideProps
-} from "lucide-react";
+    ChevronDown
+} from "lucide-react"; 
 
 const Dashboard = () => {
     return (

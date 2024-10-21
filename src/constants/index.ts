@@ -9,7 +9,6 @@ import {
     PiggyBank,
     ShoppingBag,
     Users,
-    Box,
     type LucideProps
 } from "lucide-react";
 
