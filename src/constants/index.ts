@@ -8,8 +8,48 @@ import {
     PiggyBank,
     ShoppingBag,
     Users,
+    Box,
     type LucideProps
 } from "lucide-react";
+
+
+
+export const overviewData: Array<{
+    icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>;
+    name: string;
+    amount: number;
+    percentage: string;
+    color: string;
+}> = [
+    {
+        icon: LayoutDashboard, 
+        name: "Total Inventory",
+        amount: 4000,
+        percentage: "+65%",
+        color: "bg-green-500" 
+    },
+    {
+        icon: Box, 
+        name: "Product Sold",
+        amount: 3000,
+        percentage: "+65%",
+        color: "bg-blue-500" 
+    },
+    {
+        icon: ShoppingBag, 
+        name: "Orders",
+        amount: 500,
+        percentage: "-15%",
+        color: "bg-red-500"
+    },
+    {
+        icon: Users,
+        name: "New Customers",
+        amount: 65,
+        percentage: "+23%",
+        color: "bg-yellow-500"
+    }
+];
 
 
 export const sidebarLinks: Array<{
