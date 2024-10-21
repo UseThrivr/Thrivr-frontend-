@@ -7,7 +7,7 @@ const OverviewCard = () => {
             {overviewData.map((item, index) => (
                 <div
                     key={index}
-                    className={`p-6 rounded-lg shadow-md flex items-center justify-between text-white ${item.color}`} // Dynamically set background color
+                    className={`p-6 rounded-lg shadow-md flex opacity-1 items-center justify-between text-white ${item.color}`} // Dynamically set background color
                 >
                     <div className="flex items-center">
                         <item.icon className="w-10 h-10 mr4" /> {/* Render the icon */}
