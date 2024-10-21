@@ -24,12 +24,11 @@
     "paths": {
       "@/*": [
         "./src/*"
-      ]
+      ],
+      "~tailwind": [
+        "./tailwind.config.ts"
+      ] 
     },
-
-    /* Support for JS*/
-    "allowJs": true,
-    "checkJs": true
   },
   "include": ["src", "index.d.ts"]
 }

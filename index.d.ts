@@ -25,3 +25,36 @@ type ChildProps = {
     /** React node elements to render as children **/
     children?: React.ReactNode;
 }
+
+declare module "~tailwind" {
+    declare const config: {
+        theme: {
+            extend: {
+                colors: {
+                    action: {
+                        default: string,
+                        hover: string,
+                        secondary: string
+                    },
+                    text: {
+                        primary: string,
+                        secondary: string
+                    }
+                }
+            }
+        }
+    }
+    export default config;
+}
+
+
+type NavBarProps = {
+    /**
+     * Content to be inserted at the right of the navbar
+     */
+    right?: React.ReactNode
+    /**
+     * Content to be inserted at the left of the navbar
+     */
+    left?: React.ReactNode
+}
