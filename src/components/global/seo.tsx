@@ -1,9 +1,9 @@
 import { METADATA } from "@/constants";
+import React from "react";
 import { Helmet } from "react-helmet-async";
 
 /**
  * SEO component for setting metadata in the head of the document.
- * @type {React.FC<Metadata & ChildProps>}
  * @example
  * <SEO
  *   title="Page Title"
@@ -18,9 +18,9 @@ import { Helmet } from "react-helmet-async";
  * />
  */
 
-const Seo = (props) => {
+const Seo: React.FC<Metadata & ChildProps> = (props) => {
     // Construct the site title by combining the meta title and the provided title
-    const siteTitle = METADATA.title + (props.title ? ' - ' + props.title : '');
+    const siteTitle = METADATA.title + (props.title ? ' | ' + props.title : '');
 
     return (
         <Helmet>

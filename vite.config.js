@@ -7,7 +7,8 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': resolve('src')
+      '@': resolve('src'),
+      '~tailwind': resolve('tailwind.config.ts')
     }
   }
 })
