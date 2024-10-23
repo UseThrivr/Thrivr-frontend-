@@ -1,7 +1,18 @@
 import { createBrowserRouter } from "react-router-dom";
 import { NavLeft, NavRight } from "./components/dashboard";
 import { DashboardLayout, HomeLayout } from "./layouts";
-import { Dashboard, EditInventory, EditOrder, Home, Inventory, MyBank, Orders, Sales, Todo } from "./pages";
+import { inventoryLoader } from "./lib/loaders";
+import {
+    Dashboard,
+    EditInventory,
+    EditOrder,
+    Home,
+    Inventory,
+    MyBank,
+    Orders,
+    Sales,
+    Todo
+} from "./pages";
 
 const router = createBrowserRouter([
     {
@@ -24,7 +35,8 @@ const router = createBrowserRouter([
             },
             {
                 path: "/inventory",
-                element: <Inventory />
+                loader: inventoryLoader,
+                element: <Inventory />,
             },
             {
                 path: "/mybank",
