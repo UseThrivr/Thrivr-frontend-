@@ -22,11 +22,11 @@ const Sidebar = () => {
             collapsible="none"
             className="bg-neutral-alt border-r border-solid border-neutral-border gap-[40px]"
         >
-            <SidebarHeader className="pl-[64px] mt-[40px]">
+            <SidebarHeader className="pl-[2rem] mt-[40px]">
                 <ThrivrHeader />
             </SidebarHeader>
 
-            <SidebarContent className="overflow-visible pl-[64px]">
+            <SidebarContent className="overflow-visible pl-[2rem]">
                 <SidebarGroup className="pr-0">
                     <SidebarGroupLabel className="text-[16px] p-0 leading-22 text-text-secondary">
                         MENU
