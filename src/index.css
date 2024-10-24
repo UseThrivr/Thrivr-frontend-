@@ -104,3 +104,24 @@ a.sidebar-link span {
 .hide-scrollbar {
   scrollbar-width: thin;
 }
+
+table.inventory-table th {
+  @apply text-[16px] leading-[30px] text-text-primary;
+}
+
+table.inventory-table div {
+  @apply flex items-center justify-center gap-[16px] w-full;
+}
+
+table.inventory-table td,
+table.inventory-table th {
+  @apply border-b border-solid border-neutral-border;
+}
+
+table.inventory-table * {
+  @apply truncate text-wrap;
+}
+table.inventory-table th *,
+table.inventory-table th {
+  @apply text-nowrap;
+}

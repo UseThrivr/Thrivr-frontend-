@@ -20,7 +20,7 @@ const Sidebar = () => {
     return (
         <Sidebarx
             collapsible="none"
-            className="bg-neutral-alt border-r border-solid border-neutral-border gap-[40px]"
+            className="bg-neutral-alt border-r border-solid border-neutral-border gap-[40px] fixed"
         >
             <SidebarHeader className="pl-[64px] mt-[40px]">
                 <ThrivrHeader />

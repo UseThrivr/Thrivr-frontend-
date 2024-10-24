@@ -5,7 +5,7 @@ import './index.css'
 import router from './router'
 import { HelmetProvider } from 'react-helmet-async'
 
-// @ts-ignore
+// @ts-expect-error ...
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <HelmetProvider>
