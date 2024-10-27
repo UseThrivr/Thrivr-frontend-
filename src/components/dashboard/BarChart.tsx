@@ -22,10 +22,10 @@ const BarChart: React.FC<BarChartProps> = ({ labels, dataPoints }) => {
     labels: labels,
     datasets: [
       {
-        label: 'Monthly Points',
+        label: '',
         data: dataPoints,
-        backgroundColor: 'rgba(255, 99, 132, 0.5)', // Pink color for bars
-        borderColor: 'rgba(255, 99, 132, 1)',
+        backgroundColor: 'rgba(253, 197, 244, 1)',
+        borderColor: 'rgba(253, 197, 244, 1)',
         borderWidth: 1,
       },
     ],
@@ -35,11 +35,11 @@ const BarChart: React.FC<BarChartProps> = ({ labels, dataPoints }) => {
     responsive: true,
     plugins: {
       legend: {
-        display: true,
+        display: false,
         position: 'top' as const,
       },
       title: {
-        display: true,
+        display: false,
         text: 'Monthly Points',
       },
     },

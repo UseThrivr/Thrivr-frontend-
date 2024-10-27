@@ -4,9 +4,12 @@ import {
     ChevronDown,
     ShoppingBag
 } from "lucide-react";
-import Chart from 'chart.js/auto';
+import BarChart from "@/components/dashboard/BarChart";
 
 const Dashboard = () => {
+    const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+    const dataPoints = [50, 100, 120, 169, 78, 200, 246, 280, 150, 168, 178, 246];
+
     return (
         <>
             <Seo title="Dashboard" />
@@ -41,7 +44,7 @@ const Dashboard = () => {
                                 </a>
                             </div>
                         </div>
-                        
+                        <BarChart labels={labels} dataPoints={dataPoints} />
                     </div>
                     <div className="w-[303px] h-[484px] px-[16px] flex flex-col gap-[24px]">
                         <h2 className="font-semibold text-[32px] leading-[35.2px] tracking-[-1%] text-primary whitespace-nowrap">Top sales channels</h2>
