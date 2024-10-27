@@ -104,6 +104,18 @@ export const sidebarLinks: Array<{
         }
     ]
 
+
+ export const progressData = [
+    { name: "Thrivr Store", percentage: 36 },
+    { name: "Offline Sales", percentage: 20 },
+    { name: "WhatsApp", percentage: 10 },
+    { name: "Instagram", percentage: 6 },
+    { name: "Facebook", percentage: 4 },
+    { name: "Twitter", percentage: 1 },
+    { name: "Affiliates", percentage: 1 },
+ ];
+      
+
 export const METADATA: Metadata = {
     title: "Thrivr",
     description: "Thrivr helps creators grow their businesses with easy storefront setup, dynamic product management, and integrated growth analytics.",

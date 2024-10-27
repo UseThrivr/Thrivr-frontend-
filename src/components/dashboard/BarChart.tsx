@@ -62,7 +62,7 @@ const BarChart: React.FC<BarChartProps> = ({ labels, dataPoints }) => {
     },
   };
 
-  return <Bar data={data} options={options} />;
+  return <Bar data={data} options={options} className="h-[401px] mt-[3rem]" />;
 };
 
 export default BarChart;
