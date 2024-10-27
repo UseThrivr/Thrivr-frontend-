@@ -58,3 +58,29 @@ type NavBarProps = {
      */
     left?: React.ReactNode
 }
+
+/**
+ * Represents the data structure for a single inventory item.
+ */
+interface InventoryData {
+    /** The unique identifier for the supply. */
+    supplyId: string;
+
+    /** The name of the product. */
+    productName: string;
+
+    /** The date of purchase in the format YYYY-MM-DD. */
+    purchaseDate: string;
+
+    /** The price at which the product is being sold. */
+    sellingPrice: number;
+
+    /** The category to which the product belongs. */
+    category: string;
+
+    /** The number of items available in stock. */
+    quantity: number;
+
+    /** The current stock status of the product. */
+    status: "available" | "out-of-stock";
+}

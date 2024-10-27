@@ -8,11 +8,13 @@ const DashboardLayout: React.FC<NavBarProps> = (navBarProps) => {
             <ScrollRestoration />
             <SidebarProvider
                 open
-                className="h-screen"
                 // @ts-expect-error ...
                 style={{ "--sidebar-width": "var(--dashboard-sidebar-width)" }}
             >
                 <Sidebar />
+                <div className="ml-auto w-[calc(100%-var(--dashboard-sidebar-width))]">
+                    <Navbar {...navBarProps} />
+                    <div className="mt-[16.5vh] w-full px-[33px] py-[50px]">
                 <div className="w-[calc(100% - var(--dashboard-sidebar-width))]">
                     <Navbar {...navBarProps} />
                     <div className="mt-[16.5vh] w-full">
