@@ -74,6 +74,11 @@ export default <Config>{
 					alt: '#FDFBFF',
 					'alt-b': '#FDF2FB'
 				},
+				alert: {
+					red: "#DC3545",
+					orange: "#FFC107",
+					green: "#28A745"
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
