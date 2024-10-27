@@ -177,7 +177,7 @@ const Inventory = () => {
     })
 
     return (
-        <>
+        <section className="px-[33px]">
             <Seo title="Inventory" />
             <div className="flex flex-col items-start gap-[4px]">
                 <H1>Product Inventory</H1>
@@ -330,7 +330,7 @@ const Inventory = () => {
                     </div>
                 </div>
             </div >
-        </>
+        </section>
     )
 }
 
