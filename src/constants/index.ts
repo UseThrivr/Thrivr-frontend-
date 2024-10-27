@@ -3,6 +3,7 @@ import {
     LayoutDashboard,
     Link as LinkIcon,
     Megaphone,
+    Layers3,
     NotebookPen,
     PackageOpen,
     PiggyBank,
@@ -10,6 +11,45 @@ import {
     Users,
     type LucideProps
 } from "lucide-react";
+
+
+
+export const overviewData: Array<{
+    icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>;
+    name: string;
+    amount: number;
+    percentage: string;
+    color: string;
+}> = [
+    {
+        icon: Layers3, 
+        name: "Total Inventory",
+        amount: 4000,
+        percentage: "+65%",
+        color: "bg-[#fbf2fd]" 
+    },
+    {
+        icon: PackageOpen, 
+        name: "Product Sold",
+        amount: 3000,
+        percentage: "+65%",
+        color: "bg-[#e7f7e8]" 
+    },
+    {
+        icon: ShoppingBag, 
+        name: "Orders",
+        amount: 500,
+        percentage: "-15%",
+        color: "bg-[#eaecfd]"
+    },
+    {
+        icon: Users,
+        name: "New Customers",
+        amount: 65,
+        percentage: "+23%",
+        color: "bg-[#fff9e6]"
+    }
+];
 
 
 export const sidebarLinks: Array<{

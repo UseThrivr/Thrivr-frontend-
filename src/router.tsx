@@ -37,6 +37,8 @@ const router = createBrowserRouter([
                 path: "/inventory",
                 loader: inventoryLoader,
                 element: <Inventory />,
+                element: <Inventory />
+
             },
             {
                 path: "/mybank",
