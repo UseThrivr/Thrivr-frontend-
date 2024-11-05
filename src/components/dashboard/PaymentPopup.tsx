@@ -15,9 +15,9 @@ const PaymentPopup: React.FC<PaymentPopupProps> = ({ isOpen, onClose }) => {
             <div className="w-[772px] h-[560px] flex flex-col gap-[48px]">
                 <button
                     onClick={onClose}
-                    className="absolute -top-4 -right-4 bg-white rounded-full p-1 shadow-md"
+                    className="absolute -top-[4.5rem] -right-16 w-[64px] h-[64px] bg-white rounded-full p-1 shadow-md flex items-center justify-center"
                 >
-                    <X className="w-5 h-5 text-gray-700" />
+                    <X className="text-gray-700" />
                 </button>
                 <div className="">
                     <h2 className="text-[32px] font-semibold leading-[35.2px] tracking-[-1%] text-[#24272E]">Add bank details</h2>
