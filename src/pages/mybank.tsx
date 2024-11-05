@@ -1,5 +1,6 @@
 import { Seo } from "@/components/global";
 import Nigeria from '@/assets/Nigeria.png'
+import PaystackImg from '@/assets/Paystack.png'
 import {
     ChevronDown,
     Landmark,
@@ -38,7 +39,7 @@ const Mybank = () => {
                 }}
             />
             <PaymentBox
-                icon={<Landmark />}
+                image={PaystackImg}
                 title="PayStack"
                 texts="Connect to receive payments using your Paystack"
                 list={["1.5% Transaction fee", "1-2% FX fee", "1-2 days Pay out time"]}
