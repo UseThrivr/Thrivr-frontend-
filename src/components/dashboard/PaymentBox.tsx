@@ -3,6 +3,7 @@ import { Button } from '../ui/button'
 
 interface PaymentBoxProps {
   icon?: React.ReactNode
+  image?: string
   title: string
   texts: string
   list: string[]
@@ -12,6 +13,7 @@ interface PaymentBoxProps {
 
 const PaymentBox: React.FC<PaymentBoxProps> = ({
   icon,
+  image,
   title,
   texts,
   list,
@@ -22,8 +24,15 @@ const PaymentBox: React.FC<PaymentBoxProps> = ({
     <div className="w-[782px] h-[190px] p-[16px] bg-[#FDF2FB] rounded-[8px] mb-[32px]">
       <div className="flex gap-[32px]">
         {/* Icon Section */}
+        
         <div className="flex-shrink-0 flex w-[64px] h-[64px] rounded-full items-center justify-center p-[12.8px] bg-white gap-[16px]">
-          {icon}
+        {image ? (
+            <img
+              src={image} 
+              alt={title}
+              className="rounded-full object-cover w-[42px] h-[42px]"
+            />
+          ) : icon}
         </div>
 
         {/* Content Section */}
