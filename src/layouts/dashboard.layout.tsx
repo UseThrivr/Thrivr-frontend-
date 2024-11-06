@@ -14,7 +14,7 @@ const DashboardLayout: React.FC<NavBarProps> = (navBarProps) => {
                 <Sidebar />
                 <div className="ml-auto w-[calc(100%-var(--dashboard-sidebar-width))]">
                     <Navbar {...navBarProps} />
-                    <div className="mt-[16.5vh] w-full py-[50px]">
+                    <div className="w-full py-[50px]">
                         <div className="w-[calc(100% - var(--dashboard-sidebar-width))]">
                             <Navbar {...navBarProps} />
                         </div>
