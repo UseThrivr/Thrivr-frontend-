@@ -21,7 +21,7 @@ const Todo: React.FC = () => {
                 <H1>Things to do</H1>
                 <P>Let’s get your store ready for success</P>
             </div>
-            <div className="mt-[54px] flex justify-end items-center gap-[246px]">
+            <div className="mt-[54px] mb-9 flex justify-end items-center gap-[246px]">
                 <div className="flex items-center gap-[16px] h-[46px]">
                     <button className="flex justify-center items-center py-[8px] px-[16px] gap-[16px] h-[46px] bg-action-default rounded-[24px] text-white">
                         <NotebookPen />
@@ -29,20 +29,26 @@ const Todo: React.FC = () => {
                     </button>
                 </div>
             </div>
-
-            {Object.keys(groupedTasks).map((date) => (
-                <div key={date} className="border border-[#CDCED3] p-[1rem] flex flex-col gap-[38px] rounded-[8px]">
-                    <H4>{date}</H4>
-                    <div className="bg-white shadow-md rounded p-4 mb-4">
-                        {groupedTasks[date].map((task) => (
-                            <React.Fragment key={task.id}>
-                                <TodoItem task={task} />
-                                <hr className="my-4 border-[#CDCED3]" />
-                            </React.Fragment>
-                        ))}
-                    </div>
-                </div>
-            ))}
+            <div className="border border-[#CDCED3] p-[1rem] flex flex-col gap-[38px] rounded-[8px]">
+                {Object.keys(groupedTasks).map((date, index) => (
+                    <React.Fragment key={date}>
+                        {index > 0 && <hr className="border-[#CDCED3]" />}
+                        <div className="flex flex-col gap-[38px]">
+                            <H4>{date}</H4>
+                            <div className="bg-white rounded">
+                                {groupedTasks[date].map((task, idx) => (
+                                    <React.Fragment key={task.id}>
+                                        <TodoItem task={task} />
+                                        {idx !== groupedTasks[date].length - 1 && (
+                                            <hr className="my-4 border-[#CDCED3]" />
+                                        )}
+                                    </React.Fragment>
+                                ))}
+                            </div>
+                        </div>
+                    </React.Fragment>
+                ))}
+            </div>
         </div>
     );
 };
