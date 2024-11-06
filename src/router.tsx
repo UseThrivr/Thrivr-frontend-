@@ -37,7 +37,7 @@ const router = createBrowserRouter([
                 path: "/inventory",
                 loader: inventoryLoader,
                 element: <Inventory />,
-                element: <Inventory />
+                // element: <Inventory />
 
             },
             {
@@ -64,6 +64,10 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/inventory/:id/edit",
+                element: <EditInventory />
+            },
+            {
+                path: "/editinventory",
                 element: <EditInventory />
             },
             {
