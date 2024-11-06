@@ -1,8 +1,10 @@
 // pages/TodoPage.tsx
 import React from "react";
+import { H1, H4, P, Seo } from "@/components/global";
 import { tasksData } from "@/data/taskData";
 import TodoItem from "@/components/dashboard/TodoItem";
 import { formatDateToTodayYesterday } from "@/utils/formatDate";
+import { NotebookPen } from "lucide-react";
 
 const Todo: React.FC = () => {
     // Group tasks by date
@@ -15,21 +17,27 @@ const Todo: React.FC = () => {
 
     return (
         <div className="p-6">
-            <h1 className="text-2xl font-bold mb-4">Things to do</h1>
-            <p className="text-gray-500 mb-8">Let’s get your store ready for success</p>
-
-            <button className="bg-purple-600 text-white py-2 px-4 rounded mb-6">
-                Create plan
-            </button>
+            <div className="flex flex-col items-start gap-[4px]">
+                <H1>Things to do</H1>
+                <P>Let’s get your store ready for success</P>
+            </div>
+            <div className="mt-[54px] flex justify-end items-center gap-[246px]">
+                <div className="flex items-center gap-[16px] h-[46px]">
+                    <button className="flex justify-center items-center py-[8px] px-[16px] gap-[16px] h-[46px] bg-action-default rounded-[24px] text-white">
+                        <NotebookPen />
+                        <span className="font-medium text-[20px] leading-[30px]">Create plan</span>
+                    </button>
+                </div>
+            </div>
 
             {Object.keys(groupedTasks).map((date) => (
-                <div key={date}>
-                    <h2 className="text-lg font-semibold mb-2">{date}</h2>
+                <div key={date} className="border border-[#CDCED3] p-[1rem] flex flex-col gap-[38px] rounded-[8px]">
+                    <H4>{date}</H4>
                     <div className="bg-white shadow-md rounded p-4 mb-4">
                         {groupedTasks[date].map((task) => (
                             <React.Fragment key={task.id}>
                                 <TodoItem task={task} />
-                                <hr className="my-4 border-gray-200" />
+                                <hr className="my-4 border-[#CDCED3]" />
                             </React.Fragment>
                         ))}
                     </div>
