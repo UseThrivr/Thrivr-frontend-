@@ -12,7 +12,9 @@ const TodoItem: React.FC<TodoItemProps> = ({ task }) => {
         <div className="flex items-center justify-between py-4">
             {/* Icon and Task Details */}
             <div className="flex items-start gap-4">
-                <span className="text-2xl">{task.icon}</span>
+                <div className={`w-[64px] h-[64px] rounded-[8px] ${task.bg}`}>
+                    <span className="text-2xl"><task.icon /></span>
+                </div>
                 <div>
                     <h3 className="font-semibold">{task.task}</h3>
                     <p className="text-sm text-gray-500">{task.description}</p>
