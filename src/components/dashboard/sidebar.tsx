@@ -32,10 +32,10 @@ const Sidebar = () => {
                         MENU
                     </SidebarGroupLabel>
                     <SidebarGroupContent
-                        className="mt-[var(--distance)]"
+                        className="mt-[var(--distance)] mb-9"
                         style={{
                             // @ts-expect-error ...
-                            "--distance": "10px"
+                            "--distance": "25px"
                         }}
                     >
                         <SidebarMenu className="gap-[var(--distance)]">
