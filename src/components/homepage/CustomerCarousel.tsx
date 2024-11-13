@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import CustomerReview from "./CustomerReview";
 import Reviews from "./data/Reviews";
 
-interface type {
-  data: [];
-}
+// interface type {
+//   data: [];
+// }
 
 const CustomerCarousel: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);

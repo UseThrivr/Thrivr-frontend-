@@ -1,6 +1,4 @@
-import React from "react";
 import ThrivrImg from "@/assets/ThrivrLogo(white).png";
-import { P } from "../global";
 import Links from "./data/Footer";
 import { Link } from "react-router-dom";
 
