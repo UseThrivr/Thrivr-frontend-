@@ -29,7 +29,7 @@ import Ellipse from "../assets/Ellipse.png";
 import customer1 from "../assets/Customer1.png";
 import customer2 from "../assets/Customer2.png";
 import customer3 from "../assets/Customer3.png";
-import customer4 from "../assets/customer4.png";
+import customer4 from "../assets/Customer4.png";
 import customer5 from "../assets/Customer5.png";
 import CustomerReview from "@/components/homepage/CustomerReview";
 import CustomerCarousel from "@/components/homepage/CustomerCarousel";
