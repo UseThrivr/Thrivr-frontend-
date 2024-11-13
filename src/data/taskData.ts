@@ -1,4 +1,3 @@
-import { IconProps } from "@radix-ui/react-icons/dist/types";
 import { Calendar1,
         ShoppingBag,
         MessageCircleMore,
