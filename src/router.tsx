@@ -71,10 +71,6 @@ const router = createBrowserRouter([
                 element: <EditInventory />
             },
             {
-                path: "/editorder",
-                element: <EditOrder />
-            },
-            {
                 path: "/orders/:id/edit",
                 element: <EditOrder />
             }
