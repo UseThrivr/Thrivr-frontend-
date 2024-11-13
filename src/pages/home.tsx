@@ -10,11 +10,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 import HeroDashboardImage from "../assets/HeroDashboardImage.png";
-import {
-  ArrowLeftCircle,
-  ArrowRightCircle,
-  YoutubeIcon,
-} from "lucide-react";
+import { ArrowLeftCircle, ArrowRightCircle, YoutubeIcon } from "lucide-react";
 import AirPeace from "../assets/air-peace.png";
 import PiggyVest from "../assets/piggyvest.png";
 import MTN from "../assets/mtn.png";
@@ -301,11 +297,13 @@ const Home = () => {
 
       <div className="py-20">
         <div className="text-center px-[5%] lg:px-[10%]">
-          <H1>
-            Read what our customers <br />
-            have to say
-          </H1>
-          <CustomerCarousel />
+          <div className="2xl:container mx-auto">
+            <H1>
+              Read what our customers <br />
+              have to say
+            </H1>
+            <CustomerCarousel />
+          </div>
         </div>
       </div>
 
