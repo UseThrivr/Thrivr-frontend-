@@ -2,7 +2,6 @@ import { H1, H4, P, Seo } from "@/components/global";
 import Navbar from "@/components/homepage/Navbar";
 import { Link } from "react-router-dom";
 import HelpComp from "../components/homepage/Help";
-import { AngleIcon } from "@radix-ui/react-icons";
 import ProductSample from "../components/homepage/ProductSample";
 import Footer from "@/components/homepage/Footer";
 import FAQ from "@/components/homepage/FAQ";
@@ -10,7 +9,8 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 import HeroDashboardImage from "../assets/HeroDashboardImage.png";
-import { ArrowLeftCircle, ArrowRightCircle, YoutubeIcon } from "lucide-react";
+import { YoutubeIcon } from "lucide-react";
+
 import AirPeace from "../assets/air-peace.png";
 import PiggyVest from "../assets/piggyvest.png";
 import MTN from "../assets/mtn.png";
@@ -31,7 +31,6 @@ import customer2 from "../assets/Customer2.png";
 import customer3 from "../assets/Customer3.png";
 import customer4 from "../assets/Customer4.png";
 import customer5 from "../assets/Customer5.png";
-import CustomerReview from "@/components/homepage/CustomerReview";
 import CustomerCarousel from "@/components/homepage/CustomerCarousel";
 
 // AOS.init();
