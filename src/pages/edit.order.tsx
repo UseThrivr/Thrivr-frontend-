@@ -3,12 +3,17 @@ import { useState } from "react";
 
 const EditOrder = () => {
   const [paymentStatus, setPaymentStatus] = useState<string | null>(null);
+  const [paymentChannel, setPaymentChannel] = useState<string | null>(null);
+  const [salesChannel, setSalesChannel] = useState<string | null>(null);
+
+  const saleChannels = ["Channel1", "Channel2"];
+  const paymentChannels = ["Paypal", "Opay Transfer"];
   const paymentStatuses = ["Paid", "Not Paid"];
 
   return (
     <>
       <Seo title="Edit - Order" />
-      <div className="grid grid-cols-2 gap-5 px-5">
+      <div className="grid grid-cols-2 gap-5 px-5 pb-20">
         <div className="flex flex-col">
           <div className="flex flex-col gap-3">
             <label htmlFor="supplyID" className="font-semibold">
@@ -51,21 +56,51 @@ const EditOrder = () => {
               <label htmlFor="salesChannel" className="font-semibold">
                 Sales Channel{" "}
               </label>
-              <input
+              <select
                 name="salesChannel"
-                type="text"
+                value={salesChannel ?? ""}
+                onChange={(e) => setSalesChannel(e.target.value)}
+                id="salesChanel"
                 className="border p-3 rounded w-full mt-2 focus:outline-none"
-              />
+              >
+                <option value="" disabled>
+                  Select sales channel
+                </option>
+                {saleChannels.map((channel, index) => (
+                  <option
+                    key={index}
+                    value={channel}
+                    className="text-md font-normal"
+                  >
+                    {channel}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="col-span-1 mt-5">
               <label htmlFor="paymentChannel" className="font-semibold">
                 Payment Channel{" "}
               </label>
-              <input
+              <select
                 name="paymentChannel"
-                type="text"
+                value={paymentChannel ?? ""}
+                onChange={(e) => setPaymentChannel(e.target.value)}
+                id="paymentChannel"
                 className="border p-3 rounded w-full mt-2 focus:outline-none"
-              />
+              >
+                <option value="" disabled>
+                  Select Payment Channel
+                </option>
+                {paymentChannels.map((channel, index) => (
+                  <option
+                    key={index}
+                    value={channel}
+                    className="text-md font-normal"
+                  >
+                    {channel}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="col-span-1 mt-5">
               <label htmlFor="orderDate" className="font-semibold">
@@ -83,7 +118,9 @@ const EditOrder = () => {
               </label>
               <select
                 name="paymentStatus"
-                className="border p-3 rounded w-full mt-2 focus:outline-none"
+                value={paymentStatus ?? ""}
+                onChange={(e) => setPaymentStatus(e.target.value)}
+                className={`border p-3 rounded w-full mt-2 focus:outline-none`}
               >
                 <option value="" disabled>
                   Select Payment Status
@@ -121,22 +158,26 @@ const EditOrder = () => {
             ></div>
           </div>
           <div className="border flex rounded mt-5">
-            <input type="text" className="w-full p-4  focus:outline-none" placeholder="Search Product ID or Name"/>
+            <input
+              type="text"
+              className="w-full p-4  focus:outline-none"
+              placeholder="Search Product ID or Name"
+            />
             <div className="p-4">
-                <p className="font-bold">X</p>
+              <p className="font-bold">X</p>
             </div>
           </div>
 
           <div className="mt-5">
             <p className="my-2 font-semibold">Calculator</p>
             <div className="border rounded flex p-4">
-                <p>#</p>
-                <input type="number" className="ms-2 focus:outline-none w-full" />
+              <p>#</p>
+              <input type="number" className="ms-2 focus:outline-none w-full" />
             </div>
           </div>
 
           <div className="mt-10">
-          <button className="rounded-full bg-[#870E73] text-white py-3 px-5">
+            <button className="rounded-full bg-[#870E73] text-white py-3 px-5">
               Save Order Details
             </button>
           </div>

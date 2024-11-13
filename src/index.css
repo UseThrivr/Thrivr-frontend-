@@ -125,3 +125,14 @@ table.inventory-table th *,
 table.inventory-table th {
   @apply text-nowrap;
 }
+
+.productDivBg {
+  clip-path: polygon(100% 0%, 0% 20%, 0% 100%, 100% 100%);
+}
+
+
+@media screen and (max-width: 650px) {
+  .productDivBg {
+    clip-path: polygon(100% 0%, 0% 8%, 0% 100%, 100% 100%);
+  }
+}
