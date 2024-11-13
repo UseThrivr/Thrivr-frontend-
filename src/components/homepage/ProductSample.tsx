@@ -1,5 +1,5 @@
 import React from "react";
-import { H4, P } from "../global";
+import { H4 } from "../global";
 import AOS from "aos"
 
 AOS.init()

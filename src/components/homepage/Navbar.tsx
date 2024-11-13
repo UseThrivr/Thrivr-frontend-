@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ThrivrImg from "@/assets/thrivr-logo.png";
 import { Link } from "react-router-dom";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
