@@ -1,6 +1,6 @@
 // pages/TodoPage.tsx
 import React from "react";
-import { H1, H4, P, Seo } from "@/components/global";
+import { H1, H4, P } from "@/components/global";
 import { tasksData } from "@/data/taskData";
 import TodoItem from "@/components/dashboard/TodoItem";
 import { formatDateToTodayYesterday } from "@/utils/formatDate";
@@ -8,18 +8,18 @@ import { NotebookPen } from "lucide-react";
 
 const Todo: React.FC = () => {
     // Group tasks by date
-    const groupedTasks = tasksData.reduce((acc, task) => {
+    const groupedTasks = tasksData.reduce<Record<string, typeof tasksData>>((acc, task) => {
         const formattedDate = formatDateToTodayYesterday(task.date);
         if (!acc[formattedDate]) acc[formattedDate] = [];
         acc[formattedDate].push(task);
         return acc;
-    }, {} as Record<string, Task[]>);
+    }, {});
 
     return (
         <div className="p-6">
             <div className="flex flex-col items-start gap-[4px]">
                 <H1>Things to do</H1>
-                <P>Let’s get your store ready for success</P>
+                <P>Let's get your store ready for success</P>
             </div>
             <div className="mt-[54px] mb-9 flex justify-end items-center gap-[246px]">
                 <div className="flex items-center gap-[16px] h-[46px]">
@@ -52,6 +52,5 @@ const Todo: React.FC = () => {
         </div>
     );
 };
-
 
 export default Todo
