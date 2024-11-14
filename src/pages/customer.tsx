@@ -164,10 +164,17 @@ const groupColumns = [
     })
 ]
 
+// Add these imports
+import CustomerPopup from "@/components/dashboard/CustomerPopup";
+import GroupPopup from "@/components/dashboard/GroupPopup";
+
 const Customer = () => {
     const [activeTab, setActiveTab] = useState<'customers' | 'groups'>('customers')
     const [sorting, setSorting] = useState([])
     const [columnFilters, setColumnFilters] = useState([])
+    // Add these state variables
+    const [isCustomerPopupOpen, setIsCustomerPopupOpen] = useState(false);
+    const [isGroupPopupOpen, setIsGroupPopupOpen] = useState(false);
 
     const table = useReactTable({
         data: activeTab === 'customers' ? customerData : groupData,
@@ -187,6 +194,15 @@ const Customer = () => {
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel()
     })
+
+    // Update the button click handler
+    const handleActionButtonClick = () => {
+        if (activeTab === 'customers') {
+            setIsCustomerPopupOpen(true);
+        } else {
+            setIsGroupPopupOpen(true);
+        }
+    };
 
     return (
         <section className="px-[33px]">
@@ -223,7 +239,7 @@ const Customer = () => {
                             className="w-full outline-none border-none bg-transparent text-[16px] leading-[24px] text-text-primary placeholder:text-text-secondary"
                         />
                     </div>
-                    <button className="flex justify-center items-center py-[8px] px-[16px] gap-[16px] h-[46px] bg-action-default rounded-[24px] text-white">
+                    <button className="flex justify-center items-center py-[8px] px-[16px] gap-[16px] h-[46px] bg-action-default rounded-[24px] text-white" onClick={handleActionButtonClick}>
                         <Users />
                         <span className="font-medium text-[20px] leading-[30px]">
                             {activeTab === 'customers' ? 'Add New Customer' : 'Create Group'}
@@ -335,6 +351,15 @@ const Customer = () => {
                     </div>
                 </div>
             </div>
+            
+            <CustomerPopup 
+                isOpen={isCustomerPopupOpen} 
+                onClose={() => setIsCustomerPopupOpen(false)} 
+            />
+            <GroupPopup 
+                isOpen={isGroupPopupOpen} 
+                onClose={() => setIsGroupPopupOpen(false)} 
+            />
         </section>
     )
 }

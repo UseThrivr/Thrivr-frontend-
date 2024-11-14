@@ -36,7 +36,7 @@ const GroupPopup: React.FC<GroupPopupProps> = ({ isOpen, onClose }) => {
                         <div>
                             <label className="block text-[20px] font-medium text-[#24272E]">Description</label>
                             <textarea 
-                                className="w-full border bg-transparent border-[#CDCED3] rounded-[8px] p-[16px] mt-2" 
+                                className="w-full border bg-transparent border-[#CDCED3] rounded-[8px] h-[197px] p-[16px] mt-2" 
                                 placeholder="Write a short description for the customer group"
                                 rows={4}
                             />

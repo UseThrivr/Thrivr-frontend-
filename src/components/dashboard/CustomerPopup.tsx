@@ -42,12 +42,15 @@ const CustomerPopup: React.FC<CustomerPopupProps> = ({ isOpen, onClose }) => {
                             </div>
                         </div>
                         <div>
-                            <label className="block text-[20px] font-medium text-[#24272E]">Group</label>
-                            <select className="w-full border bg-transparent border-[#CDCED3] rounded-[8px] p-[16px] mt-2">
-                                <option>Add customer to any group</option>
+                        <label className="block text-[20px] font-medium text-[#24272E] mb-1">Group</label>
+                        <p className="mb-3 text-[0.87rem] text-[#5C636D]">Add customer to any group</p>
+                        <div className="w-full border bg-transparent border-[#CDCED3] rounded-[8px] p-[14px] mt-1">
+                            <select className="h-full w-full bg-transparent outline-none border-none">
                                 <option>Offline</option>
+                                {/* Add bank options here */}
                             </select>
                         </div>
+                    </div>
                         <button
                             type="button"
                             className="w-full bg-action-default text-white rounded-[24px] mt-4 hover:opacity-80 h-[67px] p-[16px]"
