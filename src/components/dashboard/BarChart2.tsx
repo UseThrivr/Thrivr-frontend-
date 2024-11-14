@@ -27,12 +27,17 @@ const BarChart: React.FC<BarChartProps> = ({ labels, dataPoints }) => {
         backgroundColor: 'rgba(253, 197, 244, 1)',
         borderColor: 'rgba(253, 197, 244, 1)',
         borderWidth: 1,
+        barThickness: 40, // Controls the width of each bar
+        maxBarThickness: 40, // Maximum width a bar can reach
+        categoryPercentage: 0.9, // Controls spacing between bar groups
+        barPercentage: 0.9, // Controls width relative to category
       },
     ],
   };
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: false,
@@ -82,13 +87,18 @@ const BarChart: React.FC<BarChartProps> = ({ labels, dataPoints }) => {
         }
       }
     },
-    interaction: {
-      intersect: false,
-      mode: 'index',
+    layout: {
+      padding: {
+        right: 0
+      }
     }
   };
 
-  return <Bar data={data} options={options} className="h-[401px] mt-[3rem]" />;
+  return (
+    <div className="w-full h-full">
+      <Bar data={data} options={options} className="h-[280px]" />
+    </div>
+  );
 };
 
 export default BarChart;
