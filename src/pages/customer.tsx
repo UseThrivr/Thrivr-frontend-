@@ -17,7 +17,9 @@ import {
     getPaginationRowModel,
     getSortedRowModel,
     flexRender,
-    useReactTable
+    useReactTable,
+    ColumnDef,
+    ColumnSort
 } from "@tanstack/react-table"
 import {
     ChevronLeft,
@@ -166,18 +168,21 @@ const groupColumns = [
 // Add these imports
 import CustomerPopup from "@/components/dashboard/CustomerPopup";
 import GroupPopup from "@/components/dashboard/GroupPopup";
+type TableDataType = CustomerData | GroupData;
+
 
 const Customer = () => {
     const [activeTab, setActiveTab] = useState<'customers' | 'groups'>('customers')
-    const [sorting, setSorting] = useState([])
+    const [sorting, setSorting] = useState<ColumnSort[]>([])
     const [columnFilters] = useState([])
     // Add these state variables
     const [isCustomerPopupOpen, setIsCustomerPopupOpen] = useState(false);
     const [isGroupPopupOpen, setIsGroupPopupOpen] = useState(false);
 
     const table = useReactTable({
-        data: activeTab === 'customers' ? customerData : groupData,
-        columns: activeTab === 'customers' ? customerColumns : groupColumns,
+        data: activeTab === 'customers' ? customerData : (groupData as unknown as CustomerData[]),
+        columns: activeTab === 'customers'  ? (customerColumns as ColumnDef<TableDataType, unknown>[])
+        : (groupColumns as ColumnDef<TableDataType, unknown>[]),
         state: {
             sorting,
             columnFilters,
