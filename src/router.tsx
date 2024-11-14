@@ -11,7 +11,8 @@ import {
     MyBank,
     Orders,
     Sales,
-    Todo
+    Todo,
+    Customer
 } from "./pages";
 import Ads from "./pages/ads";
 
@@ -60,6 +61,11 @@ const router = createBrowserRouter([
             {
                 path: "/ads",
                 element: <Ads />
+            },
+            {
+                path: "/customers",
+                element: <Customer />
+
             }
         ]
     },

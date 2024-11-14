@@ -133,29 +133,29 @@ export const METADATA: Metadata = {
 export const salesData = [
     {
         name: "Total Sales",
-        amount: "₦4,000,000",
-        percentage: "+20.00%",
-        color: "bg-[#E7F7E8]",
+        amount: "₦400,000,470",
+        percentage: "+65%",
+        color: "bg-[#FBF2FD]",
         icon: ShoppingBag
     },
     {
-        name: "Average Order Value",
-        amount: "₦12,000",
-        percentage: "+8.00%",
-        color: "bg-[#FDF2FB]",
+        name: "Thrivr store",
+        amount: "₦40,000,470",
+        percentage: "+65%",
+        color: "bg-[#E7F7E8]",
         icon: DollarSign
     },
     {
-        name: "Total Orders",
-        amount: "450",
-        percentage: "-2.00%",
+        name: "Online (All)",
+        amount: "₦80,000,470",
+        percentage: "-15%",
         color: "bg-[#EAECFD]",
         icon: ShoppingCart
     },
     {
-        name: "Total Customers",
-        amount: "1,200",
-        percentage: "+15.00%",
+        name: "Offline",
+        amount: "₦80,000,470",
+        percentage: "+23%",
         color: "bg-[#FFF9E6]",
         icon: Users
     }
