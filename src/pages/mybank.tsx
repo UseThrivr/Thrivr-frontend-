@@ -14,7 +14,7 @@ const Mybank = () => {
 
     const openPopup = () => setIsPopupOpen(true);
     const closePopup = () => setIsPopupOpen(false);
-
+ 
     return (
         <>
             <Seo title="Bank Accounts" />

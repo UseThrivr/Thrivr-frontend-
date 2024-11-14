@@ -1,10 +1,11 @@
 // pages/TodoPage.tsx
-import React from "react";
+import React, { useState } from "react";
 import { H1, H4, P } from "@/components/global";
 import { tasksData } from "@/data/taskData";
 import TodoItem from "@/components/dashboard/TodoItem";
 import { formatDateToTodayYesterday } from "@/utils/formatDate";
 import { NotebookPen } from "lucide-react";
+import TodoPopup from "@/components/dashboard/TodoPopup";
 
 const Todo: React.FC = () => {
     // Group tasks by date
@@ -15,6 +16,11 @@ const Todo: React.FC = () => {
         return acc;
     }, {});
 
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+    const openPopup = () => setIsPopupOpen(true);
+    const closePopup = () => setIsPopupOpen(false);
+
     return (
         <div className="p-6">
             <div className="flex flex-col items-start gap-[4px]">
@@ -23,7 +29,7 @@ const Todo: React.FC = () => {
             </div>
             <div className="mt-[54px] mb-9 flex justify-end items-center gap-[246px]">
                 <div className="flex items-center gap-[16px] h-[46px]">
-                    <button className="flex justify-center items-center py-[8px] px-[16px] gap-[16px] h-[46px] bg-action-default rounded-[24px] text-white">
+                    <button onClick={openPopup} className="flex justify-center items-center py-[8px] px-[16px] gap-[16px] h-[46px] bg-action-default rounded-[24px] text-white">
                         <NotebookPen />
                         <span className="font-medium text-[20px] leading-[30px]">Create plan</span>
                     </button>
@@ -49,6 +55,7 @@ const Todo: React.FC = () => {
                     </React.Fragment>
                 ))}
             </div>
+            <TodoPopup isOpen={isPopupOpen} onClose={closePopup} />
         </div>
     );
 };
