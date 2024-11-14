@@ -110,7 +110,7 @@ const groupData: GroupData[] = [
 
 function sortableHeader(
     title: string,
-    column: Column<CustomerData | GroupData, any>
+    column: Column<CustomerData | GroupData, unknown>
 ) {
     return (
         <div onClick={column.getToggleSortingHandler()} className="cursor-pointer flex items-center justify-start -translate-x-[61px] font-medium text-[16px] text-[#24272E]">
@@ -140,15 +140,15 @@ const customerColumns = [
     }),
     columnHelper.accessor("channels", {
         cell: (info) => info.getValue(),
-        header: (header) => sortableHeader("Channels", header.column)
+        header: (header) => sortableHeader("Channels", header.column as Column<CustomerData | GroupData, unknown>)
     }),
     columnHelper.accessor("amountSpent", {
         cell: (info) => `₦${info.getValue().toLocaleString()}`,
-        header: (header) => sortableHeader("Amount spent (₦)", header.column)
+        header: (header) => sortableHeader("Amount spent (₦)", header.column as Column<CustomerData | GroupData, unknown>)
     }),
     columnHelper.accessor("debt", {
         cell: (info) => `₦${info.getValue().toLocaleString()}`,
-        header: (header) => sortableHeader("Debt (₦)", header.column)
+        header: (header) => sortableHeader("Debt (₦)", header.column as Column<CustomerData | GroupData, unknown>)
     })
 ]
 
