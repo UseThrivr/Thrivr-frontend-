@@ -153,8 +153,8 @@ const customerColumns = [
 ]
 
 const groupColumns = [
-    groupColumnHelper.accessor("select", {
-        cell: (info) => <Checkbox />,
+    groupColumnHelper.accessor("id", {
+        cell: () => <Checkbox />,
         header: () => <span className="font-medium text-[16px] text-[#24272E]">Select</span>,
         enableSorting: false
     }),
@@ -163,7 +163,6 @@ const groupColumns = [
         header: () => <span className="font-medium text-[16px] text-[#24272E]">Group Name</span>
     })
 ]
-
 // Add these imports
 import CustomerPopup from "@/components/dashboard/CustomerPopup";
 import GroupPopup from "@/components/dashboard/GroupPopup";
