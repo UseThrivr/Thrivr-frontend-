@@ -11,7 +11,8 @@ import {
     MyBank,
     Orders,
     Sales,
-    Todo
+    Todo,
+    Customer
 } from "./pages";
 
 const router = createBrowserRouter([
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
             {
                 path: "/todo",
                 element: <Todo />
+            },
+            {
+                path: "/customers",
+                element: <Customer />
             }
         ]
     },
