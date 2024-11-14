@@ -1,5 +1,5 @@
 import { Seo } from "@/components/global";
-import OverviewCard from "@/components/dashboard/OverviewCard";
+import SalesCard from "@/components/dashboard/SalesCard";
 import {
     ChevronDown,
 } from "lucide-react";
@@ -14,10 +14,10 @@ const Sales = () => {
                     <p className="text-[1rem] leading-[22.4px] font-[500] text-[#5c636d]">Check the full inventory list for your shop</p>
                 </div> 
                 <div className="flex items-centerz justify-end w-full py-[8px] px-[16px] gap-[16px]">
-                    <h4 className="font-[500] text-[20px] leading-[30px] text-[#5c636d]">Last 7 days</h4>
                     <ChevronDown />
+                    <h4 className="font-[500] text-[20px] leading-[30px] text-[#5c636d]">This month</h4>
                 </div>
-                <OverviewCard />
+                <SalesCard />
             </section>
         </>
     )
