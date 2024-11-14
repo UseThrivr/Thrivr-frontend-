@@ -13,6 +13,7 @@ import {
     Sales,
     Todo
 } from "./pages";
+import Ads from "./pages/ads";
 
 const router = createBrowserRouter([
     {
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
             {
                 path: "/todo",
                 element: <Todo />
+            },
+            {
+                path: "/ads",
+                element: <Ads />
             }
         ]
     },
