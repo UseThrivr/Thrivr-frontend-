@@ -1,5 +1,6 @@
 import { H1, H4, P, Seo } from "@/components/global"
 import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select"
+import { Checkbox } from "@/components/ui/checkbox"
 import {
     Table,
     TableBody,
@@ -40,8 +41,8 @@ interface CustomerData {
 }
 
 interface GroupData {
+    id: string
     groupName: string
-    total: number
 }
 
 const customerData: CustomerData[] = [
@@ -98,12 +99,12 @@ const customerData: CustomerData[] = [
 
 const groupData: GroupData[] = [
     {
-        groupName: "Customers with no purchase in the last 30 days",
-        total: 10
+        id: "1",
+        groupName: "Customers with no purchase in the last 30 days"
     },
     {
-        groupName: "Customers with no purchase in the last 60 days",
-        total: 10
+        id: "2",
+        groupName: "Customers with no purchase in the last 60 days"
     }
 ]
 
@@ -112,7 +113,7 @@ function sortableHeader(
     column: Column<CustomerData | GroupData, any>
 ) {
     return (
-        <div onClick={column.getToggleSortingHandler()} className="cursor-pointer flex items-center font-medium text-[16px] text-[#24272E]">
+        <div onClick={column.getToggleSortingHandler()} className="cursor-pointer flex items-center justify-start -translate-x-[61px] font-medium text-[16px] text-[#24272E]">
             {title}
             {column.getIsSorted() === "asc" ? (
                 <ChevronUp className="h-4 w-4" />
@@ -152,13 +153,14 @@ const customerColumns = [
 ]
 
 const groupColumns = [
+    groupColumnHelper.accessor("select", {
+        cell: (info) => <Checkbox />,
+        header: () => <span className="font-medium text-[16px] text-[#24272E]">Select</span>,
+        enableSorting: false
+    }),
     groupColumnHelper.accessor("groupName", {
         cell: (info) => info.getValue(),
-        header: "Group Name"
-    }),
-    groupColumnHelper.accessor("total", {
-        cell: (info) => info.getValue(),
-        header: "Total"
+        header: () => <span className="font-medium text-[16px] text-[#24272E]">Group Name</span>
     })
 ]
 
@@ -233,7 +235,7 @@ const Customer = () => {
             <Table className="mt-[80px] border-separate rounded-[8px] border-spacing-0 overflow-hidden border border-solid border-neutral-border inventory-table">
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
-                        <TableRow key={headerGroup.id} className="bg-neutral-alt-b h-[94px] py-[32px]  font-medium text-[16px] text-[#24272E] px-[16px] rounded-[8px]">
+                        <TableRow key={headerGroup.id} className="bg-neutral-alt-b h-[94px] py-[32px] font-medium text-[16px] text-[#24272E] px-[16px] rounded-[8px]">
                             {headerGroup.headers.map((header) => (
                                 <TableHead key={header.id} className="font-medium text-[16px] text-[#24272E]">
                                     {flexRender(
@@ -247,7 +249,7 @@ const Customer = () => {
                 </TableHeader>
                 <TableBody className="border-collapse">
                     {table.getRowModel().rows.map((row) => (
-                        <TableRow key={row.id} className="box-border h-[84px] bg-neutral-alt p-[16px] text-[16px] leading-[30px] text-text-primary">
+                        <TableRow key={row.id} className="box-border h-[84px] bg-neutral-alt text-[16px] leading-[30px] text-text-primary">
                             {row.getVisibleCells().map((cell) => (
                                 <TableCell key={cell.id}>
                                     {flexRender(
@@ -287,7 +289,7 @@ const Customer = () => {
                     </div>
                     <div className="flex items-center gap-[24px]">
                         <button
-                            onClick={() => table.previousPage()}
+                            onClick={table.previousPage}
                             disabled={!table.getCanPreviousPage()}
                             className="disabled:cursor-not-allowed disabled:opacity-30"
                         >
@@ -309,22 +311,22 @@ const Customer = () => {
                                 return Array.from(new Set([1, start, <Ellipsis size={18} className="text-text-secondary" />, end, totalPages]));
                             }
 
-                            return getVisiblePages().map((page, index) => (
+                            return getVisiblePages().map((page, index) => ((
                                 <button
                                     key={index}
                                     className={cn(
                                         "text-[16px] leading-[30px] text-text-primary size-[32px]",
                                         typeof page !== "object" &&
-                                        table.getState().pagination.pageIndex === (page as number - 1) &&
+                                        table.getState().pagination.pageIndex === (page - 1) &&
                                         "bg-text-primary rounded-[16px] text-neutral-alt"
                                     )}
                                 >
                                     {page}
                                 </button>
-                            ))
+                            )));
                         })()}
                         <button
-                            onClick={() => table.nextPage()}
+                            onClick={table.nextPage}
                             disabled={!table.getCanNextPage()}
                             className="disabled:cursor-not-allowed disabled:opacity-30"
                         >
