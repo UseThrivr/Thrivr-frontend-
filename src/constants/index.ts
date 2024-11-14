@@ -8,6 +8,8 @@ import {
     PackageOpen,
     PiggyBank,
     ShoppingBag,
+    DollarSign,
+    ShoppingCart,
     Users,
     type LucideProps
 } from "lucide-react";
@@ -127,3 +129,34 @@ export const METADATA: Metadata = {
     publishedAt: "",
     keywords: "creator business growth, storefront setup for creators, dynamic product management, business analytics for creators, grow your creator brand, creator tools for business success, online storefront for creators, Thrivr platform for creators, creator business solutions, integrated analytics for creators"
 }
+
+export const salesData = [
+    {
+        name: "Total Sales",
+        amount: "₦4,000,000",
+        percentage: "+20.00%",
+        color: "bg-[#E7F7E8]",
+        icon: ShoppingBag
+    },
+    {
+        name: "Average Order Value",
+        amount: "₦12,000",
+        percentage: "+8.00%",
+        color: "bg-[#FDF2FB]",
+        icon: DollarSign
+    },
+    {
+        name: "Total Orders",
+        amount: "450",
+        percentage: "-2.00%",
+        color: "bg-[#EAECFD]",
+        icon: ShoppingCart
+    },
+    {
+        name: "Total Customers",
+        amount: "1,200",
+        percentage: "+15.00%",
+        color: "bg-[#FFF9E6]",
+        icon: Users
+    }
+];
