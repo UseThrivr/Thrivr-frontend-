@@ -170,7 +170,7 @@ import GroupPopup from "@/components/dashboard/GroupPopup";
 const Customer = () => {
     const [activeTab, setActiveTab] = useState<'customers' | 'groups'>('customers')
     const [sorting, setSorting] = useState([])
-    const [columnFilters, setColumnFilters] = useState([])
+    const [columnFilters] = useState([])
     // Add these state variables
     const [isCustomerPopupOpen, setIsCustomerPopupOpen] = useState(false);
     const [isGroupPopupOpen, setIsGroupPopupOpen] = useState(false);
