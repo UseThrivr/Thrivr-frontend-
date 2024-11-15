@@ -45,7 +45,8 @@ const Footer = () => {
             ))}
           </div>
         </div>
-        <div className="flex justify-end gap-8 text-white mt-20">
+        <div className="flex flex-col lg:flex-row justify-end gap-8 text-white mt-20">
+          <h1 className="font-extrabold block lg:hidden">Socials</h1>
           <a href="">Facebook</a>
           <a href="">X(Formerly Twitter)</a>
           <a href="">LinkedIn</a>

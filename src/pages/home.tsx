@@ -7,15 +7,16 @@ import Footer from "@/components/homepage/Footer";
 import FAQ from "@/components/homepage/FAQ";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import {Typing} from "react-typing-animate"
 
 import HeroDashboardImage from "../assets/HeroDashboardImage.png";
 import { YoutubeIcon } from "lucide-react";
 
-import AirPeace from "../assets/air-peace.png";
-import PiggyVest from "../assets/piggyvest.png";
-import MTN from "../assets/mtn.png";
-import Chipper from "../assets/chipper.png";
-import Wise from "../assets/wise.png";
+import GadgetZoneTech from "../assets/gadgetzonetech.png";
+import Graccessories from "../assets/graccessories.png";
+import InamFoods from "../assets/inamfoods.png";
+import Beauty from "../assets/beauty.png";
+import stickernator from "../assets/stickernator.png";
 import StoreImage from "../assets/StoreImage.png";
 import FashionAndApparel from "../assets/clothes.png";
 import AppImage from "../assets/appImage.png";
@@ -45,7 +46,7 @@ AOS.init({
 });
 
 const Home = () => {
-  const Images = [AirPeace, PiggyVest, MTN, Chipper, Wise];
+  const Images = [GadgetZoneTech, stickernator, Graccessories, InamFoods, Beauty];
   const littleImages = [customer1, customer2, customer3, customer4, customer5];
 
   const helps = [
@@ -141,7 +142,7 @@ const Home = () => {
           <div className="text-center">
             <H1 className="lg:text-6xl font-extrabold">
               Manage sales, inventory, and <br />
-              payments in <span className="text-[#870E73]">one place</span>
+              payments in <span className="text-[#870E73]"><Typing text={["one place", "one flow"]} speed={200} cursor="|"/></span>
             </H1>
             <p className="mt-8 lg:w-1/2 mx-auto">
               Boost sales by streamlining your business using this all-in-one
@@ -163,11 +164,11 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="bg-[#1C0719] px-[3%] py-10">
+      <div className="bg-[#870E731A] px-[3%] py-10">
         <div className="2xl:container mx-auto">
-          <div className="flex justify-around">
+          <div className="flex justify-around flex-wrap lg:gap-0">
             {Images.map((img, index) => (
-              <div className="w-[150px]">
+              <div className="w-[120px] lg:w-[150px]">
                 <img key={index} src={img} alt="" className="" />
               </div>
             ))}
@@ -205,7 +206,7 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14 2xl:gap-5">
+          <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap-14 2xl:gap-5">
             {helps.map((help, index) => (
               <HelpComp key={index} data={help} index={index} />
             ))}

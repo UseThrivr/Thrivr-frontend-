@@ -8,7 +8,7 @@ const Navbar = () => {
   const [navOpen, setNavOpen] = useState<boolean>(false);
 
   return (
-    <nav className="bg-[#870E731A] py-7 px-[5%] lg:[10%]">
+    <nav className=" bg-[#870E731A] py-7 px-[5%] lg:[10%]">
       <div className="2xl:container mx-auto flex justify-between">
         <div className="w-fit h-[32px] my-auto flex gap-[20px] items-center">
           <img
@@ -22,7 +22,7 @@ const Navbar = () => {
         </div>
         <div
           className={`${
-            navOpen ? "-left-full" : "left-0"
+            navOpen ? " left-0" : "-left-full"
           } w-[60%] p-5 text-white bottom-0 lg:text-black lg:w-[55%] flex flex-col lg:flex-row justify-center lg:justify-between top-0 h-screen lg:h-fit absolute lg:static bg-[#870E73] lg:bg-transparent duration-300 transition-all z-50`}
         >
           <div className="flex flex-col lg:flex-row gap-5 items-center">
@@ -53,9 +53,9 @@ const Navbar = () => {
           onClick={() => {
             setNavOpen(!navOpen);
           }}
-          className="block lg:hidden border border-red-500"
+          className="block lg:hidden"
         >
-          {navOpen ? <HamburgerMenuIcon fontSize={100} /> : <X />}
+          {!navOpen ? <HamburgerMenuIcon className=" w-[30px] h-[30px]"/> : <X className=" w-[30px] h-[30px]"/>}
         </button>
       </div>
     </nav>

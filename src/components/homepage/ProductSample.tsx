@@ -14,8 +14,8 @@ interface SampleProps {
 const ProductSample: React.FC<SampleProps> = ({ data }) => {
   return (
     <div className="mx-auto lg:mx-0 flex flex-col" data-aos="fade-up">
-      <div className="w-[25rem] rounded-lg overflow-hidden">
-        <img src={data.image} alt="" className="object-coever" />
+      <div className="lg:w-[25rem] rounded-lg overflow-hidden">
+        <img src={data.image} alt="" className="object-cover" />
       </div>
       <div className="mt-5">
         <H4 className="w-1/2 text-white text-start">{data.heading}</H4>
