@@ -24,14 +24,14 @@ interface HelpProps {
 
 const Help: React.FC<HelpProps> = ({ data, index }) => {
   return (
-    <div className="relative w-[400px] h-[310px] z-10 mx-auto lg:mx-0" data-aos="fade-up" data-aos-delay={`${index + 1}00`}>
+    <div className="relative lg:w-[400px] h-[310px] z-10 mx-auto lg:mx-0" data-aos="fade-up" data-aos-delay={`${index + 1}00`}>
       <div className="absolute z-10">
-        <img src={img} alt="" />
+        <img src={img} alt="" className=""/>
       </div>
-      <div className="z-50 relative p-5 mt-10">
-        <H1 className="text-3xl font-bold">{data.heading}</H1>
-        <P className="mt-8">{data.description}</P>
-        <div className="mt-10">
+      <div className="z-50 relative p-5 mt-8 lg:mt-10">
+        <H1 className="text-2xl lg:text-3xl font-bold">{data.heading}</H1>
+        <P className="mt-5 text-sm lg:text-base lg:mt-8">{data.description}</P>
+        <div className="mt-8 lg:mt-10">
           <Link to="" className="text-[#870E73]">
             Learn More
           </Link>
