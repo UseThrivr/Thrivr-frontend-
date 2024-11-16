@@ -43,16 +43,16 @@ const IntegrationItem: React.FC<{ app: IntegrationApp }> = ({ app }) => {
         <div className="flex justify-between items-center p-4 h-[140px]">
             <div className="flex gap-4">
                 <img src={app.logo} alt={app.name} className="w-12 h-12 object-cover" />
-                <div className="flex flex-col">
+                <div className="flex flex-col w-[376px]">
                     <h3 className="text-lg font-semibold">{app.name}</h3>
                     <p className="text-gray-600">{app.description}</p>
                 </div>
             </div>
             <button 
-                className={`px-6 py-2 rounded-full ${
+                className={`w-[376px] h-[62px] border border-[#CDCED3] px-6 py-2 rounded-[8px] hover:bg-action-default hover:text-white transition-colors duration-300 ${
                     app.buttonText === 'Connect' 
-                        ? 'bg-action-default text-white' 
-                        : 'border border-action-default text-action-default'
+                        ? 'bg-[#FDFBFF] text-action-default text-[20px] font-medium' 
+                        : 'bg-[#FDFBFF] text-action-default text-[20px] font-medium'
                 }`}
             >
                 {app.buttonText}
@@ -63,7 +63,7 @@ const IntegrationItem: React.FC<{ app: IntegrationApp }> = ({ app }) => {
 
 export const IntegrationList: React.FC = () => {
     return (
-        <div className="border border-[#CDCED3] rounded-[8px] mt-8 px-3">
+        <div className=" rounded-[8px] mt-8 px-3">
             {integrationData.map((app, index) => (
                 <React.Fragment key={app.name}>
                     <IntegrationItem app={app} />
