@@ -70,14 +70,14 @@ const Profile = () => {
         <div className="w-full relative top-0 2xl:-top-4">
           <img
             className="w-full object-cover rounded-md h-52 2xl:h-72"
-            src="/src/assets/Rectangle.png"
+            src="/src/assets/profile/Rectangle.png"
             alt="rectangle"
             width={1329}
             height={286}
           />
           <img
             className="absolute top-8 right-4 2xl:top-12 2xl:right-8 w-8 h-8 2xl:w-10 2xl:h-10 cursor-pointer"
-            src="/src/assets/add_a_photo.png"
+            src="/src/assets/profile/add_a_photo.png"
             alt="add a photo"
             width={40}
             height={40}
