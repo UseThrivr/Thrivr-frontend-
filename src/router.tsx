@@ -15,6 +15,7 @@ import {
     Customer
 } from "./pages";
 import Ads from "./pages/ads";
+import Profile from "./pages/profile";
 
 const router = createBrowserRouter([
     {
@@ -65,6 +66,11 @@ const router = createBrowserRouter([
             {
                 path: "/customers",
                 element: <Customer />
+
+            },
+            {
+                path: "/profile",
+                element: <Profile />
 
             }
         ]
