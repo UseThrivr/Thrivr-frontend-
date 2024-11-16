@@ -1,8 +1,8 @@
 import { H1, P, Seo } from "@/components/global";
 import React from "react";
+import { IntegrationList } from '@/components/dashboard/IntegrationItem';
 
 const Integration: React.FC = () => {
-
     return (
         <>
             <Seo title="Integration" />
@@ -14,14 +14,11 @@ const Integration: React.FC = () => {
                     </P>
                 </div>
 
-                <div className="w-[1192px] h-[511px] flex flex-col gap-[32px]">
-                    
+                <div className="w-full">
+                    <IntegrationList />
                 </div>
             </section>
-
         </>
     )
-
 }
-
 export default Integration;
