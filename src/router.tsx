@@ -12,7 +12,8 @@ import {
     Orders,
     Sales,
     Todo,
-    Customer
+    Customer,
+    Integration
 } from "./pages";
 import Ads from "./pages/ads";
 
@@ -65,6 +66,11 @@ const router = createBrowserRouter([
             {
                 path: "/customers",
                 element: <Customer />
+
+            },
+            {
+                path: "/integration",
+                element: <Integration />
 
             }
         ]
