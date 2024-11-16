@@ -40,9 +40,9 @@ const integrationData: IntegrationApp[] = [
 
 const IntegrationItem: React.FC<{ app: IntegrationApp }> = ({ app }) => {
     return (
-        <div className="flex justify-between items-center p-4">
+        <div className="flex justify-between items-center p-4 h-[140px]">
             <div className="flex gap-4">
-                <img src={app.logo} alt={app.name} className="w-12 h-12" />
+                <img src={app.logo} alt={app.name} className="w-12 h-12 object-cover" />
                 <div className="flex flex-col">
                     <h3 className="text-lg font-semibold">{app.name}</h3>
                     <p className="text-gray-600">{app.description}</p>
@@ -63,7 +63,7 @@ const IntegrationItem: React.FC<{ app: IntegrationApp }> = ({ app }) => {
 
 export const IntegrationList: React.FC = () => {
     return (
-        <div className="border border-[#CDCED3] rounded-[8px] mt-8">
+        <div className="border border-[#CDCED3] rounded-[8px] mt-8 px-3">
             {integrationData.map((app, index) => (
                 <React.Fragment key={app.name}>
                     <IntegrationItem app={app} />

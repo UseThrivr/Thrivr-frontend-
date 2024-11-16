@@ -14,7 +14,7 @@ const Integration: React.FC = () => {
                     </P>
                 </div>
 
-                <div className="w-full">
+                <div className="w-[1192px] h-[511px] flex flex-col gap-[32px] mt-14">
                     <IntegrationList />
                 </div>
             </section>
