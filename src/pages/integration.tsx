@@ -14,6 +14,9 @@ const Integration: React.FC = () => {
                     </P>
                 </div>
 
+                <div className="w-[1192px] h-[511px] flex flex-col gap-[32px]">
+                    
+                </div>
             </section>
 
         </>
