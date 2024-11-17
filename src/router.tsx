@@ -13,10 +13,11 @@ import {
     Sales,
     Todo,
     Customer,
+    Profile,
+    EditProfile,
     Integration
 } from "./pages";
 import Ads from "./pages/ads";
-import Profile from "./pages/profile";
 
 const router = createBrowserRouter([
     {
@@ -71,12 +72,19 @@ const router = createBrowserRouter([
             },
             {
                 path: "/profile",
+                element: <Profile />,
+                
+            },
+            {
+                path: "/integration",
+                element: <Integration />,
                 element: <Profile />
             },
             {
                 path: "/integration",
                 element: <Integration />
-            }
+            },
+          
         ]
     },
     {
@@ -94,7 +102,11 @@ const router = createBrowserRouter([
             {
                 path: "/orders/:id/edit",
                 element: <EditOrder />
-            }
+            },
+            {
+                path: "/profile/:id/edit/",
+                element: <EditProfile />
+            },
         ]
     }
 ])
