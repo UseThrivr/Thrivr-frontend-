@@ -14,7 +14,8 @@ import {
     Todo,
     Customer,
     Profile,
-    EditProfile
+    EditProfile,
+    Integration
 } from "./pages";
 import Ads from "./pages/ads";
 
@@ -71,8 +72,12 @@ const router = createBrowserRouter([
             },
             {
                 path: "/profile",
-                element: <Profile />
-
+                element: <Profile />,
+                
+            },
+            {
+                path: "/integration",
+                element: <Integration />,
             }
         ]
     },
