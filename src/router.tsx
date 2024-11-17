@@ -78,7 +78,13 @@ const router = createBrowserRouter([
             {
                 path: "/integration",
                 element: <Integration />,
-            }
+                element: <Profile />
+            },
+            {
+                path: "/integration",
+                element: <Integration />
+            },
+          
         ]
     },
     {
