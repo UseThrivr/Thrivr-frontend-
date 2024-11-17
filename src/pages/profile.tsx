@@ -1,20 +1,16 @@
 import { Seo } from "@/components/global";
+import { profile } from "@/constants";
 import clsx from "clsx";
-import { Copy, CreditCard, KeySquare, MoveRight, Settings, SquarePen, Trash, Users } from "lucide-react";
-
-const profile = {
-  storename: "Coker Gadgets",
-  bio: "where technology meets your lifestyle...",
-  link: "https://cokergadgets.thrivr.shop",
-  logo: "/src/assets/profile/Logo.svg",
-  contact: {
-    name: "John Coker",
-    email: "johncoker@gmail.com",
-    phone: "+2349388388837",
-    address: "Plot 123, Ademola Adetokunbo Crescent, Wuse II, Abuja, Nigeria",
-  },
-  subscription: "BASIC",
-};
+import {
+  Copy,
+  CreditCard,
+  KeySquare,
+  MoveRight,
+  Settings,
+  SquarePen,
+  Trash,
+  Users,
+} from "lucide-react";
 
 const contact = [
   {
@@ -40,33 +36,33 @@ const cta = [
     title: "Store configuration",
     info: "Display image, Theme, Opening & closing hours,  and store currency",
     cta: "Store settings",
-    icon: <Settings />
+    icon: <Settings />,
   },
   {
     title: "Store managers",
     info: "Grant access to manage your store by setting roles, permissions, and access levels ",
     cta: "Manage store managers",
-    icon: <Users />
+    icon: <Users />,
   },
   {
     title: "API key",
     info: "Generate and manage API keys to integrate external services and enhance features",
     cta: "Generate API key",
-    icon: <KeySquare />
+    icon: <KeySquare />,
   },
   {
     title: "Subscription plan",
     info: "Choose a plan that fits your needs and enjoy uninterrupted access to these tools",
     cta: "Manage subscription",
-    icon: <CreditCard />
+    icon: <CreditCard />,
   },
-]
+];
 
 const Profile = () => {
   return (
     <>
       <Seo title={`${profile.storename} | Profile`} />
-      <section className="px-6 2xl:px-8 py-6 w-full h-full flex flex-col items-center gap-4 justify-center max-w-[1700px] mx-auto">
+      <section className="px-6 2xl:px-8 py-6 w-full h-full flex flex-col items-center gap-4 justify-center max-w-[500px] md:max-w-[1700px] mx-auto">
         <div className="w-full relative top-0 2xl:-top-4">
           <img
             className="w-full object-cover rounded-md h-52 2xl:h-72"
@@ -96,11 +92,11 @@ const Profile = () => {
             <div className="flex items-start justify-between flex-1">
               <div className="flex flex-col items-start gap-4 2xl:gap-6">
                 <div className="flex flex-col gap-1 2xl:gap-2">
-                  <h1 className="font-semibold text-4xl 2xl:text-5xl text-text-primary">
+                  <h1 className="font-semibold text-2xl md:text-4xl 2xl:text-5xl text-text-primary">
                     {profile.storename}
                   </h1>
                   <p className="font-normal text-sm 2xl:text-base text-text-secondary">
-                    {profile.bio}
+                    {profile.tagline}
                   </p>
                 </div>
                 <div className="flex flex-col gap-1 2xl:gap-2">
@@ -141,20 +137,28 @@ const Profile = () => {
                   </div>
                 ))}
               </div>
-              <div className="flex items-center text-action-default hover:text-action-hover transition-all cursor-pointer gap-2 2xl:gap-4">
+              <a
+                href={`/profile/${profile.userid}/edit`}
+                className="flex items-center text-action-default hover:text-action-hover transition-all cursor-pointer gap-2 2xl:gap-4"
+              >
                 <span className=" font-medium text-lg 2xl:text-xl">
                   Update Contact Details
                 </span>
                 <MoveRight className="w-6 h-6 2xl:w-8 2xl:h-8" />
-              </div>
+              </a>
             </div>
-            <div className="grid grid-cols-2 grid-rows-2 gap-24">
+            <div className="grid grid-cols-2 grid-rows-2 gap-20">
               {cta.map((item, i) => (
-                <div key={i} className="flex flex-col gap-4 cursor-pointer">
+                <div key={i} className="flex flex-col gap-4">
                   <div className="flex gap-4">
                     {item.icon}
                     <h3 className="font-semibold text-xl 2xl:text-2xl flex items-center gap-6 text-text-primary">
-                      {item.title}{item.title === "Subscription plan" && <span className="font-medium text-base">{profile.subscription}</span>}
+                      {item.title}
+                      {item.title === "Subscription plan" && (
+                        <span className="font-medium text-base">
+                          {profile.subscription}
+                        </span>
+                      )}
                     </h3>
                   </div>
                   <p className="font-normal text-base">{item.info}</p>

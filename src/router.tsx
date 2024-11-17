@@ -12,10 +12,11 @@ import {
     Orders,
     Sales,
     Todo,
-    Customer
+    Customer,
+    Profile,
+    EditProfile
 } from "./pages";
 import Ads from "./pages/ads";
-import Profile from "./pages/profile";
 
 const router = createBrowserRouter([
     {
@@ -90,7 +91,11 @@ const router = createBrowserRouter([
             {
                 path: "/orders/:id/edit",
                 element: <EditOrder />
-            }
+            },
+            {
+                path: "/profile/:id/edit/",
+                element: <EditProfile />
+            },
         ]
     }
 ])

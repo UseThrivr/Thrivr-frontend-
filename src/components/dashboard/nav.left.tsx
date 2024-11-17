@@ -16,7 +16,8 @@ const NavLeft = () => {
                 <ArrowLeft className="text-black" />
             </button>
             <h2 className="font-semibold text-[32px] leading-[35px] tracking-[-0.01em] text-text-primary">
-                Edit {route.toLowerCase()}
+                {route.toLowerCase() === "profile" && "Update contact details"}
+                {route.toLowerCase() !== `Edit ${route.toLowerCase()}`}
             </h2>
         </div>
     )
