@@ -32,7 +32,9 @@ const router = createBrowserRouter([
     },
     {
         path: "/",
-        element: <DashboardLayout right={<NavRight />} />,
+        element: <DashboardLayout right={<NavRight onMobileMenuClick={function (): void {
+            throw new Error("Function not implemented.");
+        } } />} />,
         children: [
             {
                 path: "/dashboard",
@@ -77,8 +79,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/integration",
-                element: <Integration />,
-                element: <Profile />
+                element: <Integration />
             },
             {
                 path: "/integration",

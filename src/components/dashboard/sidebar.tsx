@@ -19,6 +19,7 @@ import { sidebarLinks } from "@/constants";
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
+  className?: string;
 }
 
 const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
