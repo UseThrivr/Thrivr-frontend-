@@ -15,7 +15,7 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const [errors, setErrors] = useState<FormErrors>({ email: "", password: "" });
+  const [errors] = useState<FormErrors>({ email: "", password: "" });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

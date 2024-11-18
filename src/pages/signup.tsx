@@ -1,18 +1,18 @@
-import { H1, P } from "@/components/global";
+import { P } from "@/components/global";
 import { Dot, Lock, User } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import googleImg from '../assets/devicon_google.png'
 
 const Signup = () => {
-  const [signUpData, setSignUpData] = useState({
-    fullName: "",
-    email: "",
-    password: "",
-  });
+  // const [signUpData, setSignUpData] = useState({
+  //   fullName: "",
+  //   email: "",
+  //   password: "",
+  // });
   const navigate = useNavigate()
 
-  const [passwordError, setPasswordError] = useState<boolean>(false);
+  const [passwordError] = useState<boolean>(false);
 
   return (
     <div className="pb-10">
