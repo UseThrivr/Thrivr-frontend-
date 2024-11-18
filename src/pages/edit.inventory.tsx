@@ -31,7 +31,7 @@ const EditInventory: React.FC = () => {
               name="supplyID"
               type="text"
               placeholder="PD - 1234"
-              className="border rounded p-4"
+              className="border rounded p-4 focus:outline-none"
               required
             />
           </div>
@@ -43,7 +43,7 @@ const EditInventory: React.FC = () => {
               name="productName"
               type="text"
               placeholder="Enter Product Name"
-              className="border rounded p-4"
+              className="border rounded p-4 focus:outline-none"
               required
             />
           </div>
@@ -86,7 +86,7 @@ const EditInventory: React.FC = () => {
               id="customSelect"
               value={category ?? ""}
               onChange={handleSelectChange}
-              className="w-full mt-1 p-4 border text-md font-normal rounded-md shadow-sm cursor-pointer sm:text-md"
+              className="w-full mt-1 p-4 border focus:outline-none text-md font-normal rounded-md shadow-sm cursor-pointer sm:text-md"
             >
               <option value="" disabled>
                 Select a category
@@ -106,25 +106,25 @@ const EditInventory: React.FC = () => {
               name=""
               id=""
               placeholder="Write..."
-              className="resize-none border p-4 h-[15rem] w-full rounded"
+              className="resize-none border p-4 h-[15rem] w-full rounded focus:outline-none"
             ></textarea>
           </div>
           <div className="grid grid-cols-2 gap-5">
             <div className="col-span-1 mt-5">
               <p>Selling Price</p>
-              <input type="text" className="border p-3 rounded w-full mt-2" />
+              <input type="text" className="border p-3 rounded w-full mt-2 focus:outline-none" />
             </div>
             <div className="col-span-1 mt-5">
               <p>Quantity</p>
-              <input type="text" className="border p-3 rounded w-full mt-2" />
+              <input type="text" className="border p-3 rounded w-full mt-2 focus:outline-none" />
             </div>
             <div className="col-span-1 mt-5">
               <p>Purchase Date</p>
-              <input type="date" className="border p-3 rounded w-full mt-2" />
+              <input type="date" className="border p-3 rounded w-full mt-2 focus:outline-none" />
             </div>
             <div className="col-span-1 mt-5">
               <p>Supplier</p>
-              <input type="text" className="border p-3 rounded w-full mt-2" />
+              <input type="text" className="border p-3 rounded w-full mt-2 focus:outline-none" />
             </div>
           </div>
           <div className="my-5 py-3">

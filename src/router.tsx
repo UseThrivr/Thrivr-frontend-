@@ -15,6 +15,10 @@ import {
     Customer
 } from "./pages";
 import Ads from "./pages/ads";
+import Login from "./pages/login";
+import LoginSignupLayout from "./layouts/LoginSignupLayout";
+import Signup from "./pages/signup";
+import Businesssetup from "./pages/businesssetup";
 
 const router = createBrowserRouter([
     {
@@ -85,6 +89,24 @@ const router = createBrowserRouter([
                 path: "/orders/:id/edit",
                 element: <EditOrder />
             }
+        ]
+    },
+    {
+        path: "/",
+        element: <LoginSignupLayout />,
+        children: [
+            {
+                path: "/login",
+                element: <Login />
+            },
+            {
+                path: "/signup",
+                element: <Signup />
+            },
+            {
+                path: "/setupbusiness",
+                element: <Businesssetup />
+            },
         ]
     }
 ])
