@@ -1,7 +1,6 @@
-import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import loginLogo from "../assets/thrivr-logo.png";
-import EmailVerification from "@/components/signup/EmailVerification";
+// import EmailVerification from "@/components/signup/EmailVerification";
 
 const LoginSignupLayout = () => {
   return (
