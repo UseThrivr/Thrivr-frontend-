@@ -10,7 +10,7 @@ interface NavRightProps {
 const NavRight = ({ onMobileMenuClick }: NavRightProps) => {
   return (
     <div className="flex items-center justify-between w-full">
-      <MobileMenu onClick={onMobileMenuClick} className="lg:hidden mr-4" />
+      <MobileMenu onClick={onMobileMenuClick} className="lg:hidden" />
       
       <div className="hidden lg:flex items-start h-[48px] gap-[32px] p-0">
         <div className="flex items-center p-0 gap-[24px] h-[46px]">
@@ -38,7 +38,7 @@ const NavRight = ({ onMobileMenuClick }: NavRightProps) => {
         </div>
       </div>
 
-      <div className="flex items-center gap-4 ml-auto">
+      <div className="hidden lg:flex items-center gap-4 ml-auto">
         <BellDot size={24} className="text-text-secondary" />
         <div className="flex items-center gap-2">
           <div

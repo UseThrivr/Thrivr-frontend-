@@ -32,9 +32,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/",
-        element: <DashboardLayout right={<NavRight onMobileMenuClick={function (): void {
-            throw new Error("Function not implemented.");
-        } } />} />,
+        element: <DashboardLayout right={<NavRight onMobileMenuClick={() => console.log(true)} />} />,
         children: [
             {
                 path: "/dashboard",

@@ -31,7 +31,7 @@ const DashboardLayout: React.FC<NavBarProps> = (navBarProps) => {
                         <div className="w-full lg:w-[calc(100% - var(--dashboard-sidebar-width))]">
                             <Navbar {...navBarProps} />
                         </div>
-                        <div className="w-full px-4 lg:px-0">
+                        <div className="w-full px-4 lg:px-0 overflow-x-hidden">
                             <Outlet />
                         </div>
                     </div>
