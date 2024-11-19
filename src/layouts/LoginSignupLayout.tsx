@@ -3,13 +3,12 @@ import loginLogo from "../assets/thrivr-logo.png";
 
 const LoginSignupLayout = () => {
   return (
-    <div className="w-full">
-      <div className="flex flex-col md:flex-row">
-        {/* Remove fixed purple container on mobile, use responsive classes */}
-        <div className="hidden md:block md:w-[55%] md:bg-[#870E73DB] md:rounded-r-3xl fixed top-0 h-full"></div>
-        
-        <div className="w-full md:w-[45%] md:ms-[55%] px-6 md:px-24 min-h-screen flex flex-col">
-          <div className="flex gap-1 justify-center mt-5">
+    <div className="min-h-screen w-full bg-[#870E73DB]">
+      <div className="container mx-auto px-4 py-10">
+        {/* White container for content */}
+        <div className="max-w-[600px] mx-auto bg-white rounded-3xl p-6 md:p-12">
+          {/* Logo section */}
+          <div className="flex gap-1 justify-center mb-8">
             <div className="my-auto w-[80px]">
               <img 
                 src={loginLogo} 
@@ -21,8 +20,9 @@ const LoginSignupLayout = () => {
               Thrivr
             </p>
           </div>
-          
-          <div className="flex justify-center">
+{/*           
+          Navigation tabs
+          <div className="flex justify-center mb-6">
             <NavLink
               to="/login"
               className={({ isActive }) => 
@@ -43,9 +43,10 @@ const LoginSignupLayout = () => {
             >
               Signup
             </NavLink>
-          </div>
+          </div> */}
           
-          <div className="py-5 flex-grow">
+          {/* Form content */}
+          <div className="py-2">
             <Outlet />
           </div>
         </div>

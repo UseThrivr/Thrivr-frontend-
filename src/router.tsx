@@ -22,6 +22,7 @@ import Login from "./pages/login";
 import LoginSignupLayout from "./layouts/LoginSignupLayout";
 import Signup from "./pages/signup";
 import Businesssetup from "./pages/businesssetup";
+import BusinessSetup from "./pages/business.signup";
 
 const router = createBrowserRouter([
     {
@@ -127,6 +128,10 @@ const router = createBrowserRouter([
             {
                 path: "/setupbusiness",
                 element: <Businesssetup />
+            },
+            {
+                path: "/business",
+                element: <BusinessSetup />
             },
         ]
     }
