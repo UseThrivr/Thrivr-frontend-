@@ -8,3 +8,7 @@ export { default as Orders } from "./orders";
 export { default as Sales } from "./sales";
 export { default as Todo } from "./todo";
 export { default as Customer } from "./customer";
+export { default as Profile } from "./profile";
+export { default as EditProfile } from "./edit.profile";
+export { default as Integration } from "./integration";
+export { default as BusinessSetup } from "./business.signup";    

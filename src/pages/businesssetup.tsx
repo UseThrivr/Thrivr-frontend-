@@ -2,7 +2,6 @@ import { P } from "@/components/global";
 import {
   CloudDownloadIcon,
   FileDown,
-  FileUp,
   Locate,
   NotebookPenIcon,
   Store,

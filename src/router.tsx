@@ -12,13 +12,17 @@ import {
     Orders,
     Sales,
     Todo,
-    Customer
+    Customer,
+    Profile,
+    EditProfile,
+    Integration
 } from "./pages";
 import Ads from "./pages/ads";
 import Login from "./pages/login";
 import LoginSignupLayout from "./layouts/LoginSignupLayout";
 import Signup from "./pages/signup";
 import Businesssetup from "./pages/businesssetup";
+import BusinessSetup from "./pages/business.signup";
 
 const router = createBrowserRouter([
     {
@@ -33,7 +37,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/",
-        element: <DashboardLayout right={<NavRight />} />,
+        element: <DashboardLayout right={<NavRight onMobileMenuClick={() => console.log(true)} />} />,
         children: [
             {
                 path: "/dashboard",
@@ -70,7 +74,21 @@ const router = createBrowserRouter([
                 path: "/customers",
                 element: <Customer />
 
-            }
+            },
+            {
+                path: "/profile",
+                element: <Profile />,
+                
+            },
+            {
+                path: "/integration",
+                element: <Integration />
+            },
+            {
+                path: "/integration",
+                element: <Integration />
+            },
+          
         ]
     },
     {
@@ -88,7 +106,11 @@ const router = createBrowserRouter([
             {
                 path: "/orders/:id/edit",
                 element: <EditOrder />
-            }
+            },
+            {
+                path: "/profile/:id/edit/",
+                element: <EditProfile />
+            },
         ]
     },
     {
@@ -106,6 +128,10 @@ const router = createBrowserRouter([
             {
                 path: "/setupbusiness",
                 element: <Businesssetup />
+            },
+            {
+                path: "/business",
+                element: <BusinessSetup />
             },
         ]
     }

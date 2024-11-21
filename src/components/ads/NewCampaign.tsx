@@ -1,7 +1,6 @@
 import { X } from "lucide-react";
 import React, { useState } from "react";
 import { H1 } from "../global";
-import { platform } from "os";
 
 interface btnProp {
     onBtnClick: ()=> void

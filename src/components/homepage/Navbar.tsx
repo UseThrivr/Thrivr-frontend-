@@ -42,7 +42,7 @@ const Navbar = () => {
           <div className="flex flex-col lg:flex-row gap-7 align-center items-center mt-20 lg:mt-0">
             <Link to="/">Log In</Link>
             <Link
-              to="/"
+              to="/signup"
               className="px-5 py-2 bg-white lg:bg-[#870E73] rounded-full text-[#870E73] lg:text-white"
             >
               Register

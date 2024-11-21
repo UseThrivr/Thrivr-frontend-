@@ -1,6 +1,5 @@
 import { Check, Dot, Trash } from "lucide-react";
 import React from "react";
-import { P } from "../global";
 
 interface adDetails {
   data: {

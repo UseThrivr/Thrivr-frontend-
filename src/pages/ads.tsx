@@ -1,8 +1,8 @@
 import AdComp from "@/components/ads/AdComp";
 import NewCampaign from "@/components/ads/NewCampaign";
 import { H1, P, Seo } from "@/components/global";
-import { Divide, Megaphone } from "lucide-react";
-import React, { useState } from "react";
+import { Megaphone } from "lucide-react";
+import { useState } from "react";
 import { campaigns, campaignData } from "@/data/ads/campaignData";
 
 const Ads = () => {
