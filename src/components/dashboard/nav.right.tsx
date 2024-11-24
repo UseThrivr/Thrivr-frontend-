@@ -9,10 +9,10 @@ interface NavRightProps {
 
 const NavRight = ({ onMobileMenuClick }: NavRightProps) => {
   return (
-    <div className="flex items-center justify-between w-full">
+    <div className="flex right-0 top-0 left-0 h-14 px-3 fixed lg:relative items-center justify-end lg:justify-between w-full">
       <MobileMenu onClick={onMobileMenuClick} className="lg:hidden" />
       
-      <div className="hidden lg:flex items-start h-[48px] gap-[32px] p-0">
+      <div className="hidden lg:flex items-end h-[48px] gap-[32px] p-0">
         <div className="flex items-center p-0 gap-[24px] h-[46px]">
             <div
                 className={cn(
