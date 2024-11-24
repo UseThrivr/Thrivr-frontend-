@@ -1,15 +1,17 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { RouterProvider } from 'react-router-dom'
 import './index.css'
-import router from './router'
+import Router from './router'
 import { HelmetProvider } from 'react-helmet-async'
 
-// @ts-expect-error ...
-createRoot(document.getElementById('root')).render(
+const rootElement = document.getElementById('root')
+if (!rootElement) throw new Error('Failed to find the root element')
+
+const root = createRoot(rootElement)
+root.render(
   <StrictMode>
     <HelmetProvider>
-      <RouterProvider router={router} />
+      <Router />
     </HelmetProvider>
   </StrictMode>
 )
