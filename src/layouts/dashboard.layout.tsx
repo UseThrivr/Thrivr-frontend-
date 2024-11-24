@@ -2,38 +2,40 @@ import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { Navbar, Sidebar } from "@/components/dashboard"
 import { SidebarProvider } from "@/components/ui/sidebar"
-import { Outlet, ScrollRestoration } from "react-router-dom"
+import { Outlet } from "react-router-dom"
 
 const DashboardLayout: React.FC<NavBarProps> = (navBarProps) => {
     const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
 
+    const handleMobileMenuClick = () => {
+        setIsMobileSidebarOpen(true)
+    }
+
     return (
         <>
-            <ScrollRestoration />
+            {/* <ScrollRestoration /> */}
             <SidebarProvider
                 open
                 style={{ "--sidebar-width": "var(--dashboard-sidebar-width)" } as React.CSSProperties}
             >
-                <Sidebar 
-                    className={cn(
-                        "lg:block",
-                        "fixed hidden lg:static inset-y-0 left-0 z-50 w-[90%] lg:w-[var(--dashboard-sidebar-width)] bg-white transform transition-transform duration-300 ease-in-out",
-                        isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-                    )}
-                    onClose={() => setIsMobileSidebarOpen(false)} isOpen={false}                />
-                
-                <div className="w-full lg:ml-auto lg:w-[calc(100%-var(--dashboard-sidebar-width))]">
-                    <Navbar 
-                        {...navBarProps} 
-                        // onMobileMenuClick={() => setIsMobileSidebarOpen(true)}
+                <div className="flex h-screen overflow-hidden">
+                    <Sidebar 
+                        className={cn(
+                            "fixed lg:relative inset-y-0 left-0 z-50 w-64 lg:w-[var(--dashboard-sidebar-width)] bg-white transform transition-transform duration-300 ease-in-out",
+                            isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+                        )}
+                        onClose={() => setIsMobileSidebarOpen(false)}
+                        isOpen={isMobileSidebarOpen}
                     />
-                    <div className="mt-[10vh] lg:mt-[16.5vh] w-full">
-                        <div className="w-full lg:w-[calc(100% - var(--dashboard-sidebar-width))]">
-                            <Navbar {...navBarProps} />
-                        </div>
-                        <div className="w-full px-4 lg:px-1 h-screen overflow-x-hidden">
+                    
+                    <div className="flex flex-col flex-1 w-full overflow-x-hidden">
+                        <Navbar 
+                            {...navBarProps} 
+                            onMobileMenuClick={handleMobileMenuClick}
+                        />
+                        <main className="flex-1 overflow-y-auto pt-16 lg:pt-24 px-4 lg:px-8">
                             <Outlet />
-                        </div>
+                        </main>
                     </div>
                 </div>
 
@@ -47,4 +49,5 @@ const DashboardLayout: React.FC<NavBarProps> = (navBarProps) => {
         </>
     )
 }
+
 export default DashboardLayout
