@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+// import { createBrowserRouter } from "react-router-dom";
 import { NavLeft, NavRight } from "./components/dashboard";
 import { DashboardLayout, HomeLayout } from "./layouts";
 import { inventoryLoader } from "./lib/loaders";
@@ -23,118 +23,66 @@ import LoginSignupLayout from "./layouts/LoginSignupLayout";
 import Signup from "./pages/signup";
 import Businesssetup from "./pages/businesssetup";
 import BusinessSetup from "./pages/business.signup";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <HomeLayout />,
-        children: [
-            {
-                index: true,
-                element: <Home />
-            }
-        ]
-    },
-    {
-        path: "/",
-        element: <DashboardLayout right={<NavRight onMobileMenuClick={() => console.log(true)} />} />,
-        children: [
-            {
-                path: "/dashboard",
-                element: <Dashboard />
-            },
-            {
-                path: "/inventory",
-                loader: inventoryLoader,
-                element: <Inventory />,
-                // element: <Inventory />
+const Router = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* Home Layout Routes */}
+        <Route element={<HomeLayout />}>
+          <Route index element={<Home />} />
+        </Route>
 
-            },
-            {
-                path: "/mybank",
-                element: <MyBank />
-            },
-            {
-                path: "/orders",
-                element: <Orders />
-            },
-            {
-                path: "/sales",
-                element: <Sales />
-            },
-            {
-                path: "/todo",
-                element: <Todo />
-            },
-            {
-                path: "/ads",
-                element: <Ads />
-            },
-            {
-                path: "/customers",
-                element: <Customer />
+        {/* Dashboard Layout Routes with NavRight */}
+        <Route 
+          element={
+            <DashboardLayout 
+              right={<NavRight onMobileMenuClick={() => console.log(true)} />} 
+            />
+          }
+        >
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route 
+            path="/inventory" 
+            element={<Inventory />}
+            loader={inventoryLoader}
+          />
+          <Route path="/mybank" element={<MyBank />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/sales" element={<Sales />} />
+          <Route path="/todo" element={<Todo />} />
+          <Route path="/ads" element={<Ads />} />
+          <Route path="/customers" element={<Customer />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/integration" element={<Integration />} />
+        </Route>
 
-            },
-            {
-                path: "/profile",
-                element: <Profile />,
-                
-            },
-            {
-                path: "/integration",
-                element: <Integration />
-            },
-            {
-                path: "/integration",
-                element: <Integration />
-            },
-          
-        ]
-    },
-    {
-        path: "/",
-        element: <DashboardLayout left={<NavLeft />} />,
-        children: [
-            {
-                path: "/inventory/:id/edit",
-                element: <EditInventory />
-            },
-            {
-                path: "/editinventory",
-                element: <EditInventory />
-            },
-            {
-                path: "/orders/:id/edit",
-                element: <EditOrder />
-            },
-            {
-                path: "/profile/:id/edit/",
-                element: <EditProfile />
-            },
-        ]
-    },
-    {
-        path: "/",
-        element: <LoginSignupLayout />,
-        children: [
-            {
-                path: "/login",
-                element: <Login />
-            },
-            {
-                path: "/signup",
-                element: <Signup />
-            },
-            {
-                path: "/setupbusiness",
-                element: <Businesssetup />
-            },
-            {
-                path: "/business",
-                element: <BusinessSetup />
-            },
-        ]
-    }
-])
+        {/* Dashboard Layout Routes with NavLeft */}
+        <Route 
+          element={
+            <DashboardLayout 
+              left={<NavLeft />}
+            />
+          }
+        >
+          <Route path="/inventory/:id/edit" element={<EditInventory />} />
+          <Route path="/editinventory" element={<EditInventory />} />
+          <Route path="/orders/:id/edit" element={<EditOrder />} />
+          <Route path="/profile/:id/edit" element={<EditProfile />} />
+        </Route>
 
-export default router;
+        {/* Login/Signup Layout Routes */}
+        <Route element={<LoginSignupLayout />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/setupbusiness" element={<Businesssetup />} />
+          <Route path="/business" element={<BusinessSetup />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+
+export { Router as default};
