@@ -40,12 +40,12 @@ const DashboardLayout: React.FC<NavBarProps> = (navBarProps) => {
                         isOpen={isMobileSidebarOpen}
                     />
                     
-                    <div className="flex flex-col flex-1 w-full overflow-x-hidden">
+                    <div className="flex flex-col flex-1 w-full overflow-hidden">
                         <Navbar 
                             {...navBarProps}
                         />
                         <main className={cn(
-                            "flex-1 mt-[10vh] w-full pt-16 lg:pt-24 px-4",
+                            "flex-1 mt-[10vh] h-screen w-full pt-16 lg:pt-24 px-4",
                             "overflow-y-auto scrollbar-hide" // Add these classes
                         )}>
                             <Outlet />
