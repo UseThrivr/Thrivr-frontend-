@@ -82,6 +82,27 @@
   body {
     @apply bg-background text-foreground font-dm-sans;
   }
+
+  .invincible-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
+  
+  .invincible-scrollbar::-webkit-scrollbar {
+    width: 0px;
+  }
+  
+  .invincible-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .invincible-scrollbar::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+  
+  .invincible-scrollbar:hover::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+  }
 }
 
 a.sidebar-link {
@@ -134,5 +155,17 @@ table.inventory-table th {
 @media screen and (max-width: 650px) {
   .productDivBg {
     clip-path: polygon(100% 0%, 0% 8%, 0% 100%, 100% 100%);
+  }
+}
+
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
