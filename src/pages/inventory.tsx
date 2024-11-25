@@ -33,8 +33,18 @@ import {
     Search,
     Upload
 } from "lucide-react";
-import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+// Define the InventoryData type if not already defined
+interface InventoryData {
+    supplyId: string;
+    productName: string;
+    purchaseDate: string;
+    sellingPrice: number;
+    category: string;
+    quantity: number;
+    status: "available" | "out-of-stock";
+}
 
 const columnHelper = createColumnHelper<InventoryData>();
 
@@ -43,11 +53,11 @@ function sortableHeader(
     column: Column<InventoryData, string | number>
 ) {
     return (
-        <div onClick={column.getToggleSortingHandler()} >
+        <div onClick={column.getToggleSortingHandler()} className="cursor-pointer flex items-center gap-2">
             {title}
             {column.getIsSorted() === "asc"
-                ? <ChevronUp />
-                : <ChevronDown />
+                ? <ChevronUp className="w-4 h-4" />
+                : <ChevronDown className="w-4 h-4" />
             }
         </div>
     )
@@ -149,11 +159,44 @@ const filterOptions: Array<{
         }
     ]
 
-const Inventory = () => {
+// Mock data function - replace this with your actual data fetching logic
+const fetchInventoryData = async (): Promise<InventoryData[]> => {
+    // Replace this with your actual API call
+    return [
+        {
+            supplyId: "SUP001",
+            productName: "Sample Product 1",
+            purchaseDate: "2024-01-01",
+            sellingPrice: 99.99,
+            category: "Electronics",
+            quantity: 50,
+            status: "available"
+        },
+        // Add more mock data as needed
+    ];
+};
 
-    const data = useLoaderData() as InventoryData[];
+const Inventory = () => {
+    const [data, setData] = useState<InventoryData[]>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const loadData = async () => {
+            try {
+                const inventoryData = await fetchInventoryData();
+                setData(inventoryData);
+            } catch (error) {
+                console.error("Failed to fetch inventory data:", error);
+                // Handle error appropriately
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        loadData();
+    }, []);
 
     const table = useReactTable({
         data,
@@ -174,7 +217,11 @@ const Inventory = () => {
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel()
-    })
+    });
+
+    if (isLoading) {
+        return <div className="px-[33px]">Loading...</div>;
+    }
 
     return (
         <section className="px-[33px]">
@@ -263,7 +310,6 @@ const Inventory = () => {
                         <Select
                             onValueChange={(e) => {
                                 table.setPageSize(+e)
-                                console.log(e);
                             }}
                             value={table.getState().pagination.pageSize.toString()}
                         >
@@ -284,7 +330,7 @@ const Inventory = () => {
                     </div>
                     <div className="flex items-center gap-[24px]">
                         <button
-                            onClick={table.previousPage}
+                            onClick={() => table.previousPage()}
                             disabled={!table.getCanPreviousPage()}
                             className="disabled:cursor-not-allowed disabled:opacity-30"
                         >
@@ -309,6 +355,11 @@ const Inventory = () => {
                             return getVisiblePages().map((page, index) => ((
                                 <button
                                     key={index}
+                                    onClick={() => {
+                                        if (typeof page === 'number') {
+                                            table.setPageIndex(page - 1);
+                                        }
+                                    }}
                                     className={cn(
                                         "text-[16px] leading-[30px] text-text-primary size-[32px]",
                                         typeof page !== "object" &&
@@ -321,7 +372,7 @@ const Inventory = () => {
                             )));
                         })()}
                         <button
-                            onClick={table.nextPage}
+                            onClick={() => table.nextPage()}
                             disabled={!table.getCanNextPage()}
                             className="disabled:cursor-not-allowed disabled:opacity-30"
                         >
@@ -329,10 +380,9 @@ const Inventory = () => {
                         </button>
                     </div>
                 </div>
-            </div >
+            </div>
         </section>
-    )
-}
+    );
+};
 
 export default Inventory;
-
