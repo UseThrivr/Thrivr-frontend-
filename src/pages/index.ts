@@ -9,3 +9,8 @@ export { default as Sales } from "./sales";
 export { default as Todo } from "./todo";
 export { default as Customer } from "./customer";
 export { default as Profile } from "./profile";
+export { default as EditProfile } from "./edit.profile";
+export { default as Integration } from "./integration";
+export { default as ManageSubscriptions } from "./ManageSubscriptions";
+export { default as StoreManagers } from "./StoreManagers";
+export { default as BusinessSetup } from "./business.signup";

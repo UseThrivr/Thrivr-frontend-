@@ -149,7 +149,7 @@ const Home = () => {
               platform trusted by 3,000 small businesses
             </p>
             <div className="mt-10 flex justify-center items-center gap-5">
-              <Link to="/" className="bg-[#870E73] rounded-lg text-white p-4">
+              <Link to="/signup" className="bg-[#870E73] rounded-lg text-white p-4">
                 Get Started
               </Link>
               <a href="" className="flex gap-1 text-[#870E73]">

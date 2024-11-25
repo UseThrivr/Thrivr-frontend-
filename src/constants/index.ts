@@ -160,3 +160,18 @@ export const salesData = [
         icon: Users
     }
 ];
+
+export const profile = {
+    storename: "Coker Gadgets",
+    tagline: "where technology meets your lifestyle...",
+    link: "https://cokergadgets.thrivr.shop",
+    logo: "/src/assets/profile/Logo.svg",
+    userid: "cokergadgets",
+    contact: {
+      name: "John Coker",
+      email: "johncoker@gmail.com",
+      phone: "+2349388388837",
+      address: "Plot 123, Ademola Adetokunbo Crescent, Wuse II, Abuja, Nigeria",
+    },
+    subscription: "BASIC",
+  };
