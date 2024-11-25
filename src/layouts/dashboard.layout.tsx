@@ -1,51 +1,65 @@
-import { useState } from "react"
+// src/layouts/DashboardLayout.tsx
 import { cn } from "@/lib/utils"
 import { Navbar, Sidebar } from "@/components/dashboard"
-import { SidebarProvider } from "@/components/ui/sidebar"
+import { SidebarProvider as UISidebarProvider } from "@/components/ui/sidebar"
 import { Outlet } from "react-router-dom"
+import { useSidebar } from "@/context/SidebarContext"
+
+// First, create the custom scrollbar utility in your global CSS file (e.g., index.css or globals.css)
+// @layer utilities {
+//   .scrollbar-hide {
+//     -ms-overflow-style: none;
+//     scrollbar-width: none;
+//   }
+//   .scrollbar-hide::-webkit-scrollbar {
+//     display: none;
+//   }
+// }
+
+interface NavBarProps {
+  left?: React.ReactNode;
+  right?: React.ReactNode;
+}
 
 const DashboardLayout: React.FC<NavBarProps> = (navBarProps) => {
-    const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
-
-    const handleMobileMenuClick = () => {
-        setIsMobileSidebarOpen(true)
-    }
+    const { isMobileSidebarOpen, setMobileSidebarOpen } = useSidebar();
 
     return (
         <>
-            {/* <ScrollRestoration /> */}
-            <SidebarProvider
+            <UISidebarProvider
                 open
                 style={{ "--sidebar-width": "var(--dashboard-sidebar-width)" } as React.CSSProperties}
             >
-                <div className="flex h-screen overflow-hidden">
+                <div className="flex h-screen">
                     <Sidebar 
                         className={cn(
                             "fixed lg:relative inset-y-0 left-0 z-50 w-64 lg:w-[var(--dashboard-sidebar-width)] bg-white transform transition-transform duration-300 ease-in-out",
                             isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
                         )}
-                        onClose={() => setIsMobileSidebarOpen(false)}
+                        onClose={() => setMobileSidebarOpen(false)}
                         isOpen={isMobileSidebarOpen}
                     />
                     
                     <div className="flex flex-col flex-1 w-full overflow-x-hidden">
                         <Navbar 
-                            {...navBarProps} 
-                            onMobileMenuClick={handleMobileMenuClick}
+                            {...navBarProps}
                         />
-                        <main className="flex-1 overflow-y-auto pt-16 lg:pt-24 px-4 lg:px-8">
+                        <main className={cn(
+                            "flex-1 mt-[10vh] w-full pt-16 lg:pt-24 px-4",
+                            "overflow-y-auto scrollbar-hide" // Add these classes
+                        )}>
                             <Outlet />
                         </main>
                     </div>
                 </div>
 
-                {isMobileSidebarOpen && (
+                {/* {isMobileSidebarOpen && (
                     <div 
-                        className="fixed inset-0 bg-black/50 lg:hidden z-40"
-                        onClick={() => setIsMobileSidebarOpen(false)}
+                        className="fixed inset-0 z-[-] bg-black/50 lg:hidden"
+                        onClick={() => setMobileSidebarOpen(false)}
                     />
-                )}
-            </SidebarProvider>
+                )} */}
+            </UISidebarProvider>
         </>
     )
 }
