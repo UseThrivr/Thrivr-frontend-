@@ -1,16 +1,16 @@
+// src/components/dashboard/NavRight.tsx
 import { cn } from "@/lib/utils"
 import MobileMenu from "./mobile-menu"
-import { BellDot, ChevronDown, MessageCircleQuestion, Store } from "lucide-react";
+import { BellDot, ChevronDown, MessageCircleQuestion, Store } from "lucide-react"
 import userImage from "@/assets/user-img.png"
+import { useSidebar } from "@/context/SidebarContext"
 
-interface NavRightProps {
-  onMobileMenuClick: () => void;
-}
+const NavRight = () => {
+  const { toggleMobileSidebar } = useSidebar();
 
-const NavRight = ({ onMobileMenuClick }: NavRightProps) => {
   return (
-    <div className="flex right-0 top-0 left-0 h-14 px-3 fixed lg:relative items-center justify-end lg:justify-between w-full">
-      <MobileMenu onClick={onMobileMenuClick} className="lg:hidden" />
+    <div className="flex h-14 px-3 overflow-hidden lg:relative items-center justify-end lg:justify-between w-full">
+      <MobileMenu onClick={toggleMobileSidebar} className="lg:hidden" />
       
       <div className="hidden lg:flex items-end h-[48px] gap-[32px] p-0">
         <div className="flex items-center p-0 gap-[24px] h-[46px]">
@@ -52,4 +52,4 @@ const NavRight = ({ onMobileMenuClick }: NavRightProps) => {
   )
 }
 
-export default NavRight;
+export default NavRight
