@@ -133,7 +133,7 @@ const BusinessSetup = () => {
           </div>
   
           <div>
-            <label className="block mb-1">How would you like to use Catlog?</label>
+            <label className="block mb-1">How would you like to use Thrivr?</label>
             <div className="space-y-2">
               {usageOptions.map(option => (
                 <label key={option.id} className="flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer hover:border-[#870E73]">
