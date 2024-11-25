@@ -1,7 +1,8 @@
-// import { createBrowserRouter } from "react-router-dom";
+// src/router.tsx
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { NavLeft, NavRight } from "./components/dashboard";
 import { DashboardLayout, HomeLayout } from "./layouts";
-import { inventoryLoader } from "./lib/loaders";
+// import { inventoryLoader } from "./lib/loaders";
 import {
     Dashboard,
     EditInventory,
@@ -23,66 +24,59 @@ import LoginSignupLayout from "./layouts/LoginSignupLayout";
 import Signup from "./pages/signup";
 import Businesssetup from "./pages/businesssetup";
 import BusinessSetup from "./pages/business.signup";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { SidebarProvider } from './context/SidebarContext';
 
 const Router = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        {/* Home Layout Routes */}
-        <Route element={<HomeLayout />}>
-          <Route index element={<Home />} />
-        </Route>
+      <SidebarProvider>
+        <Routes>
+          <Route element={<HomeLayout />}>
+            <Route index element={<Home />} />
+          </Route>
 
-        {/* Dashboard Layout Routes with NavRight */}
-        <Route 
-          element={
-            <DashboardLayout 
-              right={<NavRight onMobileMenuClick={() => console.log(true)} />} 
-            />
-          }
-        >
-          <Route path="/dashboard" element={<Dashboard />} />
           <Route 
-            path="/inventory" 
-            element={<Inventory />}
-            loader={inventoryLoader}
-          />
-          <Route path="/mybank" element={<MyBank />} />
-          <Route path="/orders" element={<Orders />} />
-          <Route path="/sales" element={<Sales />} />
-          <Route path="/todo" element={<Todo />} />
-          <Route path="/ads" element={<Ads />} />
-          <Route path="/customers" element={<Customer />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/integration" element={<Integration />} />
-        </Route>
+            element={
+              <DashboardLayout 
+                right={<NavRight />}
+              />
+            }
+          >
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/inventory" element={<Inventory />} />
+            <Route path="/mybank" element={<MyBank />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/sales" element={<Sales />} />
+            <Route path="/todo" element={<Todo />} />
+            <Route path="/ads" element={<Ads />} />
+            <Route path="/customers" element={<Customer />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/integration" element={<Integration />} />
+          </Route>
 
-        {/* Dashboard Layout Routes with NavLeft */}
-        <Route 
-          element={
-            <DashboardLayout 
-              left={<NavLeft />}
-            />
-          }
-        >
-          <Route path="/inventory/:id/edit" element={<EditInventory />} />
-          <Route path="/editinventory" element={<EditInventory />} />
-          <Route path="/orders/:id/edit" element={<EditOrder />} />
-          <Route path="/profile/:id/edit" element={<EditProfile />} />
-        </Route>
+          <Route 
+            element={
+              <DashboardLayout 
+                left={<NavLeft />}
+              />
+            }
+          >
+            <Route path="/inventory/:id/edit" element={<EditInventory />} />
+            <Route path="/editinventory" element={<EditInventory />} />
+            <Route path="/orders/:id/edit" element={<EditOrder />} />
+            <Route path="/profile/:id/edit" element={<EditProfile />} />
+          </Route>
 
-        {/* Login/Signup Layout Routes */}
-        <Route element={<LoginSignupLayout />}>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/setupbusiness" element={<Businesssetup />} />
-          <Route path="/business" element={<BusinessSetup />} />
-        </Route>
-      </Routes>
+          <Route element={<LoginSignupLayout />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/setupbusiness" element={<Businesssetup />} />
+            <Route path="/business" element={<BusinessSetup />} />
+          </Route>
+        </Routes>
+      </SidebarProvider>
     </BrowserRouter>
   );
 };
 
-
-export { Router as default};
+export default Router;
