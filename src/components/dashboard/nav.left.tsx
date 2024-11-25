@@ -8,7 +8,7 @@ const NavLeft = () => {
     const [route] = pathname.match(/\w+/g) ?? [''];
 
     return (
-        <div className="flex items-center p-0 gap-[16px] ">
+        <div className="flex items-center lg:p-0 gap-[16px] right-0 top-0 left-0 h-[70px] px-3 fixed lg:relative lg:justify-between w-full">
             <button
                 onClick={() => navigate(-1)}
                 className="size-[48px] bg-neutral-alt-b rounded-[8px] flex items-center justify-center"
