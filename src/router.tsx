@@ -15,7 +15,9 @@ import {
     Customer,
     Profile,
     EditProfile,
-    Integration
+    Integration,
+    StoreManagers,
+    ManageSubscriptions
 } from "./pages";
 import Ads from "./pages/ads";
 
@@ -100,6 +102,14 @@ const router = createBrowserRouter([
             {
                 path: "/profile/:id/edit/",
                 element: <EditProfile />
+            },
+            {
+                path: "/profile/store-managers/",
+                element: <StoreManagers />
+            },
+            {
+                path: "/profile/subscription-plan",
+                element: <ManageSubscriptions />
             },
         ]
     }

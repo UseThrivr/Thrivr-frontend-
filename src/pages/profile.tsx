@@ -11,6 +11,11 @@ import {
   Trash,
   Users,
 } from "lucide-react";
+import Rectangle from "/src/assets/profile/Rectangle.png";
+import Camera from "/src/assets/profile/add_a_photo.png";
+import ProfileImg from "/src/assets/profile/Logo.svg";
+import { useState } from "react";
+import { ApiKey, StoreSettings } from "@/components/dashboard";
 
 const contact = [
   {
@@ -37,28 +42,43 @@ const cta = [
     info: "Display image, Theme, Opening & closing hours,  and store currency",
     cta: "Store settings",
     icon: <Settings />,
-  },
-  {
-    title: "Store managers",
-    info: "Grant access to manage your store by setting roles, permissions, and access levels ",
-    cta: "Manage store managers",
-    icon: <Users />,
+    link: "store-settengs",
   },
   {
     title: "API key",
     info: "Generate and manage API keys to integrate external services and enhance features",
     cta: "Generate API key",
     icon: <KeySquare />,
+    link: "api-key",
+  },
+  {
+    title: "Store managers",
+    info: "Grant access to manage your store by setting roles, permissions, and access levels ",
+    cta: "Manage store managers",
+    icon: <Users />,
+    link: "store-managers",
   },
   {
     title: "Subscription plan",
     info: "Choose a plan that fits your needs and enjoy uninterrupted access to these tools",
     cta: "Manage subscription",
     icon: <CreditCard />,
+    link: "subscription-plan",
   },
 ];
 
 const Profile = () => {
+  const [isStoreSettingOpen, setIsStoreSettingOpen] = useState(false);
+  const [isApiKeyOpen, setIsApiKeyOpen] = useState(false);
+
+  const handleDisplay = ({ active }: { active: string }) => {
+    if (active === "Store configuration") {
+      setIsStoreSettingOpen(true);
+    } else {
+      setIsApiKeyOpen(true);
+    }
+  };
+
   return (
     <>
       <Seo title={`${profile.storename} | Profile`} />
@@ -66,14 +86,14 @@ const Profile = () => {
         <div className="w-full relative top-0 2xl:-top-4">
           <img
             className="w-full object-cover rounded-md h-52 2xl:h-72"
-            src="/src/assets/profile/Rectangle.png"
+            src={Rectangle}
             alt="rectangle"
             width={1329}
             height={286}
           />
           <img
             className="absolute top-8 right-4 2xl:top-12 2xl:right-8 w-8 h-8 2xl:w-10 2xl:h-10 cursor-pointer"
-            src="/src/assets/profile/add_a_photo.png"
+            src={Camera}
             alt="add a photo"
             width={40}
             height={40}
@@ -84,7 +104,7 @@ const Profile = () => {
             <div className="relative -top-28 2xl:-top-40 rounded-full w-52 2xl:w-72 flex items-center justify-center h-52 2xl:h-72 bg-neutral-alt border 2xl:border-2 border-neutral-border">
               <img
                 className="w-2/4"
-                src={profile.logo}
+                src={profile.logo || ProfileImg}
                 alt={profile.storename}
               />
               <SquarePen className="absolute bottom-5 right-5 2xl:bottom-7 2xl:right-7 w-6 h-6 2xl:w-8 2xl:h-8 cursor-pointer text-secondary-foreground text-text-secondary" />
@@ -162,17 +182,47 @@ const Profile = () => {
                     </h3>
                   </div>
                   <p className="font-normal text-base">{item.info}</p>
-                  <div className="flex items-center text-action-default hover:text-action-hover transition-all cursor-pointer gap-2 2xl:gap-4">
+                  {item.title === "Store configuration" ||
+                  item.title === "API key" ? (
+                    <button
+                      onClick={() => handleDisplay({ active: item.link })}
+                      className="flex items-center text-action-default hover:text-action-hover transition-all cursor-pointer gap-2 2xl:gap-4"
+                    >
+                      <span className=" font-medium text-lg 2xl:text-xl">
+                        {item.cta}
+                      </span>
+                      <MoveRight className="w-6 h-6 2xl:w-8 2xl:h-8" />
+                    </button>
+                  ) : (
+                    <a
+                      href={`/profile/${item.link}`}
+                      className="flex items-center text-action-default hover:text-action-hover transition-all cursor-pointer gap-2 2xl:gap-4"
+                    >
+                      <span className=" font-medium text-lg 2xl:text-xl">
+                        {item.cta}
+                      </span>
+                      <MoveRight className="w-6 h-6 2xl:w-8 2xl:h-8" />
+                    </a>
+                  )}
+                  {/* <div className="flex items-center text-action-default hover:text-action-hover transition-all cursor-pointer gap-2 2xl:gap-4">
                     <span className=" font-medium text-lg 2xl:text-xl">
                       {item.cta}
                     </span>
                     <MoveRight className="w-6 h-6 2xl:w-8 2xl:h-8" />
-                  </div>
+                  </div> */}
                 </div>
               ))}
             </div>
           </div>
         </div>
+        <StoreSettings
+          isOpen={isStoreSettingOpen}
+          onClose={() => setIsStoreSettingOpen(false)}
+        />
+        <ApiKey
+          isOpen={isApiKeyOpen}
+          onClose={() => setIsApiKeyOpen(false)}
+        />
       </section>
     </>
   );
