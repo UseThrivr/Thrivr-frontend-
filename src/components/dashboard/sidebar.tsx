@@ -53,7 +53,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                           {sidebarLinks.map((item) => (
                               <SidebarMenuItem key={item.title}>
                                   <SidebarMenuButton asChild className="sidebar-link">
-                                      <NavLink to={item.url}>
+                                      <NavLink to={item.url} onClick={onClose}>
                                           <span className={clsx(
 
                                           )}>
