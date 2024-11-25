@@ -1,16 +1,38 @@
-import React, { useState } from "react";
+import { FC, useState, ChangeEvent, FormEvent } from "react";
 import { P } from "@/components/global";
 import { Dot, Lock, User, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import googleImg from "../assets/devicon_google.png";
 
-const OTPVerification = ({ isOpen, onClose, formData }) => {
-  const [otp, setOtp] = useState(["", "", "", ""]);
+interface FormData {
+  fullName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  agreeToTerms: boolean;
+}
+
+interface FormErrors {
+  fullName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  agreeToTerms: string;
+}
+
+interface OTPVerificationProps {
+  isOpen: boolean;
+  onClose: () => void;
+  formData: FormData;
+}
+
+const OTPVerification: FC<OTPVerificationProps> = ({ isOpen, onClose, formData }) => {
+  const [otp, setOtp] = useState<string[]>(['', '', '', '']);
   const navigate = useNavigate();
 
   if (!isOpen) return null;
 
-  const handleOtpChange = (index, value) => {
+  const handleOtpChange = (index: number, value: string) => {
     if (value.length > 1) return;
     const newOtp = [...otp];
     newOtp[index] = value;
@@ -69,9 +91,7 @@ const OTPVerification = ({ isOpen, onClose, formData }) => {
         </div>
 
         <p className="text-center mb-6">
-          <button className="text-[#870E73]">
-            Didn't receive code? Resend
-          </button>
+          <button className="text-[#870E73]">Didn't receive code? Resend</button>
         </p>
 
         <button
@@ -85,18 +105,18 @@ const OTPVerification = ({ isOpen, onClose, formData }) => {
   );
 };
 
-const Signup = () => {
+const Signup: FC = () => {
   const navigate = useNavigate();
-  const [showOtp, setShowOtp] = useState(false);
-  const [formData, setFormData] = useState({
+  const [showOtp, setShowOtp] = useState<boolean>(false);
+  const [formData, setFormData] = useState<FormData>({
     fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
     agreeToTerms: false,
   });
-
-  const [errors, setErrors] = useState({
+  
+  const [errors, setErrors] = useState<FormErrors>({
     fullName: "",
     email: "",
     password: "",
@@ -104,15 +124,15 @@ const Signup = () => {
     agreeToTerms: "",
   });
 
-  const validateForm = () => {
-    const newErrors = {
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {
       fullName: "",
       email: "",
       password: "",
       confirmPassword: "",
-      agreeToTerms: "",
+      agreeToTerms: ""
     };
-
+    
     if (!formData.fullName.trim()) {
       newErrors.fullName = "Full name is required";
     }
@@ -140,25 +160,25 @@ const Signup = () => {
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return Object.keys(newErrors).every(key => !newErrors[key as keyof FormErrors]);
   };
 
-  const handleSubmit = (e:any) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateForm()) {
       setShowOtp(true);
     }
   };
 
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
     // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: "" }));
+    if (errors[name as keyof FormErrors]) {
+      setErrors(prev => ({ ...prev, [name]: "" }));
     }
   };
 

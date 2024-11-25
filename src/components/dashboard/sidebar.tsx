@@ -37,7 +37,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
               <ThrivrHeader />
           </SidebarHeader>
 
-          <SidebarContent className="overflow-visible pl-[2rem]">
+          <SidebarContent className="overflow-scroll lg:overflow-visible pl-[2rem]">
               <SidebarGroup className="pr-0">
                   <SidebarGroupLabel className="text-[16px] p-0 leading-22 text-text-secondary">
                       MENU
@@ -53,7 +53,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                           {sidebarLinks.map((item) => (
                               <SidebarMenuItem key={item.title}>
                                   <SidebarMenuButton asChild className="sidebar-link">
-                                      <NavLink to={item.url}>
+                                      <NavLink to={item.url} onClick={onClose}>
                                           <span className={clsx(
 
                                           )}>
@@ -90,7 +90,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       {/* Mobile close overlay */}
       <div 
         className={cn(
-          "fixed inset-0 bg-black/50 lg:hidden",
+          "fixed z-[-1] w-full inset-0 bg-black/10 blur-lg lg:hidden",
           isOpen ? "block" : "hidden"
         )}
         onClick={onClose}

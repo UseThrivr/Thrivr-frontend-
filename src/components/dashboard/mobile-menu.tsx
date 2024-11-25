@@ -10,7 +10,7 @@ const MobileMenu = ({ onClick, className }: MobileMenuProps) => {
   return (
     <button 
       onClick={onClick}
-      className={cn("lg:hidden translate-x-12", className)}
+      className={cn("lg:hidden", className)}
     >
       <Menu size={34} />
     </button>
