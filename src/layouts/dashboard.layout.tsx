@@ -30,7 +30,7 @@ const DashboardLayout: React.FC<NavBarProps> = (navBarProps) => {
                 open
                 style={{ "--sidebar-width": "var(--dashboard-sidebar-width)" } as React.CSSProperties}
             >
-                <div className="flex h-screen">
+                <div className="flex h-screen border w-full">
                     <Sidebar 
                         className={cn(
                             "fixed lg:relative inset-y-0 left-0 z-50 w-64 lg:w-[var(--dashboard-sidebar-width)] bg-white transform transition-transform duration-300 ease-in-out",
@@ -45,7 +45,7 @@ const DashboardLayout: React.FC<NavBarProps> = (navBarProps) => {
                             {...navBarProps}
                         />
                         <main className={cn(
-                            "flex-1 mt-[10vh] h-screen w-full pt-16 lg:pt-24 px-4",
+                            "flex-1 mt-[6.6rem] h-screen w-full pt-10 pb-20  px-4",
                             "overflow-y-auto scrollbar-hide" // Add these classes
                         )}>
                             <Outlet />

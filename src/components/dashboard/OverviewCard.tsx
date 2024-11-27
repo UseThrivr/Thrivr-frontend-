@@ -7,7 +7,7 @@ const OverviewCard: React.FC = () => {
             {overviewData.map((item, index) => (
                 <div
                     key={index}
-                    className={`p-[16px] h-[166px] rounded-[8px] flex flex-col text-white ${item.color} w-[308px] gap-[40px]`}
+                    className={`p-[16px] h-[166px] rounded-[8px] flex flex-col text-white ${item.color} lg:w-[308px] gap-[40px]`}
                 >
                     <div className="flex items-start justify-start flex-col gap-[8px] text-[#5c636d]">
                         <item.icon className="w-[24px] h-[24px]" />
