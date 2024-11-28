@@ -90,7 +90,7 @@ const EditProfile = () => {
       <Seo title="Update contact details" />
       <form
         onSubmit={handleSubmit}
-        className="px-6 py-6 w-full h-full grid grid-cols-2 gap-8 justify-center max-w-[1700px] mx-auto"
+        className="px-6 py-6 w-full grid grid-cols-2 gap-8 justify-center md:max-w-[1700px] mx-auto"
       >
         <div className="flex flex-col gap-12 w-full">
           <div className="flex flex-col gap-4">

@@ -1,6 +1,5 @@
 import { Seo } from "@/components/global";
 import { profile } from "@/constants";
-import clsx from "clsx";
 import {
   Copy,
   CreditCard,
@@ -42,7 +41,7 @@ const cta = [
     info: "Display image, Theme, Opening & closing hours,  and store currency",
     cta: "Store settings",
     icon: <Settings />,
-    link: "store-settengs",
+    link: "store-settings",
   },
   {
     title: "API key",
@@ -72,7 +71,7 @@ const Profile = () => {
   const [isApiKeyOpen, setIsApiKeyOpen] = useState(false);
 
   const handleDisplay = ({ active }: { active: string }) => {
-    if (active === "Store configuration") {
+    if (active === "store-settings") {
       setIsStoreSettingOpen(true);
     } else {
       setIsApiKeyOpen(true);
@@ -82,8 +81,8 @@ const Profile = () => {
   return (
     <>
       <Seo title={`${profile.storename} | Profile`} />
-      <section className="px-6 2xl:px-8 py-6 w-full h-full flex flex-col items-center gap-4 justify-center max-w-[500px] md:max-w-[1700px] mx-auto">
-        <div className="w-full relative top-0 2xl:-top-4">
+      <section className="px-6 2xl:px-8 w-full flex flex-col items-center gap-4 justify-center md:max-w-[1700px] mx-auto">
+        <div className="w-full relative">
           <img
             className="w-full object-cover rounded-md h-52 2xl:h-72"
             src={Rectangle}
@@ -132,10 +131,7 @@ const Profile = () => {
                 </div>
               </div>
               <div
-                className={clsx(
-                  "box-border cursor-pointer flex justify-center items-center py-[8px] px-[16px] h-[46px] gap-[16px] bg-white border border-solid border-action-default rounded-[24px]",
-                  "font-medium text-[20px] leading-[30px] text-action-default"
-                )}
+                className="box-border cursor-pointer flex justify-center items-center py-[8px] px-[16px] h-[46px] gap-[16px] bg-white border border-solid border-action-default rounded-[24px] font-medium text-[20px] leading-[30px] text-action-default"
               >
                 <Trash size={24} className="text-action-default" />
                 Delete account
@@ -182,8 +178,8 @@ const Profile = () => {
                     </h3>
                   </div>
                   <p className="font-normal text-base">{item.info}</p>
-                  {item.title === "Store configuration" ||
-                  item.title === "API key" ? (
+                  {item.link === "store-settings" ||
+                  item.link === "api-key" ? (
                     <button
                       onClick={() => handleDisplay({ active: item.link })}
                       className="flex items-center text-action-default hover:text-action-hover transition-all cursor-pointer gap-2 2xl:gap-4"
