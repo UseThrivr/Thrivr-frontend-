@@ -81,17 +81,17 @@ const Profile = () => {
   return (
     <>
       <Seo title={`${profile.storename} | Profile`} />
-      <section className="px-6 2xl:px-8 w-full flex flex-col items-center gap-4 justify-center md:max-w-[1700px] mx-auto">
+      <section className="w-full md:px-4 flex flex-col items-center gap-4 justify-center max-w-[1700px] mx-auto">
         <div className="w-full relative">
           <img
-            className="w-full object-cover rounded-md h-52 2xl:h-72"
+            className="w-full object-cover rounded-md h-40 2xl:h-72"
             src={Rectangle}
             alt="rectangle"
             width={1329}
             height={286}
           />
           <img
-            className="absolute top-8 right-4 2xl:top-12 2xl:right-8 w-8 h-8 2xl:w-10 2xl:h-10 cursor-pointer"
+            className="absolute top-6 right-4 md:top-8 size-6 md:size-8 cursor-pointer"
             src={Camera}
             alt="add a photo"
             width={40}
@@ -99,14 +99,14 @@ const Profile = () => {
           />
         </div>
         <div className="w-full flex flex-col gap-6">
-          <div className="w-full gap-4 2xl:gap-7 pl-8 2xl:pl-16 flex">
-            <div className="relative -top-28 2xl:-top-40 rounded-full w-52 2xl:w-72 flex items-center justify-center h-52 2xl:h-72 bg-neutral-alt border 2xl:border-2 border-neutral-border">
+          <div className="w-full gap-2 md:gap-4 2xl:gap-7 pl-4 md:pl-8 2xl:pl-16 flex">
+            <div className="relative -top-16 md:-top-28 2xl:-top-40 rounded-full size-28 md:size-52 2xl:size-72 flex items-center justify-center bg-neutral-alt border 2xl:border-2 border-neutral-border">
               <img
                 className="w-2/4"
                 src={profile.logo || ProfileImg}
                 alt={profile.storename}
               />
-              <SquarePen className="absolute bottom-5 right-5 2xl:bottom-7 2xl:right-7 w-6 h-6 2xl:w-8 2xl:h-8 cursor-pointer text-secondary-foreground text-text-secondary" />
+              <SquarePen className="absolute bottom-2 right-2 md:bottom-5 md:right-5 2xl:bottom-7 2xl:right-7 size-4 md:size-6 2xl:w-8 2xl:h-8 cursor-pointer text-secondary-foreground text-text-secondary" />
             </div>
             <div className="flex items-start justify-between flex-1">
               <div className="flex flex-col items-start gap-4 2xl:gap-6">
@@ -118,7 +118,7 @@ const Profile = () => {
                     {profile.tagline}
                   </p>
                 </div>
-                <div className="flex flex-col gap-1 2xl:gap-2">
+                <div className="hidden md:flex flex-col gap-1 2xl:gap-2">
                   <p className="font-medium text-sm 2xl:text-base text-text-secondary">
                     Store Link
                   </p>
@@ -130,15 +130,30 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
-              <div
-                className="box-border cursor-pointer flex justify-center items-center py-[8px] px-[16px] h-[46px] gap-[16px] bg-white border border-solid border-action-default rounded-[24px] font-medium text-[20px] leading-[30px] text-action-default"
-              >
+              <div className="hidden box-border cursor-pointer lg:flex justify-center items-center py-[8px] px-[16px] h-[46px] gap-[16px] bg-white border border-solid border-action-default rounded-[24px] font-medium text-[20px] leading-[30px] text-action-default">
                 <Trash size={24} className="text-action-default" />
                 Delete account
               </div>
             </div>
           </div>
-          <div className="flex gap-16 2xl:gap-24">
+          <div className="md:hidden flex flex-col gap-4 items-start -mt-8 mb-8">
+            <div className="flex flex-col gap-1 2xl:gap-2">
+              <p className="font-medium text-sm 2xl:text-base text-text-secondary">
+                Store Link
+              </p>
+              <div className="flex items-center text-action-default hover:text-action-hover cursor-pointer gap-2 2xl:gap-4">
+                <span className=" font-medium text-base md:text-lg 2xl:text-xl w-60 truncate">
+                  {profile.link}
+                </span>
+                <Copy className="w-6 h-6 2xl:w-8 2xl:h-8" />
+              </div>
+            </div>
+            <div className="flex box-border cursor-pointer w-max justify-center items-center py-[4px] md:py-[8px] px-[16px] gap-[16px] bg-white border border-solid border-action-default rounded-[24px] font-medium text-[16px] md:text-[20px] leading-[30px] text-action-default">
+              <Trash size={24} className="text-action-default" />
+              Delete account
+            </div>
+          </div>
+          <div className="flex flex-col md:flex-row gap-16 2xl:gap-24">
             <div className="flex flex-col gap-4">
               <h2 className="font-semibold text-xl 2xl:text-2xl text-text-primary">
                 Contact
@@ -163,7 +178,7 @@ const Profile = () => {
                 <MoveRight className="w-6 h-6 2xl:w-8 2xl:h-8" />
               </a>
             </div>
-            <div className="grid grid-cols-2 grid-rows-2 gap-20">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-20">
               {cta.map((item, i) => (
                 <div key={i} className="flex flex-col gap-4">
                   <div className="flex gap-4">
@@ -178,8 +193,7 @@ const Profile = () => {
                     </h3>
                   </div>
                   <p className="font-normal text-base">{item.info}</p>
-                  {item.link === "store-settings" ||
-                  item.link === "api-key" ? (
+                  {item.link === "store-settings" || item.link === "api-key" ? (
                     <button
                       onClick={() => handleDisplay({ active: item.link })}
                       className="flex items-center text-action-default hover:text-action-hover transition-all cursor-pointer gap-2 2xl:gap-4"
@@ -215,10 +229,7 @@ const Profile = () => {
           isOpen={isStoreSettingOpen}
           onClose={() => setIsStoreSettingOpen(false)}
         />
-        <ApiKey
-          isOpen={isApiKeyOpen}
-          onClose={() => setIsApiKeyOpen(false)}
-        />
+        <ApiKey isOpen={isApiKeyOpen} onClose={() => setIsApiKeyOpen(false)} />
       </section>
     </>
   );
