@@ -1,8 +1,5 @@
-
 const ManageSubscriptions = () => {
-  return (
-    <div>ManageSubscriptions</div>
-  )
-}
+  return <div>ManageSubscriptions</div>;
+};
 
-export default ManageSubscriptions
+export default ManageSubscriptions;
