@@ -15,7 +15,7 @@ const Dashboard = () => {
     return (
         <>
             <Seo title="Dashboard" />
-            <section className="w-full lg:pt-[1rem] px-[5%] pb-20">
+            <section className="w-full lg:pt-[1rem] px-[5%]">
                 <div className="flex flex-col gap-[4px]">
                     <h1 className="font-[600] text-[48px] leading-[52.8px] tracking-[-1%] text-primary">Hello John</h1>
                     <p className="text-[1rem] leading-[22.4px] font-[500] text-[#5c636d]">An overview of how your business is fairing</p>
@@ -26,8 +26,8 @@ const Dashboard = () => {
                 </div>
                 <OverviewCard />
 
-                <div className="w-full h-[501px] flex flex-col lg:flex-row justify-between gap-[32px]">
-                    <div className=" chart lg:w-[942px] h-[484px] flex flex-col gap-[32px]">
+                <div className="w-full lg:h-[501px] flex flex-col lg:flex-row justify-between gap-[32px]">
+                    <div className=" chart lg:w-[942px] lg:h-[484px] flex flex-col gap-[32px]">
                         <div className="w-full h-[65px] flex justify-between">
                             <div className="lg:w-[312px] h-[65px] flex flex-col gap-[8px]">
                                 <h1 className="font-semibold tracking-[-1%] leading-[35.2px] text-[32px]">Order Trends</h1>
@@ -48,7 +48,7 @@ const Dashboard = () => {
                         </div>
                         <BarChart labels={labels} dataPoints={dataPoints} />
                     </div>
-                    <div className="lg:w-[303px] h-[484px] px-[16px] flex flex-col gap-[24px]">
+                    <div className="lg:w-[303px] lg:h-[484px] px-[16px] flex flex-col gap-[24px]">
                         <h2 className="font-semibold text-[32px] leading-[35.2px] tracking-[-1%] text-primary whitespace-nowrap">Top sales channels</h2>
                         <div className="lg:w-[271px] h-full flex flex-col gap-[24px]">
                         {progressData.map((item) => (
