@@ -232,37 +232,37 @@ const Inventory = () => {
             </div>
 
             {/* Tabs */}
-            <div className="mt-[54px] flex justify-between items-center gap-[246px]">
-                <div className="flex items-start gap-[16px]">
+            <div className="mt-[54px] flex justify-between flex-col-reverse lg:flex-row items-center">
+                <div className="flex items-start gap-[16px] mt-10 lg:mt-0">
                     {filterOptions.map((filterOption, index) => {
                         const column = table.getColumn("status");
                         const filter = column?.getFilterValue();
                         return (
-                            <H4
+                            <button
                                 key={index}
                                 onClick={() => column?.setFilterValue(filterOption.state)}
                                 className={clsx(
-                                    "text-center px-[8px] cursor-pointer",
+                                    "text-center px-[8px] cursor-pointer text-lg text-nowrap",
                                     filter === filterOption.state && "border-b-[4px] border-solid border-text-primary"
                                 )}
                             >
                                 {filterOption.title}
-                            </H4>
+                            </button>
                         )
                     })}
                 </div>
 
-                <div className="flex items-center gap-[16px] h-[46px]">
-                    <button className="flex items-center py-[12px] px-[16px] h-[44px] w-[52px] border border-solid border-neutral-border rounded-[8px]">
+                <div className="grid grid-col-2 lg:flex items-center lg:w-[60%] gap-3 lg:gap-8">
+                    <button className="col-span-2 flex items-center w-full py-[12px] px-[16px] h-[44px] border border-solid border-neutral-border rounded-[8px]">
                         <Search size={20} className="text-text-secondary" />
                     </button>
-                    <a href="#" className="box-border flex items-center justify-center py-[8px] px-[16px] gap-[16px] h-[46px] border border-solid border-action-default rounded-[24px] text-action-default">
+                    <a href="#" className="col-span-1 box-border flex items-center justify-center py-[8px] px-[16px] gap-[16px] h-[46px] border border-solid border-action-default rounded-[24px] text-action-default">
                         <Upload />
-                        <span className="font-medium text-[20px] leading-[30px]">Export CSV</span>
+                        <span className="font-medium text-sm text-nowrap lg:text-lg leading-[30px]">Export CSV</span>
                     </a>
-                    <button className="flex justify-center items-center py-[8px] px-[16px] gap-[16px] h-[46px] bg-action-default rounded-[24px] text-white">
+                    <button className="flex col-span-1 justify-center items-center py-[8px] px-[16px] gap-[16px] h-[46px] bg-action-default rounded-[24px] text-white">
                         <Plus />
-                        <span className="font-medium text-[20px] leading-[30px]">Add new product</span>
+                        <span className="font-medium text-sm text-nowrap lg:text-lg leading-[30px]">Add new product</span>
                     </button>
                 </div>
             </div>
