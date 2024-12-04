@@ -9,7 +9,7 @@ const NavRight = () => {
   const { toggleMobileSidebar } = useSidebar();
 
   return (
-    <div className="flex h-14 px-3 overflow-hidden lg:relative items-center justify-end lg:justify-between w-full">
+    <div className="flex px-3 overflow-hidden lg:relative items-center justify-end lg:justify-between w-full">
       <MobileMenu onClick={toggleMobileSidebar} className="lg:hidden" />
       
       <div className="hidden lg:flex items-end h-[48px] gap-[32px] p-0">
