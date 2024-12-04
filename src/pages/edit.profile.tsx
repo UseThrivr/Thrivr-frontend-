@@ -33,7 +33,6 @@ const EditProfile = () => {
   ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    console.log(formData);
   };
 
   const MAX_FILE_SIZE_MB = 10; // 2MB
@@ -90,7 +89,7 @@ const EditProfile = () => {
       <Seo title="Update contact details" />
       <form
         onSubmit={handleSubmit}
-        className="px-6 py-6 w-full h-full grid grid-cols-2 gap-8 justify-center max-w-[1700px] mx-auto"
+        className="py-6 md:px-4 w-full grid grid-cols-1 md:grid-cols-2 gap-8 justify-center md:max-w-[1700px] mx-auto"
       >
         <div className="flex flex-col gap-12 w-full">
           <div className="flex flex-col gap-4">
@@ -108,6 +107,7 @@ const EditProfile = () => {
                 <input
                   required
                   onChange={handleChange}
+                  placeholder="Enter name"
                   name="fullname"
                   className="w-full p-4 rounded-md border border-neutral-border text-text-secondary font-medium text-base"
                   type="text"
@@ -124,6 +124,7 @@ const EditProfile = () => {
                 </label>
                 <input
                   required
+                  placeholder="Enter email address"
                   onChange={handleChange}
                   name="email"
                   className="w-full p-4 rounded-md border border-neutral-border text-text-secondary font-medium text-base"
@@ -141,6 +142,7 @@ const EditProfile = () => {
                 </label>
                 <input
                   required
+                  placeholder="Enter WhatsApp number"
                   onChange={handleChange}
                   name="phone"
                   className="w-full p-4 rounded-md border border-neutral-border text-text-secondary font-medium text-base"
@@ -166,6 +168,7 @@ const EditProfile = () => {
                 <input
                   required
                   onChange={handleChange}
+                  placeholder="Enter business name"
                   name="storename"
                   className="w-full p-4 rounded-md border border-neutral-border text-text-secondary font-medium text-base"
                   type="text"
@@ -182,6 +185,7 @@ const EditProfile = () => {
                 </label>
                 <input
                   required
+                  placeholder="Enter business tagline"
                   onChange={handleChange}
                   name="tagline"
                   className="w-full p-4 rounded-md border border-neutral-border text-text-secondary font-medium text-base"
@@ -199,6 +203,7 @@ const EditProfile = () => {
                 </label>
                 <input
                   required
+                  placeholder="Enter WhatsApp number"
                   onChange={handleChange}
                   name="address"
                   className="w-full p-4 rounded-md border border-neutral-border text-text-secondary font-medium text-base"
@@ -212,26 +217,26 @@ const EditProfile = () => {
         </div>
         <div className="w-full flex flex-col gap-16">
           <div className="flex flex-col gap-8">
-            <div className="flex flex-col gap-4 w-full">
+            <div className="flex flex-col w-full">
               <label
-                className="font-medium text-xl text-text-primary"
+                className="font-medium text-xl text-text-primary mb-4"
                 htmlFor="photo"
               >
                 Personal photo {required}
               </label>
               <label
                 htmlFor="photo"
-                className="cursor-pointer w-full p-4 rounded-md border border-neutral-border bg-neutral-alt text-text-secondary font-medium text-base flex justify-between items-center"
+                className="cursor-pointer w-full p-2 md:p-4 rounded-md border border-neutral-border bg-neutral-alt text-text-secondary font-medium text-base flex justify-between items-center"
               >
                 {!imagePreview ? (
                   <>
                     <div className="flex items-center gap-4">
-                      <FileDown className="p-3 bg-action-secondary block w-12 h-12 rounded-full" />
+                      <FileDown className="p-2 md:p-3 bg-action-secondary size-8 md:size-12 rounded-full" />
                       <div className="flex flex-col gap-2">
-                        <h3 className="text-text-primary font-medium text-xl">
+                        <h3 className="text-text-primary font-medium text-base md:text-xl">
                           Click to upload image
                         </h3>
-                        <p className="flex gap-4 font-medium text-base text-text-secondary">
+                        <p className="flex gap-2 md:gap-4 font-normal md:font-medium text-sm md:text-base text-text-secondary">
                           PNG, JPG
                           <div className="border h-4 border-text-secondary" />
                           10 MB max
@@ -240,7 +245,7 @@ const EditProfile = () => {
                         </p>
                       </div>
                     </div>
-                    <CloudDownload className="w-6 h-6" />
+                    <CloudDownload className="size-4 md:size-6" />
                   </>
                 ) : (
                   <>
@@ -305,7 +310,7 @@ const EditProfile = () => {
           </div>
           <Button
             disabled={loading}
-            className="rounded-full py-2 px-6 disabled:cursor-not-allowed cursor-pointer disabled:bg-[#870E7380] bg-action-default hover:bg-action-hover w-max text-white font-medium text-base"
+            className="rounded-xl md:rounded-full py-4 box-border md:py-2 px-6 disabled:cursor-not-allowed cursor-pointer disabled:bg-[#870E7380] bg-action-default hover:bg-action-hover w-full md:w-max text-white font-medium text-base h-max"
           >
             {loading === true ? "Saving..." : "Save details"}
           </Button>

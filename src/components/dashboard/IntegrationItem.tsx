@@ -1,5 +1,5 @@
 import React from 'react';
-import paystackLogo from '@/assets/paystack.png';
+import paystackLogo from '@/assets/Paystack.png';
 import facebookLogo from '@/assets/facebook.png';
 import whatsappLogo from '@/assets/whatsapp.png';
 import hubspotLogo from '@/assets/hubspot.png';
