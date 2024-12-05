@@ -13,6 +13,8 @@ import {
     Users,
     type LucideProps
 } from "lucide-react";
+import ProfileImg from "/src/assets/profile/Logo.svg";
+import Rectangle from "/src/assets/profile/Rectangle.png";
 
 
 
@@ -164,8 +166,9 @@ export const salesData = [
 export const profile = {
     storename: "Coker Gadgets",
     tagline: "where technology meets your lifestyle...",
-    link: "https://cokergadgets.thrivr.shop",
-    logo: "/src/assets/profile/Logo.svg",
+    link: "https://cokergadgets..shop",
+    logo: ProfileImg,
+    backgroundImg: Rectangle,
     userid: "cokergadgets",
     contact: {
       name: "John Coker",

@@ -21,7 +21,7 @@ const EditInventory: React.FC = () => {
   return (
     <>
       <Seo title="Edit - Inventory" />
-      <div className="grid grid-cols-2 gap-5 px-5 pb-20">
+      <div className="grid lg:grid-cols-2 gap-5 px-2">
         <div className="flex flex-col">
           <div className="flex flex-col gap-3">
             <label htmlFor="supplyID" className="font-semibold">
@@ -109,7 +109,7 @@ const EditInventory: React.FC = () => {
               className="resize-none border p-4 h-[15rem] w-full rounded focus:outline-none"
             ></textarea>
           </div>
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid lg:grid-cols-2 gap-5">
             <div className="col-span-1 mt-5">
               <p>Selling Price</p>
               <input type="text" className="border p-3 rounded w-full mt-2 focus:outline-none" />
@@ -128,7 +128,7 @@ const EditInventory: React.FC = () => {
             </div>
           </div>
           <div className="my-5 py-3">
-            <button className="rounded-full bg-[#870E73] text-white p-3">Save Product Details</button>
+            <button className="rounded-2xl lg:rounded-full w-full lg:w-auto bg-[#870E73] text-white p-3">Save Product Details</button>
           </div>
         </div>
       </div>
