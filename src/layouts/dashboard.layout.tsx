@@ -45,7 +45,7 @@ const DashboardLayout: React.FC<NavBarProps> = (navBarProps) => {
                             {...navBarProps}
                         />
                         <main className={cn(
-                            "flex-1 h-screen w-full py-8 px-4",
+                            "flex-1 h-screen w-full py-4 px-4",
                             "overflow-y-auto scrollbar-hide" // Add these classes
                         )}>
                             <Outlet />

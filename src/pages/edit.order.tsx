@@ -15,6 +15,7 @@ const EditOrder = () => {
     <>
       <Seo title="Edit - Order" />
       <div className="grid lg:grid-cols-2 gap-5 px-5 pb-20">
+
         <div className="flex flex-col">
           <div className="flex flex-col gap-3">
             <label htmlFor="supplyID" className="font-semibold">
@@ -52,7 +53,7 @@ const EditOrder = () => {
               required
             />
           </div>
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid lg:grid-cols-2 gap-5">
             <div className="col-span-1 mt-5">
               <label htmlFor="salesChannel" className="font-semibold">
                 Sales Channel{" "}
@@ -96,7 +97,7 @@ const EditOrder = () => {
                   <option
                     key={index}
                     value={channel}
-                    className="text-md font-normal"
+                    className="text-base font-normal"
                   >
                     {channel}
                   </option>
@@ -178,7 +179,7 @@ const EditOrder = () => {
           </div>
 
           <div className="mt-10">
-            <button className="rounded-full bg-[#870E73] text-white py-3 px-5">
+            <button className="rounded-2xl lg:rounded-full bg-[#870E73] text-white py-3 px-5 w-full lg:w-auto">
               Save Order Details
             </button>
           </div>

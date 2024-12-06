@@ -10,11 +10,10 @@ import {
   Trash,
   Users,
 } from "lucide-react";
-import Rectangle from "/src/assets/profile/Rectangle.png";
 import Camera from "/src/assets/profile/add_a_photo.png";
-import ProfileImg from "/src/assets/profile/Logo.svg";
 import { useState } from "react";
-import { ApiKey, StoreSettings } from "@/components/dashboard";
+import { StoreSettings } from "@/components/dashboard";
+import ComingSoon from "@/components/dashboard/ComingSoon";
 
 const contact = [
   {
@@ -69,12 +68,15 @@ const cta = [
 const Profile = () => {
   const [isStoreSettingOpen, setIsStoreSettingOpen] = useState(false);
   const [isApiKeyOpen, setIsApiKeyOpen] = useState(false);
+  const [isSubscriptionOpen, setIsSubscriptionOpen] = useState(false);
 
   const handleDisplay = ({ active }: { active: string }) => {
     if (active === "store-settings") {
       setIsStoreSettingOpen(true);
-    } else {
+    } else if (active === "api-key") {
       setIsApiKeyOpen(true);
+    } else {
+      setIsSubscriptionOpen(true);
     }
   };
 
@@ -85,7 +87,7 @@ const Profile = () => {
         <div className="w-full relative">
           <img
             className="w-full object-cover rounded-md h-40 2xl:h-72"
-            src={Rectangle}
+            src={profile.backgroundImg}
             alt="rectangle"
             width={1329}
             height={286}
@@ -103,7 +105,7 @@ const Profile = () => {
             <div className="relative -top-16 md:-top-28 2xl:-top-40 rounded-full size-28 md:size-52 2xl:size-72 flex items-center justify-center bg-neutral-alt border 2xl:border-2 border-neutral-border">
               <img
                 className="w-2/4"
-                src={profile.logo || ProfileImg}
+                src={profile.logo}
                 alt={profile.storename}
               />
               <SquarePen className="absolute bottom-2 right-2 md:bottom-5 md:right-5 2xl:bottom-7 2xl:right-7 size-4 md:size-6 2xl:w-8 2xl:h-8 cursor-pointer text-secondary-foreground text-text-secondary" />
@@ -193,7 +195,9 @@ const Profile = () => {
                     </h3>
                   </div>
                   <p className="font-normal text-base">{item.info}</p>
-                  {item.link === "store-settings" || item.link === "api-key" ? (
+                  {item.link === "store-settings" ||
+                  item.link === "api-key" ||
+                  item.link === "subscription-plan" ? (
                     <button
                       onClick={() => handleDisplay({ active: item.link })}
                       className="flex items-center text-action-default hover:text-action-hover transition-all cursor-pointer gap-2 2xl:gap-4"
@@ -229,7 +233,8 @@ const Profile = () => {
           isOpen={isStoreSettingOpen}
           onClose={() => setIsStoreSettingOpen(false)}
         />
-        <ApiKey isOpen={isApiKeyOpen} onClose={() => setIsApiKeyOpen(false)} />
+        <ComingSoon isOpen={isApiKeyOpen} onClose={() => setIsApiKeyOpen(false)} />
+        <ComingSoon isOpen={isSubscriptionOpen} onClose={() => setIsSubscriptionOpen(false)} />
       </section>
     </>
   );

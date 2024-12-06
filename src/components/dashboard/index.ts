@@ -4,3 +4,4 @@ export { default as Navbar } from "./navbar";
 export { default as Sidebar } from "./sidebar";
 export { default as StoreSettings } from "./StoreSettings";
 export { default as ApiKey } from "./ApiKey";
+export { default as MobileStoreSettings } from "./MobileStoreSettings"
