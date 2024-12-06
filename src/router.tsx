@@ -18,7 +18,6 @@ import {
   EditProfile,
   Integration,
   StoreManagers,
-  ManageSubscriptions,
 } from "./pages";
 import Ads from "./pages/ads";
 import Login from "./pages/login";
@@ -56,10 +55,6 @@ const Router = () => {
             <Route path="/orders/:id/edit" element={<EditOrder />} />
             <Route path="/profile/:id/edit" element={<EditProfile />} />
             <Route path="/profile/store-managers" element={<StoreManagers />} />
-            <Route
-              path="/profile/subscription-plan"
-              element={<ManageSubscriptions />}
-            />
           </Route>
 
           <Route element={<LoginSignupLayout />}>

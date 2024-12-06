@@ -184,13 +184,16 @@ const Profile = () => {
               {cta.map((item, i) => (
                 <div key={i} className="flex flex-col gap-4">
                   <div className="flex gap-4">
-                    {item.icon}
-                    <h3 className="font-semibold text-xl 2xl:text-2xl flex items-center gap-6 text-text-primary">
+                    <div>{item.icon}</div>
+                    <h3 className="font-semibold text-xl 2xl:text-2xl flex flex-col items-start justify-between text-text-primary">
                       {item.title}
-                      {item.title === "Subscription plan" && (
-                        <span className="font-medium text-base">
-                          {profile.subscription}
+                      {item.link === "api-key" ||
+                      item.link === "subscription-plan" ? (
+                        <span className="font-medium text-sm">
+                          Coming soon
                         </span>
+                      ) : (
+                        ""
                       )}
                     </h3>
                   </div>
@@ -198,15 +201,27 @@ const Profile = () => {
                   {item.link === "store-settings" ||
                   item.link === "api-key" ||
                   item.link === "subscription-plan" ? (
-                    <button
-                      onClick={() => handleDisplay({ active: item.link })}
-                      className="flex items-center text-action-default hover:text-action-hover transition-all cursor-pointer gap-2 2xl:gap-4"
-                    >
-                      <span className=" font-medium text-lg 2xl:text-xl">
-                        {item.cta}
-                      </span>
-                      <MoveRight className="w-6 h-6 2xl:w-8 2xl:h-8" />
-                    </button>
+                    <>
+                      {item.link === "api-key" ||
+                      item.link === "subscription-plan" ? (
+                        <button className="flex items-center text-action-default hover:text-action-hover transition-all cursor-pointer gap-2 2xl:gap-4">
+                          <span className=" font-medium text-lg 2xl:text-xl">
+                            {item.cta}
+                          </span>
+                          <MoveRight className="w-6 h-6 2xl:w-8 2xl:h-8" />
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleDisplay({ active: item.link })}
+                          className="flex items-center text-action-default hover:text-action-hover transition-all cursor-pointer gap-2 2xl:gap-4"
+                        >
+                          <span className=" font-medium text-lg 2xl:text-xl">
+                            {item.cta}
+                          </span>
+                          <MoveRight className="w-6 h-6 2xl:w-8 2xl:h-8" />
+                        </button>
+                      )}
+                    </>
                   ) : (
                     <a
                       href={`/profile/${item.link}`}
@@ -218,12 +233,6 @@ const Profile = () => {
                       <MoveRight className="w-6 h-6 2xl:w-8 2xl:h-8" />
                     </a>
                   )}
-                  {/* <div className="flex items-center text-action-default hover:text-action-hover transition-all cursor-pointer gap-2 2xl:gap-4">
-                    <span className=" font-medium text-lg 2xl:text-xl">
-                      {item.cta}
-                    </span>
-                    <MoveRight className="w-6 h-6 2xl:w-8 2xl:h-8" />
-                  </div> */}
                 </div>
               ))}
             </div>
@@ -233,8 +242,14 @@ const Profile = () => {
           isOpen={isStoreSettingOpen}
           onClose={() => setIsStoreSettingOpen(false)}
         />
-        <ComingSoon isOpen={isApiKeyOpen} onClose={() => setIsApiKeyOpen(false)} />
-        <ComingSoon isOpen={isSubscriptionOpen} onClose={() => setIsSubscriptionOpen(false)} />
+        <ComingSoon
+          isOpen={isApiKeyOpen}
+          onClose={() => setIsApiKeyOpen(false)}
+        />
+        <ComingSoon
+          isOpen={isSubscriptionOpen}
+          onClose={() => setIsSubscriptionOpen(false)}
+        />
       </section>
     </>
   );

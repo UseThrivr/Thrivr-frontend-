@@ -37,7 +37,7 @@ const CustomerPopup: React.FC<CustomerPopupProps> = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-[#000000CC] flex items-center justify-center z-50">
-      <div className="relative z-40 h-[70vh] w-[50vw] bg-white invincible-scrollbar rounded-lg py-8 px-8 shadow-lg animate-scaleIn lg:flex justify-center hidden">
+      <div className="relative z-40 h-[80vh] w-[60vw] bg-white rounded-lg py-8 px-8 shadow-lg animate-scaleIn lg:flex justify-center hidden">
         <div className="w-full flex flex-col gap-4">
           <button
             onClick={onClose}
@@ -45,11 +45,11 @@ const CustomerPopup: React.FC<CustomerPopupProps> = ({ isOpen, onClose }) => {
           >
             <X className="text-gray-700" />
           </button>
-          <h2 className="2xl:text-4xl font-semibold text-[#24272E]">
+          <h2 className="text-xl md:text-2xl 2xl:text-4xl font-semibold text-[#24272E]">
             Store Settings
           </h2>
 
-          <form className="w-full flex flex-col gap-4 overflow-auto py-4">
+          <form className="w-full flex flex-col gap-4 overflow-auto py-4 pr-2 pl-4">
             <div className="flex flex-col w-full gap-4">
               <label
                 htmlFor="store-theme"
