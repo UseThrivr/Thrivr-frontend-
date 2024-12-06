@@ -14,7 +14,8 @@ const EditOrder = () => {
   return (
     <>
       <Seo title="Edit - Order" />
-      <div className="grid lg:grid-cols-2 gap-5 px-2 pb-20">
+      <div className="grid lg:grid-cols-2 gap-5 px-5 pb-20">
+
         <div className="flex flex-col">
           <div className="flex flex-col gap-3">
             <label htmlFor="supplyID" className="font-semibold">

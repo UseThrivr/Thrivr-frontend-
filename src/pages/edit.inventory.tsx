@@ -21,7 +21,7 @@ const EditInventory: React.FC = () => {
   return (
     <>
       <Seo title="Edit - Inventory" />
-      <div className="grid lg:grid-cols-2 gap-5 px-2">
+      <div className="grid lg:grid-cols-2 gap-5 lg:px-5 pb-20">
         <div className="flex flex-col">
           <div className="flex flex-col gap-3">
             <label htmlFor="supplyID" className="font-semibold">
