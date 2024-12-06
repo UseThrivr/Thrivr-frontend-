@@ -1,4 +1,4 @@
-import { H1, H4, P, Seo } from "@/components/global";
+import { H1, P, Seo } from "@/components/global";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 import {
     Table,
