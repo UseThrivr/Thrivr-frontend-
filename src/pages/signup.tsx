@@ -2,7 +2,7 @@ import { FC, useState, ChangeEvent, FormEvent } from "react";
 import { P } from "@/components/global";
 import { Dot, Lock, User, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import googleImg from '../assets/devicon_google.png';
+import googleImg from "../assets/devicon_google.png";
 
 interface FormData {
   fullName: string;
@@ -29,7 +29,7 @@ interface OTPVerificationProps {
 const OTPVerification: FC<OTPVerificationProps> = ({ isOpen, onClose, formData }) => {
   const [otp, setOtp] = useState<string[]>(['', '', '', '']);
   const navigate = useNavigate();
-  
+
   if (!isOpen) return null;
 
   const handleOtpChange = (index: number, value: string) => {
@@ -37,7 +37,7 @@ const OTPVerification: FC<OTPVerificationProps> = ({ isOpen, onClose, formData }
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
-    
+
     // Auto-focus next input
     if (value && index < 3) {
       const nextInput = document.getElementById(`otp-${index + 1}`);
@@ -47,12 +47,14 @@ const OTPVerification: FC<OTPVerificationProps> = ({ isOpen, onClose, formData }
 
   const handleVerify = () => {
     // Navigate to BusinessSetup with user data
-    navigate('/business', {
+    navigate("/business", {
       state: {
         userData: formData,
         // Extract phone from email for demo purposes - in real app, get from proper source
-        phoneNumber: formData.email.includes('@') ? '+1234567890' : formData.email
-      }
+        phoneNumber: formData.email.includes("@")
+          ? "+1234567890"
+          : formData.email,
+      },
     });
     onClose();
   };
@@ -66,10 +68,12 @@ const OTPVerification: FC<OTPVerificationProps> = ({ isOpen, onClose, formData }
         >
           <X className="text-gray-700" />
         </button>
-        
+
         <div className="text-center mb-8">
           <h2 className="text-[32px] font-semibold mb-2">Email verification</h2>
-          <p className="text-[#5C636D]">Input the four digit code sent to your email</p>
+          <p className="text-[#5C636D]">
+            Input the four digit code sent to your email
+          </p>
         </div>
 
         <div className="flex justify-center gap-4 mb-8">
@@ -90,7 +94,7 @@ const OTPVerification: FC<OTPVerificationProps> = ({ isOpen, onClose, formData }
           <button className="text-[#870E73]">Didn't receive code? Resend</button>
         </p>
 
-        <button 
+        <button
           onClick={handleVerify}
           className="w-full bg-[#870E73] text-white rounded-[24px] py-4 hover:opacity-90"
         >
@@ -109,7 +113,7 @@ const Signup: FC = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    agreeToTerms: false
+    agreeToTerms: false,
   });
   
   const [errors, setErrors] = useState<FormErrors>({
@@ -117,7 +121,7 @@ const Signup: FC = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    agreeToTerms: ""
+    agreeToTerms: "",
   });
 
   const validateForm = (): boolean => {
@@ -132,29 +136,29 @@ const Signup: FC = () => {
     if (!formData.fullName.trim()) {
       newErrors.fullName = "Full name is required";
     }
-    
+
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Invalid email format";
     }
-    
+
     if (!formData.password) {
       newErrors.password = "Password is required";
     } else if (formData.password.length < 6) {
       newErrors.password = "Password must be at least 6 characters";
     }
-    
+
     if (!formData.confirmPassword) {
       newErrors.confirmPassword = "Please confirm your password";
     } else if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = "Passwords do not match";
     }
-    
+
     if (!formData.agreeToTerms) {
       newErrors.agreeToTerms = "You must agree to the terms";
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).every(key => !newErrors[key as keyof FormErrors]);
   };
@@ -168,9 +172,9 @@ const Signup: FC = () => {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
     // Clear error when user starts typing
     if (errors[name as keyof FormErrors]) {
@@ -184,11 +188,15 @@ const Signup: FC = () => {
         <h1 className="text-4xl mb-2 font-semibold">Grow Your Business</h1>
         <P>Get started today!</P>
       </div>
-      
+
       <form onSubmit={handleSubmit} className="mt-5">
         <div>
           <p className="">Full name</p>
-          <div className={`p-2 border-2 rounded-lg flex gap-2 mt-1 ${errors.fullName ? 'border-red-500' : ''}`}>
+          <div
+            className={`p-2 border-2 rounded-lg flex gap-2 mt-1 ${
+              errors.fullName ? "border-red-500" : ""
+            }`}
+          >
             <User className="w-4 h-4 my-auto" />
             <input
               type="text"
@@ -208,7 +216,11 @@ const Signup: FC = () => {
 
         <div className="mt-5">
           <p className="">Email</p>
-          <div className={`p-2 border-2 rounded-lg flex gap-2 mt-1 ${errors.email ? 'border-red-500' : ''}`}>
+          <div
+            className={`p-2 border-2 rounded-lg flex gap-2 mt-1 ${
+              errors.email ? "border-red-500" : ""
+            }`}
+          >
             <User className="w-4 h-4 my-auto" />
             <input
               type="email"
@@ -228,7 +240,11 @@ const Signup: FC = () => {
 
         <div className="mt-5">
           <p className="">Password</p>
-          <div className={`p-2 border-2 rounded-lg flex gap-2 mt-1 ${errors.password ? 'border-red-500' : ''}`}>
+          <div
+            className={`p-2 border-2 rounded-lg flex gap-2 mt-1 ${
+              errors.password ? "border-red-500" : ""
+            }`}
+          >
             <Lock className="w-4 h-4 my-auto" />
             <input
               type="password"
@@ -248,7 +264,11 @@ const Signup: FC = () => {
 
         <div className="mt-5">
           <p className="">Confirm Password</p>
-          <div className={`p-2 border-2 rounded-lg flex gap-2 mt-1 ${errors.confirmPassword ? 'border-red-500' : ''}`}>
+          <div
+            className={`p-2 border-2 rounded-lg flex gap-2 mt-1 ${
+              errors.confirmPassword ? "border-red-500" : ""
+            }`}
+          >
             <Lock className="w-4 h-4 my-auto" />
             <input
               type="password"
@@ -277,9 +297,13 @@ const Signup: FC = () => {
             />
             <p className="text-sm">
               Agreed to all{" "}
-              <Link to="" className="text-[#870E73]">Terms</Link>{" "}
+              <Link to="" className="text-[#870E73]">
+                Terms
+              </Link>{" "}
               and{" "}
-              <Link to="" className="text-[#870E73]">Conditions</Link>
+              <Link to="" className="text-[#870E73]">
+                Conditions
+              </Link>
             </p>
           </div>
           {errors.agreeToTerms && (
@@ -289,7 +313,10 @@ const Signup: FC = () => {
           )}
         </div>
 
-        <button type="submit" className="w-full rounded-lg bg-[#870E73] text-white p-2 mt-5 font-semibold">
+        <button
+          type="submit"
+          className="w-full rounded-lg bg-[#870E73] text-white p-2 mt-5 font-semibold"
+        >
           Sign Up
         </button>
 
@@ -299,9 +326,9 @@ const Signup: FC = () => {
           <div className="w-full border border-black h-fit my-auto"></div>
         </div>
 
-        <button 
+        <button
           type="button"
-          onClick={() => navigate('/setupbusiness')} 
+          onClick={() => navigate("/setupbusiness")}
           className="text-black bg-white mt-5 w-full rounded-lg py-2 border-2 flex justify-center gap-2"
         >
           <img src={googleImg} alt="" />
@@ -309,9 +336,9 @@ const Signup: FC = () => {
         </button>
       </form>
 
-      <OTPVerification 
-        isOpen={showOtp} 
-        onClose={() => setShowOtp(false)} 
+      <OTPVerification
+        isOpen={showOtp}
+        onClose={() => setShowOtp(false)}
         formData={formData}
       />
     </div>

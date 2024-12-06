@@ -48,23 +48,23 @@ const Sales = () => {
     return (
         <>
             <Seo title="Sales" />
-            <section className="w-full h-screen pt-[1rem] px-[2rem]">
+            <section className="w-full pt-[1rem] px-[5%]">
                 <div className="flex flex-col gap-[4px]">
                     <h1 className="font-[600] text-[48px] leading-[52.8px] tracking-[-1%] text-primary">Sales</h1>
                     <p className="text-[1rem] leading-[22.4px] font-[500] text-[#5c636d]">Check the full inventory list for your shop</p>
                 </div> 
-                <div className="flex items-centerz justify-end w-full py-[8px] px-[16px] gap-[16px]">
+                <div className="flex items-center justify-end w-full py-[8px] px-[16px] gap-[16px]">
                     <ChevronDown />
                     <h4 className="font-[500] text-[20px] leading-[30px] text-[#5c636d]">This month</h4>
                 </div>
                 <SalesCard />
-                <div className="w-full h-[322.97px] flex gap-[32px]">
+                <div className="w-full h-[322.97px] flex flex-col lg:flex-row gap-[32px]">
                     {/* Section 1 Chart */}
-                    <div className="w-1/2 h-full flex flex-col gap-[24px]">
+                    <div className="lg:w-1/2 h-full flex flex-col gap-[24px]">
                         <div className="w-full h-[34px] flex items-center justify-between">
                             <h1 className="font-semibold tracking-[-1%] leading-[35.2px] text-[24px]">Total Sales</h1>
 
-                            <div className="w-[203px] h-full flex gap-[8px] items-center">
+                            <div className="lg:w-[203px] h-full flex gap-[8px] items-center">
                                 <p className="">Jan 1, 2024</p>
                                 <span className="">-</span>
                                 <p className="">Dec 31, 2024</p>
@@ -76,29 +76,29 @@ const Sales = () => {
                     </div>
 
                     {/* Section 2 Chart */}
-                    <div className="w-1/2 h-full flex flex-col gap-[24px]">
+                    <div className="lg:w-1/2 h-full flex flex-col gap-[24px]">
                         <div className="w-full h-[34px] flex items-center justify-between">
                             <div className="flex items-center gap-[16px]">
                                 <h1 className="font-semibold tracking-[-1%] leading-[35.2px] text-[24px]">Thrivr store </h1>
                                 <ChevronDown />                            
                             </div>
 
-                            <div className="w-[203px] h-full flex gap-[8px] items-center">
+                            <div className="lg:w-[203px] h-full flex gap-[8px] items-center">
                                 <p className="">Jan 1, 2024</p>
                                 <span className="">-</span>
                                 <p className="">Dec 31, 2024</p>
                             </div>
                         </div>
-                        <div className="w-full h-[280px]">
+                        <div className="w-full">
                             <BarChart labels={labels} dataPoints={dataPoints} />
                         </div>
                     </div>
                 </div>
 
-                <div className="w-full h-[232px] flex flex-col gap-[32px] mt-[100px] pb-96">
+                <div className="w-full mt-[100%] lg:mt-10 lg:h-[232px] gap-[32px]">
                     {/* table section */}
 
-                    <div className="w-full h-[232px] flex flex-col gap-[32px]">
+                    <div className="w-full lg:h-[232px] flex flex-col gap-[32px]">
                         <div className="flex justify-between items-center">
                             <h2 className="font-semibold text-[24px] leading-[35.2px]">Top products</h2>
                             <button className="text-[#870E73] text-[16px] leading-[30px]">View all</button>
@@ -106,7 +106,7 @@ const Sales = () => {
                         
                         <Table className="border-separate rounded-[8px] border-spacing-0 overflow-hidden border border-solid border-neutral-border">
                             <TableHeader>
-                                <TableRow className="bg-neutral-alt-b h-[54px] py-[16px] px-[16px] rounded-[8px]">
+                                <TableRow className="bg-neutral-alt-b lg:h-[54px] py-[16px] px-[16px] rounded-[8px]">
                                     <TableHead>Product name</TableHead>
                                     <TableHead>Total orders</TableHead>
                                     <TableHead>Quantity</TableHead>

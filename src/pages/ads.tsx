@@ -28,14 +28,14 @@ const Ads = () => {
   return (
     <>
       <Seo title="Ads" />
-      <section className="px-[2rem] pb-20">
+      <section className="px-[5%] pb-20">
         <H1>Campaign & Ads</H1>
         <P className="mt-1">
           Make it easier for potential customers to find your business with Ads
         </P>
         <div className="mt-10">
-          <div className="flex justify-between">
-            <div className="flex gap-3">
+          <div className="flex justify-between flex-col-reverse lg:flex-row">
+            <div className="flex gap-3 mt-3 lg:mt-0">
               {buttons.map((btn, index) => (
                 <button
                   onClick={() => setTabNum(index + 1)}
