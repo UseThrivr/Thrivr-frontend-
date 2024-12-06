@@ -212,7 +212,7 @@ const fetchInventoryData = async (): Promise<InventoryData[]> => {
   ];
 };
 
-const Order = () => {
+const Orders = () => {
   const [data, setData] = useState<InventoryData[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
