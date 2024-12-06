@@ -11,10 +11,6 @@ const optional = "(Optional)";
 const EditProfile = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [fileInfo, setFileInfo] = useState<{
-    size: string;
-    type: string;
-  } | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [formData, setFormData] = useState({
@@ -35,35 +31,21 @@ const EditProfile = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const MAX_FILE_SIZE_MB = 10; // 2MB
-  const ALLOWED_TYPES = ["image/jpeg", "image/png"];
+  const MAX_FILE_SIZE_MB = 10;
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
     if (!file) return;
 
-    if (!ALLOWED_TYPES.includes(file.type)) {
-      setErrorMessage("Only JPEG and PNG files are allowed.");
-      setImagePreview(null);
-      setFileInfo(null);
-      return;
-    }
-
-    const fileSizeMB = file.size / (1024 * 1024); // Convert bytes to MB
+    const fileSizeMB = file.size / (1024 * 1024);
     if (fileSizeMB > MAX_FILE_SIZE_MB) {
       setErrorMessage(`File size exceeds ${MAX_FILE_SIZE_MB}MB.`);
       setImagePreview(null);
-      setFileInfo(null);
       return;
     }
 
     setErrorMessage(null);
-    setFileInfo({
-      size: `${fileSizeMB.toFixed(2)} MB`,
-      type: file.type,
-    });
-
     const reader = new FileReader();
     reader.onload = () => {
       setImagePreview(reader.result as string);
@@ -217,66 +199,47 @@ const EditProfile = () => {
         </div>
         <div className="w-full flex flex-col gap-16">
           <div className="flex flex-col gap-8">
-            <div className="flex flex-col w-full">
+            <div className="flex flex-col gap-4 w-full">
               <label
-                className="font-medium text-xl text-text-primary mb-4"
+                className="block text-base font-medium text-text-primary"
                 htmlFor="photo"
               >
                 Personal photo {required}
               </label>
-              <label
-                htmlFor="photo"
-                className="cursor-pointer w-full p-2 md:p-4 rounded-md border border-neutral-border bg-neutral-alt text-text-secondary font-medium text-base flex justify-between items-center"
-              >
-                {!imagePreview ? (
-                  <>
-                    <div className="flex items-center gap-4">
-                      <FileDown className="p-2 md:p-3 bg-action-secondary size-8 md:size-12 rounded-full" />
-                      <div className="flex flex-col gap-2">
-                        <h3 className="text-text-primary font-medium text-base md:text-xl">
-                          Click to upload image
-                        </h3>
-                        <p className="flex gap-2 md:gap-4 font-normal md:font-medium text-sm md:text-base text-text-secondary">
-                          PNG, JPG
-                          <div className="border h-4 border-text-secondary" />
-                          10 MB max
-                          <div className="border h-4 border-text-secondary" />0
-                          photo added
-                        </p>
-                      </div>
+              <div className="flex w-full flex-col">
+                <label
+                  htmlFor="photo"
+                  className="cursor-pointer w-full p-2 md:p-4 rounded-md border border-neutral-border bg-neutral-alt text-text-secondary font-medium text-base flex justify-between items-center"
+                >
+                  <div className="flex items-center w-full gap-4 justify-between">
+                    <div className="p-2 md:p-3 bg-action-secondary rounded-full">
+                      <FileDown className="size-4 sm:size-6" />
                     </div>
-                    <CloudDownload className="size-4 md:size-6" />
-                  </>
-                ) : (
-                  <>
-                    <div className="flex items-center gap-4">
-                      <FileDown className="p-3 bg-action-secondary block w-12 h-12 rounded-full" />
-                      <div className="flex flex-col gap-2">
-                        <h3 className="text-text-primary font-medium text-xl">
-                          Click to upload image
-                        </h3>
-                        <p className="flex gap-4 font-medium text-base text-text-secondary items-center">
-                          {fileInfo ? fileInfo.type.slice(6) : "PNG/JPG"}
-                          <div className="border h-4 border-text-secondary" />
-                          {fileInfo ? fileInfo.size : "10 MB max"}
-                          <div className="border h-4 border-text-secondary" />1
-                          photo added
-                        </p>
-                      </div>
+                    <div className="flex flex-col gap-2 w-full">
+                      <h3 className="text-text-primary font-medium text-sm sm:text-base">
+                        Click to upload image
+                      </h3>
+                      <p className="flex items-center gap-2 md:gap-4 font-normal text-xs sm:text-sm text-text-secondary">
+                        PNG, JPG
+                        <div className="border h-3 sm:h-4 border-text-secondary" />
+                        10 MB max
+                        <div className="border h-3 sm:h-4 border-text-secondary" />
+                        {!imagePreview ? "0 photo added" : "1 photo added"}
+                      </p>
                     </div>
-                    <CloudDownload className="w-6 h-6" />
-                  </>
-                )}
-              </label>
-              <input
-                required
-                onChange={handleFileChange}
-                name="photo"
-                accept="image/*"
-                className="h-[1px] pt-1"
-                type="file"
-                id="photo"
-              />
+                    <CloudDownload className="size-4 md:size-6 hidden lg:flex" />
+                  </div>
+                </label>
+                <input
+                  required
+                  onChange={handleFileChange}
+                  name="photo"
+                  accept="image/*"
+                  className="h-[1px] pt-1"
+                  type="file"
+                  id="photo"
+                />
+              </div>
               {errorMessage && (
                 <p className="mt-2 text-sm text-red-600">{errorMessage}</p>
               )}
