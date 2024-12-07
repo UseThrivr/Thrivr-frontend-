@@ -3,12 +3,12 @@ import MobileStoreSettings from "./MobileStoreSettings";
 import TimeRangePicker from "./timRange";
 import { useState } from "react";
 
-interface CustomerPopupProps {
+interface StoreSettingsProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const CustomerPopup: React.FC<CustomerPopupProps> = ({ isOpen, onClose }) => {
+const StoreSettings: React.FC<StoreSettingsProps> = ({ isOpen, onClose }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   if (!isOpen) return null;
@@ -192,4 +192,4 @@ const Nav = ({ title, onClose }: { title: string; onClose: () => void }) => {
   );
 };
 
-export default CustomerPopup;
+export default StoreSettings;

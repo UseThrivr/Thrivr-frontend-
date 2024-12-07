@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Seo } from "@/components/global";
+import { X } from "lucide-react";
 
 const EditOrder = () => {
 
@@ -24,7 +25,7 @@ const EditOrder = () => {
             <input
               name="supplyID"
               type="text"
-              placeholder="PD - 1234"
+              placeholder="ORD-00123"
               className="border rounded p-4 focus:outline-none"
               required
             />
@@ -36,7 +37,7 @@ const EditOrder = () => {
             <input
               name="productName"
               type="text"
-              placeholder="Enter Product Name"
+              placeholder="Enter customer name"
               className="border rounded p-4 focus:outline-none"
               required
             />
@@ -48,7 +49,7 @@ const EditOrder = () => {
             <input
               name="productName"
               type="text"
-              placeholder="Enter Product Name"
+              placeholder="Enter customer’s email/number"
               className="border rounded p-4 focus:outline-none"
               required
             />
@@ -166,14 +167,14 @@ const EditOrder = () => {
               placeholder="Search Product ID or Name"
             />
             <div className="p-4">
-              <p className="font-bold">X</p>
+              <p className="font-bold"><X /></p>
             </div>
           </div>
 
           <div className="mt-5">
             <p className="my-2 font-semibold">Calculator</p>
             <div className="border rounded flex p-4">
-              <p>#</p>
+              <p>₦</p>
               <input type="number" className="ms-2 focus:outline-none w-full" />
             </div>
           </div>
