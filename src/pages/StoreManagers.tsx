@@ -1,9 +1,16 @@
+import NewStaff from "@/components/dashboard/NewStaff";
 import { Cross, Trash } from "lucide-react";
+import { useState } from "react";
 
 const StoreManagers = () => {
+  const [isNewStaffOpen, setIsNewStaffOpen] = useState(false);
+
   return (
     <section className="w-full flex flex-col items-end gap-12">
-      <button className="flex items-center gap-4 py-2 xl:py-4 px-4 xl:px-12 bg-action-default rounded-2xl xl:rounded-3xl">
+      <button
+        onClick={() => setIsNewStaffOpen(true)}
+        className="flex items-center gap-4 py-2 xl:py-4 px-4 xl:px-12 bg-action-default rounded-2xl xl:rounded-3xl"
+      >
         <Cross fill="white" className="text-transparent size-4" />
         <span className="font-medium text-base text-white">Add new staff</span>
       </button>
@@ -105,6 +112,10 @@ const StoreManagers = () => {
           </>
         ))}
       </ul>
+      <NewStaff
+        isOpen={isNewStaffOpen}
+        onClose={() => setIsNewStaffOpen(false)}
+      />
     </section>
   );
 };

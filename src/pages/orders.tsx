@@ -40,7 +40,7 @@ import {
 import { useState, useEffect } from "react";
 
 // Define the InventoryData type if not already defined
-interface InventoryData {
+interface OrderData {
   orderId: string;
   name: string;
   listOfProducts: string[];
@@ -50,11 +50,11 @@ interface InventoryData {
   status: "paid" | "part-paid" | "unpaid";
 }
 
-const columnHelper = createColumnHelper<InventoryData>();
+const columnHelper = createColumnHelper<OrderData>();
 
 function sortableHeader(
   title: string,
-  column: Column<InventoryData, string | number>
+  column: Column<OrderData, string | number>
 ) {
   return (
     <div
@@ -71,11 +71,11 @@ function sortableHeader(
   );
 }
 
-function centerCell(data: CellContext<InventoryData, string | number>) {
+function centerCell(data: CellContext<OrderData, string | number>) {
   return <div className="text-center">{data.getValue()}</div>;
 }
 
-function shortenCell(data: CellContext<InventoryData, string>) {
+function shortenCell(data: CellContext<OrderData, string>) {
   const value = data.getValue();
   const limit = 15;
   return value.slice(0, limit) + (value.length > limit ? "..." : "");
@@ -160,7 +160,7 @@ const columns = [
 
 const filterOptions: Array<{
   title: string;
-  state?: InventoryData["status"];
+  state?: OrderData["status"];
 }> = [
   {
     title: "All",
@@ -180,7 +180,7 @@ const filterOptions: Array<{
 ];
 
 // Mock data function - replace this with your actual data fetching logic
-const fetchInventoryData = async (): Promise<InventoryData[]> => {
+const fetchOrderData = async (): Promise<OrderData[]> => {
   // Replace this with your actual API call
   return [
     {
@@ -199,10 +199,7 @@ const fetchInventoryData = async (): Promise<InventoryData[]> => {
     {
       orderId: "ORD-04123",
       name: "Oyedepo E.",
-      listOfProducts: [
-        "Iphone 14 (Pro)",
-        "Iphone 14 (Pro max)",
-      ],
+      listOfProducts: ["Iphone 14 (Pro)", "Iphone 14 (Pro max)"],
       amount: "236,900",
       channel: "Physical sales",
       date: "10-4-2024",
@@ -213,7 +210,7 @@ const fetchInventoryData = async (): Promise<InventoryData[]> => {
 };
 
 const Orders = () => {
-  const [data, setData] = useState<InventoryData[]>([]);
+  const [data, setData] = useState<OrderData[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -221,10 +218,10 @@ const Orders = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const inventoryData = await fetchInventoryData();
-        setData(inventoryData);
+        const orderData = await fetchOrderData();
+        setData(orderData);
       } catch (error) {
-        console.error("Failed to fetch inventory data:", error);
+        console.error("Failed to fetch Order data:", error);
         // Handle error appropriately
       } finally {
         setIsLoading(false);
@@ -265,7 +262,7 @@ const Orders = () => {
 
   return (
     <section className="px-[33px] w-full">
-      <Seo title="Inventory" />
+      <Seo title="Order" />
       <div className="flex flex-col items-start gap-[4px]">
         <H1>Orders</H1>
         <P>View the complete list of orders for your business</P>
@@ -293,41 +290,44 @@ const Orders = () => {
           })}
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-6">
           <button className="flex items-center py-[12px] px-[16px] h-[44px] border border-solid border-neutral-border rounded-[8px] gap-4 w-72">
             <Search size={20} className="text-text-secondary" />
             <input type="text" className="w-full outline-none" />
           </button>
-          <button className="flex justify-center items-center py-2 px-4 gap-4 bg-action-default rounded-[24px] text-white">
+          <a
+            href="/orders/ORD-00123/edit"
+            className="flex justify-center items-center py-2 px-4 gap-4 bg-action-default rounded-[24px] text-white"
+          >
             <Plus />
             <span className="font-medium text-[20px] leading-[30px]">
               Record Order
             </span>
-          </button>
+          </a>
         </div>
       </div>
 
-      <Table className="mt-[80px] border-separate rounded-[8px] border-spacing-0 overflow-hidden border border-solid border-neutral-border inventory-table">
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow
-              key={headerGroup.id}
-              className="bg-neutral-alt-b hover:bg-neutral-alt-bg h-[94px] py-[32px] px-[16px] rounded-[8px]"
-            >
-              {headerGroup.headers.map((header) => (
-                <TableHead key={header.id}>
-                  {flexRender(
-                    header.column.columnDef.header,
-                    header.getContext()
-                  )}
-                </TableHead>
+      {table.getRowModel().rows.length > 0 ? (
+        <>
+          <Table className="mt-[80px] border-separate rounded-[8px] border-spacing-0 overflow-hidden border border-solid border-neutral-border inventory-table">
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow
+                  key={headerGroup.id}
+                  className="bg-neutral-alt-b hover:bg-neutral-alt-bg h-[94px] py-[32px] px-[16px] rounded-[8px]"
+                >
+                  {headerGroup.headers.map((header) => (
+                    <TableHead key={header.id}>
+                      {flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                    </TableHead>
+                  ))}
+                </TableRow>
               ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody className="border-collapse">
-          {table.getRowModel().rows.length > 0 ? (
-            <>
+            </TableHeader>
+            <TableBody className="border-collapse">
               {table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
@@ -343,12 +343,53 @@ const Orders = () => {
                   ))}
                 </TableRow>
               ))}
-            </>
-          ) : (
-            <h2 className="text-5xl">Hello</h2>
-          )}
-        </TableBody>
-      </Table>
+            </TableBody>
+          </Table>
+        </>
+      ) : (
+        <div className="w-full h-[400px] flex items-center justify-center">
+          <div className="flex flex-col items-center gap-6">
+            <svg
+              width="65"
+              height="64"
+              viewBox="0 0 65 64"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlnsXlink="http://www.w3.org/1999/xlink"
+            >
+              <rect
+                x="0.5"
+                width="64"
+                height="64"
+                fill="url(#pattern0_1368_2)"
+              />
+              <defs>
+                <pattern
+                  id="pattern0_1368_2"
+                  patternContentUnits="objectBoundingBox"
+                  width="1"
+                  height="1"
+                >
+                  <use
+                    xlinkHref="#image0_1368_2"
+                    transform="scale(0.0078125)"
+                  />
+                </pattern>
+                <image
+                  id="image0_1368_2"
+                  width="128"
+                  height="128"
+                  xlinkHref="data:image/png;base64,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"
+                />
+              </defs>
+            </svg>
+            <p className="text-center">
+              No orders yet, but don't worry—soon <br /> they’ll start rolling in. Stay
+              tuned!
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* PAGINATION */}
       <div className="flex justify-between items-star mt-[32px]">
