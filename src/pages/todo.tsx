@@ -29,10 +29,14 @@ const Todo: React.FC = () => {
             </div>
             <div className="mt-[54px] mb-9 flex justify-end items-center gap-[246px]">
                 <div className="flex items-center gap-[16px] h-[46px]">
-                    <button onClick={openPopup} className="flex justify-center items-center py-[8px] px-[16px] gap-[16px] h-[46px] bg-action-default rounded-[24px] text-white">
+                    <button onClick={openPopup} className="hidden lg:flex justify-center items-center py-[8px] px-[16px] gap-[16px] h-[46px] bg-action-default rounded-[24px] text-white">
                         <NotebookPen />
                         <span className="font-medium text-[20px] leading-[30px]">Create plan</span>
                     </button>
+                    <a href="/todo/create-plan" className="flex lg:hidden justify-center items-center py-[8px] px-[16px] gap-[16px] h-[46px] bg-action-default rounded-[24px] text-white">
+                        <NotebookPen />
+                        <span className="font-medium text-[20px] leading-[30px]">Create plan</span>
+                    </a>
                 </div>
             </div>
             <div className="border border-[#CDCED3] p-[1rem] flex flex-col gap-[38px] rounded-[8px]">

@@ -63,13 +63,21 @@ const PaymentBox: React.FC<PaymentBoxProps> = ({
             </div>
           </div>
 
-          <div className="">
+          <div className="hidden lg:flex">
             <Button
               onClick={onButtonClick}
               className="bg-action-default w-[187px] h-[40px] rounded-[28px] px-[24px] py-[8px] text-white hover:bg-action-default/90 font-medium leading-6 text-[1rem]"
             >
               {buttonText}
             </Button>
+          </div>
+          <div className="flex lg:hidden">
+            <a
+              href="/mybank/payment"
+              className="bg-action-default w-[187px] h-[40px] rounded-[28px] px-[24px] py-[8px] text-white hover:bg-action-default/90 font-medium leading-6 text-[1rem] flex justify-center items-center"
+            >
+              {buttonText}
+            </a>
           </div>
         </div>
       </div>

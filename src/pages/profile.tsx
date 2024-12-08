@@ -13,7 +13,6 @@ import {
 import Camera from "/src/assets/profile/add_a_photo.png";
 import { useState } from "react";
 import { StoreSettings } from "@/components/dashboard";
-import ComingSoon from "@/components/dashboard/ComingSoon";
 
 const contact = [
   {
@@ -67,16 +66,10 @@ const cta = [
 
 const Profile = () => {
   const [isStoreSettingOpen, setIsStoreSettingOpen] = useState(false);
-  const [isApiKeyOpen, setIsApiKeyOpen] = useState(false);
-  const [isSubscriptionOpen, setIsSubscriptionOpen] = useState(false);
 
   const handleDisplay = ({ active }: { active: string }) => {
     if (active === "store-settings") {
       setIsStoreSettingOpen(true);
-    } else if (active === "api-key") {
-      setIsApiKeyOpen(true);
-    } else {
-      setIsSubscriptionOpen(true);
     }
   };
 
@@ -125,7 +118,7 @@ const Profile = () => {
                     Store Link
                   </p>
                   <div className="flex items-center text-action-default hover:text-action-hover cursor-pointer gap-2 2xl:gap-4">
-                    <span className=" font-medium text-lg 2xl:text-xl">
+                    <span className=" font-medium text-lg 2xl:text-xl max-w-64 truncate">
                       {profile.link}
                     </span>
                     <Copy className="w-6 h-6 2xl:w-8 2xl:h-8" />
@@ -143,8 +136,8 @@ const Profile = () => {
               <p className="font-medium text-sm 2xl:text-base text-text-secondary">
                 Store Link
               </p>
-              <div className="flex items-center text-action-default hover:text-action-hover cursor-pointer gap-2 2xl:gap-4">
-                <span className=" font-medium text-base md:text-lg 2xl:text-xl w-60 truncate">
+              <div className="flex items-center text-action-default hover:text-action-hover cursor-pointer gap-1">
+                <span className=" font-medium text-base md:text-lg 2xl:text-xl max-w-60 truncate">
                   {profile.link}
                 </span>
                 <Copy className="w-6 h-6 2xl:w-8 2xl:h-8" />
@@ -189,9 +182,7 @@ const Profile = () => {
                       {item.title}
                       {item.link === "api-key" ||
                       item.link === "subscription-plan" ? (
-                        <span className="font-medium text-sm">
-                          Coming soon
-                        </span>
+                        <span className="font-medium text-sm">Coming soon</span>
                       ) : (
                         ""
                       )}
@@ -211,15 +202,26 @@ const Profile = () => {
                           <MoveRight className="w-6 h-6 2xl:w-8 2xl:h-8" />
                         </button>
                       ) : (
-                        <button
-                          onClick={() => handleDisplay({ active: item.link })}
-                          className="flex items-center text-action-default hover:text-action-hover transition-all cursor-pointer gap-2 2xl:gap-4"
-                        >
-                          <span className=" font-medium text-lg 2xl:text-xl">
-                            {item.cta}
-                          </span>
-                          <MoveRight className="w-6 h-6 2xl:w-8 2xl:h-8" />
-                        </button>
+                        <>
+                          <button
+                            onClick={() => handleDisplay({ active: item.link })}
+                            className="hidden lg:flex items-center text-action-default hover:text-action-hover transition-all cursor-pointer gap-2 2xl:gap-4"
+                          >
+                            <span className=" font-medium text-lg 2xl:text-xl">
+                              {item.cta}
+                            </span>
+                            <MoveRight className="w-6 h-6 2xl:w-8 2xl:h-8" />
+                          </button>
+                          <a
+                            href={`/profile/${item.link}`}
+                            className="flex lg:hidden items-center text-action-default hover:text-action-hover transition-all cursor-pointer gap-2 2xl:gap-4"
+                          >
+                            <span className=" font-medium text-lg 2xl:text-xl">
+                              {item.cta}
+                            </span>
+                            <MoveRight className="w-6 h-6 2xl:w-8 2xl:h-8" />
+                          </a>
+                        </>
                       )}
                     </>
                   ) : (
@@ -241,14 +243,6 @@ const Profile = () => {
         <StoreSettings
           isOpen={isStoreSettingOpen}
           onClose={() => setIsStoreSettingOpen(false)}
-        />
-        <ComingSoon
-          isOpen={isApiKeyOpen}
-          onClose={() => setIsApiKeyOpen(false)}
-        />
-        <ComingSoon
-          isOpen={isSubscriptionOpen}
-          onClose={() => setIsSubscriptionOpen(false)}
         />
       </section>
     </>

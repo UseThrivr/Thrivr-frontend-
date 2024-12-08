@@ -9,11 +9,18 @@ const StoreManagers = () => {
     <section className="w-full flex flex-col items-end gap-12">
       <button
         onClick={() => setIsNewStaffOpen(true)}
-        className="flex items-center gap-4 py-2 xl:py-4 px-4 xl:px-12 bg-action-default rounded-2xl xl:rounded-3xl"
+        className="lg:flex items-center gap-4 py-2 xl:py-4 px-4 xl:px-12 bg-action-default rounded-2xl xl:rounded-3xl hidden"
       >
         <Cross fill="white" className="text-transparent size-4" />
         <span className="font-medium text-base text-white">Add new staff</span>
       </button>
+      <a
+        href="/profile/store-managers/new-staff"
+        className="lg:hidden items-center gap-4 py-2 xl:py-4 px-4 xl:px-12 bg-action-default rounded-2xl xl:rounded-3xl flex"
+      >
+        <Cross fill="white" className="text-transparent size-4" />
+        <span className="font-medium text-base text-white">Add new staff</span>
+      </a>
       <ul className="w-full gap-9 xl:gap-0 xl:px-8 xl:border xl:bg-neutral-alt xl:border-neutral-border rounded-lg flex flex-col xl:divide-y xl:divide-neutral-border">
         {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(() => (
           <>
@@ -63,7 +70,7 @@ const StoreManagers = () => {
                 <Trash className="cursor-pointer size-6" />
               </div>
             </li>
-            <li className="flex flex-col w-full xl:hidden gap-4 px-4">
+            <li className="flex flex-col w-full xl:hidden gap-4">
               <div className="flex items-center justify-between">
                 <div className="flex flex-col gap-2 items-start">
                   <h3 className="font-medium text-xs text-text-secondary">
