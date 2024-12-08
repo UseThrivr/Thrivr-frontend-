@@ -1,5 +1,5 @@
 import { ChevronDown, FileDown } from "lucide-react";
-import TimeRangePicker from "./timRange";
+import TimeRangePicker from "../components/dashboard/timRange";
 import { useState } from "react";
 
 const MobileStoreSettings = () => {
@@ -9,7 +9,7 @@ const MobileStoreSettings = () => {
   const MAX_FILE_SIZE_MB = 10;
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+    const file = event.target.files?.[1];
 
     if (!file) return;
 
@@ -29,7 +29,7 @@ const MobileStoreSettings = () => {
   };
 
   return (
-    <div className="px-4 py-6 overflow-auto invincible-scrollbar">
+    <div className="py-6 overflow-auto invincible-scrollbar">
       <form className="w-full flex flex-col gap-4">
         <div className="flex flex-col w-full gap-4">
           <label

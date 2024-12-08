@@ -243,12 +243,18 @@ const Customer = () => {
                             className="w-full outline-none border-none bg-transparent text-[16px] leading-[24px] text-text-primary placeholder:text-text-secondary"
                         />
                     </div>
-                    <button className="flex justify-center items-center py-[8px] px-[16px] gap-[16px] h-[46px] bg-action-default rounded-[24px] text-white" onClick={handleActionButtonClick}>
+                    <button className="hidden lg:flex justify-center items-center py-[8px] px-[16px] gap-[16px] h-[46px] bg-action-default rounded-[24px] text-white" onClick={handleActionButtonClick}>
                         <Users />
                         <span className="font-medium text-[20px] leading-[30px]">
                             {activeTab === 'customers' ? 'Add New Customer' : 'Create Group'}
                         </span>
                     </button>
+                    <a className="flex lg:hidden justify-center items-center py-[8px] px-[16px] gap-[16px] h-[46px] bg-action-default rounded-[24px] text-white" href={activeTab === 'customers' ? '/customers/new-customers' : "/customers/new-group"}>
+                        <Users />
+                        <span className="font-medium text-[20px] leading-[30px]">
+                            {activeTab === 'customers' ? 'Add New Customer' : 'Create Group'}
+                        </span>
+                    </a>
                 </div>
             </div>
 
