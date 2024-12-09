@@ -24,7 +24,7 @@ interface BusinessRegistrationData {
   phone_number: string;
   description: string;
   password: string;
-  logo?: File;
+  logo?: File | null;
 }
 
 interface LoginData {
