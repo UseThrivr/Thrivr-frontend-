@@ -1,6 +1,6 @@
 import { FC, useState, ChangeEvent, FormEvent } from "react";
 import { P } from "@/components/global";
-import { Dot, Lock, User, X } from "lucide-react";
+import { Dot, Lock, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import googleImg from "../assets/devicon_google.png";
 // import { useAuth } from "../context/AuthContext"; // Adjust import path as needed
