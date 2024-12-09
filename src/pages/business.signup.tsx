@@ -74,9 +74,14 @@ const BusinessSetup = () => {
       };
 
       const response = await register(completeRegistrationData);
+      console.log(response)
       setShowOtp(true);
-    } catch (err: any) {
-      setError(err.message || 'Registration failed');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unexpected error occurred.');
+      }
     } finally {
       setLoading(false);
     }
