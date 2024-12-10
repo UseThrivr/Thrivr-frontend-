@@ -1,6 +1,6 @@
 import { FC, useState, ChangeEvent, FormEvent } from "react";
 import { P } from "@/components/global";
-import { Dot, Lock, User, X } from "lucide-react";
+import { Divide, Dot, Lock, User, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import googleImg from "../assets/devicon_google.png";
 
@@ -26,8 +26,12 @@ interface OTPVerificationProps {
   formData: FormData;
 }
 
-const OTPVerification: FC<OTPVerificationProps> = ({ isOpen, onClose, formData }) => {
-  const [otp, setOtp] = useState<string[]>(['', '', '', '']);
+const OTPVerification: FC<OTPVerificationProps> = ({
+  isOpen,
+  onClose,
+  formData,
+}) => {
+  const [otp, setOtp] = useState<string[]>(["", "", "", ""]);
   const navigate = useNavigate();
 
   if (!isOpen) return null;
@@ -91,7 +95,9 @@ const OTPVerification: FC<OTPVerificationProps> = ({ isOpen, onClose, formData }
         </div>
 
         <p className="text-center mb-6">
-          <button className="text-[#870E73]">Didn't receive code? Resend</button>
+          <button className="text-[#870E73]">
+            Didn't receive code? Resend
+          </button>
         </p>
 
         <button
@@ -108,6 +114,7 @@ const OTPVerification: FC<OTPVerificationProps> = ({ isOpen, onClose, formData }
 const Signup: FC = () => {
   const navigate = useNavigate();
   const [showOtp, setShowOtp] = useState<boolean>(false);
+  const [pageIndex, setPageIndex] = useState<number>(0);
   const [formData, setFormData] = useState<FormData>({
     fullName: "",
     email: "",
@@ -115,7 +122,7 @@ const Signup: FC = () => {
     confirmPassword: "",
     agreeToTerms: false,
   });
-  
+
   const [errors, setErrors] = useState<FormErrors>({
     fullName: "",
     email: "",
@@ -130,9 +137,9 @@ const Signup: FC = () => {
       email: "",
       password: "",
       confirmPassword: "",
-      agreeToTerms: ""
+      agreeToTerms: "",
     };
-    
+
     if (!formData.fullName.trim()) {
       newErrors.fullName = "Full name is required";
     }
@@ -160,7 +167,9 @@ const Signup: FC = () => {
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).every(key => !newErrors[key as keyof FormErrors]);
+    return Object.keys(newErrors).every(
+      (key) => !newErrors[key as keyof FormErrors]
+    );
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -178,146 +187,162 @@ const Signup: FC = () => {
     }));
     // Clear error when user starts typing
     if (errors[name as keyof FormErrors]) {
-      setErrors(prev => ({ ...prev, [name]: "" }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
+  const setButtonClick = () =>{
+    if (pageIndex == 0) {
+      setPageIndex(1)
+    } else {
+      
+    }
+  }
+
   return (
     <div className="pb-10">
-      <div className="text-center">
-        <h1 className="text-4xl mb-2 font-semibold">Grow Your Business</h1>
-        <P>Get started today!</P>
+      <div className="text-start">
+        <h1 className="text-4xl mb-2 font-semibold">
+          Let's create your account
+        </h1>
+        <P>Get all your business tools you need in one place</P>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-5">
-        <div>
-          <p className="">Full name</p>
-          <div
-            className={`p-2 border-2 rounded-lg flex gap-2 mt-1 ${
-              errors.fullName ? "border-red-500" : ""
-            }`}
-          >
-            <User className="w-4 h-4 my-auto" />
-            <input
-              type="text"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleInputChange}
-              placeholder="Enter First and Last Name"
-              className="w-full focus:outline-none"
-            />
-          </div>
-          {errors.fullName && (
-            <p className="text-red-500 flex text-xs mt-1 items-center">
-              <Dot /> {errors.fullName}
-            </p>
-          )}
-        </div>
+      <form id="form" className="mt-5">
+        {pageIndex == 0 ? (
+          <div>
+            <div>
+              <p className="">Full name</p>
+              <div
+                className={`p-2 border-2 rounded-lg flex gap-2 mt-1 ${
+                  errors.fullName ? "border-red-500" : ""
+                }`}
+              >
+                <User className="w-4 h-4 my-auto" />
+                <input
+                  type="text"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleInputChange}
+                  placeholder="Enter First and Last Name"
+                  className="w-full focus:outline-none"
+                />
+              </div>
+              {errors.fullName && (
+                <p className="text-red-500 flex text-xs mt-1 items-center">
+                  <Dot /> {errors.fullName}
+                </p>
+              )}
+            </div>
 
-        <div className="mt-5">
-          <p className="">Email</p>
-          <div
-            className={`p-2 border-2 rounded-lg flex gap-2 mt-1 ${
-              errors.email ? "border-red-500" : ""
-            }`}
-          >
-            <User className="w-4 h-4 my-auto" />
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              placeholder="Enter Your Email Address"
-              className="w-full focus:outline-none"
-            />
+            <div className="mt-5">
+              <p className="">Email</p>
+              <div
+                className={`p-2 border-2 rounded-lg flex gap-2 mt-1 ${
+                  errors.email ? "border-red-500" : ""
+                }`}
+              >
+                <User className="w-4 h-4 my-auto" />
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="Enter Your Email Address"
+                  className="w-full focus:outline-none"
+                />
+              </div>
+              {errors.email && (
+                <p className="text-red-500 flex text-xs mt-1 items-center">
+                  <Dot /> {errors.email}
+                </p>
+              )}
+            </div>
           </div>
-          {errors.email && (
-            <p className="text-red-500 flex text-xs mt-1 items-center">
-              <Dot /> {errors.email}
-            </p>
-          )}
-        </div>
+        ) : (
+          <div>
+            <div className="mt-5">
+              <p className="">Password</p>
+              <div
+                className={`p-2 border-2 rounded-lg flex gap-2 mt-1 ${
+                  errors.password ? "border-red-500" : ""
+                }`}
+              >
+                <Lock className="w-4 h-4 my-auto" />
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  placeholder="Password"
+                  className="w-full focus:outline-none"
+                />
+              </div>
+              {errors.password && (
+                <p className="text-red-500 flex text-xs mt-1 items-center">
+                  <Dot /> {errors.password}
+                </p>
+              )}
+            </div>
 
-        <div className="mt-5">
-          <p className="">Password</p>
-          <div
-            className={`p-2 border-2 rounded-lg flex gap-2 mt-1 ${
-              errors.password ? "border-red-500" : ""
-            }`}
-          >
-            <Lock className="w-4 h-4 my-auto" />
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleInputChange}
-              placeholder="Password"
-              className="w-full focus:outline-none"
-            />
-          </div>
-          {errors.password && (
-            <p className="text-red-500 flex text-xs mt-1 items-center">
-              <Dot /> {errors.password}
-            </p>
-          )}
-        </div>
+            <div className="mt-5">
+              <p className="">Confirm Password</p>
+              <div
+                className={`p-2 border-2 rounded-lg flex gap-2 mt-1 ${
+                  errors.confirmPassword ? "border-red-500" : ""
+                }`}
+              >
+                <Lock className="w-4 h-4 my-auto" />
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
+                  placeholder="Confirm Password"
+                  className="w-full focus:outline-none"
+                />
+              </div>
+              {errors.confirmPassword && (
+                <p className="text-red-500 flex text-xs mt-1 items-center">
+                  <Dot /> {errors.confirmPassword}
+                </p>
+              )}
+            </div>
 
-        <div className="mt-5">
-          <p className="">Confirm Password</p>
-          <div
-            className={`p-2 border-2 rounded-lg flex gap-2 mt-1 ${
-              errors.confirmPassword ? "border-red-500" : ""
-            }`}
-          >
-            <Lock className="w-4 h-4 my-auto" />
-            <input
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleInputChange}
-              placeholder="Confirm Password"
-              className="w-full focus:outline-none"
-            />
+            <div className="mt-5">
+              <div className="flex gap-2 items-center">
+                <input
+                  type="checkbox"
+                  name="agreeToTerms"
+                  checked={formData.agreeToTerms}
+                  onChange={handleInputChange}
+                  className="w-4 h-4 rounded-lg accent-action-default border"
+                />
+                <p className="text-sm">
+                  Agreed to all{" "}
+                  <Link to="" className="text-[#870E73]">
+                    Terms
+                  </Link>{" "}
+                  and{" "}
+                  <Link to="" className="text-[#870E73]">
+                    Conditions
+                  </Link>
+                </p>
+              </div>
+              {errors.agreeToTerms && (
+                <p className="text-red-500 flex text-xs mt-1 items-center">
+                  <Dot /> {errors.agreeToTerms}
+                </p>
+              )}
+            </div>
           </div>
-          {errors.confirmPassword && (
-            <p className="text-red-500 flex text-xs mt-1 items-center">
-              <Dot /> {errors.confirmPassword}
-            </p>
-          )}
-        </div>
-
-        <div className="mt-5">
-          <div className="flex gap-2 items-center">
-            <input
-              type="checkbox"
-              name="agreeToTerms"
-              checked={formData.agreeToTerms}
-              onChange={handleInputChange}
-              className="w-4 h-4 rounded-lg accent-action-default border"
-            />
-            <p className="text-sm">
-              Agreed to all{" "}
-              <Link to="" className="text-[#870E73]">
-                Terms
-              </Link>{" "}
-              and{" "}
-              <Link to="" className="text-[#870E73]">
-                Conditions
-              </Link>
-            </p>
-          </div>
-          {errors.agreeToTerms && (
-            <p className="text-red-500 flex text-xs mt-1 items-center">
-              <Dot /> {errors.agreeToTerms}
-            </p>
-          )}
-        </div>
+        )}
 
         <button
-          type="submit"
-          className="w-full rounded-lg bg-[#870E73] text-white p-2 mt-5 font-semibold"
+          onClick={setButtonClick}
+          className="w-full rounded-2xl bg-[#870E73] text-white p-2 mt-10 font-semibold"
         >
-          Sign Up
+          {pageIndex == 0 ? "Continue" : "Sign Up"}
         </button>
 
         <div className="flex my-5">
@@ -326,14 +351,27 @@ const Signup: FC = () => {
           <div className="w-full border border-black h-fit my-auto"></div>
         </div>
 
-        <button
-          type="button"
-          onClick={() => navigate("/setupbusiness")}
-          className="text-black bg-white mt-5 w-full rounded-lg py-2 border-2 flex justify-center gap-2"
-        >
-          <img src={googleImg} alt="" />
-          Sign In with Google
-        </button>
+        <div className="flex gap-10">
+          <button
+            type="button"
+            onClick={() => navigate("/setupbusiness")}
+            className="text-black bg-white mt-5 w-full rounded-lg py-2 border-2 flex justify-center gap-2"
+          >
+            <img src={googleImg} alt="" />
+            Sign In with Google
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate("/setupbusiness")}
+            className="text-black bg-white mt-5 w-full rounded-lg py-2 border-2 flex justify-center gap-2"
+          >
+            <img src={googleImg} alt="" />
+            Sign In with Facebook
+          </button>
+        </div>
+        <div className="mt-10">
+          <p className="">Already have an account? <Link to="/login" className="text-[#870E73] ms-1">log In</Link></p>
+        </div>
       </form>
 
       <OTPVerification
