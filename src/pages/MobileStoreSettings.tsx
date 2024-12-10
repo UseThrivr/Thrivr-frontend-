@@ -9,7 +9,7 @@ const MobileStoreSettings = () => {
   const MAX_FILE_SIZE_MB = 10;
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[1];
+    const file = event.target.files?.[0 ];
 
     if (!file) return;
 
