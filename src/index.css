@@ -126,6 +126,10 @@ a.sidebar-link span {
   scrollbar-width: thin;
 }
 
+.scrollbar-hidden {
+  scrollbar-width: none;
+}
+
 table.inventory-table th {
   @apply text-[16px] leading-[30px] text-text-primary;
 }

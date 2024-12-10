@@ -352,7 +352,7 @@ const Orders = () => {
 
       {/* Tabs */}
       <div className="lg:mt-[54px] flex flex-col-reverse lg:flex-row justify-between items-center w-full gap-4">
-        <div className="flex items-start hide-scrollbar gap-[8px] w-full overflow-auto lg:overflow-visible">
+        <div className="flex items-start scrollbar-hidden gap-[8px] w-full overflow-auto lg:overflow-visible">
           {filterOptions.map((filterOption, index) => {
             const column = table.getColumn("status");
             const filter = column?.getFilterValue();
@@ -361,7 +361,7 @@ const Orders = () => {
                 key={index}
                 onClick={() => column?.setFilterValue(filterOption.state)}
                 className={clsx(
-                  "text-center text-base px-3 py-1 lg:px-[8px] border-2 lg:border-0 border-text-primary border-dashed rounded-3xl lg:rounded-none cursor-pointer",
+                  "text-center text-base px-3 py-1 lg:px-[8px] border-2 lg:border-0 border-text-primary rounded-3xl lg:rounded-none cursor-pointer",
                   filter === filterOption.state &&
                     "lg:border-b-[4px] lg:border-x-0 lg:border-t-0 border-solid border-2 border-text-primary bg-text-primary text-white lg:text-black lg:bg-transparent"
                 )}
