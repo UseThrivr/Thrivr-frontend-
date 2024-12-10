@@ -1,8 +1,9 @@
 import { FC, useState, ChangeEvent, FormEvent } from "react";
 import { P } from "@/components/global";
-import { Dot, Lock, User, X } from "lucide-react";
+import { Dot, Lock, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import googleImg from "../assets/devicon_google.png";
+// import { useAuth } from "../context/AuthContext"; // Adjust import path as needed
 
 interface FormData {
   fullName: string;
@@ -20,94 +21,11 @@ interface FormErrors {
   agreeToTerms: string;
 }
 
-interface OTPVerificationProps {
-  isOpen: boolean;
-  onClose: () => void;
-  formData: FormData;
-}
 
-const OTPVerification: FC<OTPVerificationProps> = ({ isOpen, onClose, formData }) => {
-  const [otp, setOtp] = useState<string[]>(['', '', '', '']);
-  const navigate = useNavigate();
-
-  if (!isOpen) return null;
-
-  const handleOtpChange = (index: number, value: string) => {
-    if (value.length > 1) return;
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
-
-    // Auto-focus next input
-    if (value && index < 3) {
-      const nextInput = document.getElementById(`otp-${index + 1}`);
-      if (nextInput) nextInput.focus();
-    }
-  };
-
-  const handleVerify = () => {
-    // Navigate to BusinessSetup with user data
-    navigate("/business", {
-      state: {
-        userData: formData,
-        // Extract phone from email for demo purposes - in real app, get from proper source
-        phoneNumber: formData.email.includes("@")
-          ? "+1234567890"
-          : formData.email,
-      },
-    });
-    onClose();
-  };
-
-  return (
-    <div className="fixed inset-0 bg-[#000000CC] flex items-center justify-center z-50">
-      <div className="relative w-[550px] bg-white rounded-[13px] p-8 shadow-lg scale-95 animate-scaleIn">
-        <button
-          onClick={onClose}
-          className="absolute -top-16 -right-16 w-[64px] h-[64px] bg-white rounded-full p-1 shadow-md flex items-center justify-center"
-        >
-          <X className="text-gray-700" />
-        </button>
-
-        <div className="text-center mb-8">
-          <h2 className="text-[32px] font-semibold mb-2">Email verification</h2>
-          <p className="text-[#5C636D]">
-            Input the four digit code sent to your email
-          </p>
-        </div>
-
-        <div className="flex justify-center gap-4 mb-8">
-          {otp.map((digit, index) => (
-            <input
-              key={index}
-              id={`otp-${index}`}
-              type="text"
-              maxLength={1}
-              value={digit}
-              onChange={(e) => handleOtpChange(index, e.target.value)}
-              className="w-16 h-16 text-center text-2xl border-2 rounded-lg focus:border-[#870E73] focus:outline-none"
-            />
-          ))}
-        </div>
-
-        <p className="text-center mb-6">
-          <button className="text-[#870E73]">Didn't receive code? Resend</button>
-        </p>
-
-        <button
-          onClick={handleVerify}
-          className="w-full bg-[#870E73] text-white rounded-[24px] py-4 hover:opacity-90"
-        >
-          Verify
-        </button>
-      </div>
-    </div>
-  );
-};
 
 const Signup: FC = () => {
   const navigate = useNavigate();
-  const [showOtp, setShowOtp] = useState<boolean>(false);
+  // const { register } = useAuth();
   const [formData, setFormData] = useState<FormData>({
     fullName: "",
     email: "",
@@ -163,10 +81,23 @@ const Signup: FC = () => {
     return Object.keys(newErrors).every(key => !newErrors[key as keyof FormErrors]);
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateForm()) {
-      setShowOtp(true);
+      try {
+        // Navigate to business setup with initial registration data
+        navigate("/business", {
+          state: {
+            userData: {
+              fullname: formData.fullName,
+              email: formData.email,
+              password: formData.password
+            }
+          }
+        });
+      } catch (error) {
+        console.error("Registration navigation error:", error);
+      }
     }
   };
 
@@ -336,11 +267,11 @@ const Signup: FC = () => {
         </button>
       </form>
 
-      <OTPVerification
+      {/* <OTPVerification
         isOpen={showOtp}
         onClose={() => setShowOtp(false)}
         formData={formData}
-      />
+      /> */}
     </div>
   );
 };
