@@ -1,6 +1,6 @@
 import { FC, useState, ChangeEvent, FormEvent } from "react";
 import { P } from "@/components/global";
-import { Divide, Dot, Lock, User, X } from "lucide-react";
+import { Dot, Lock, User, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import googleImg from "../assets/devicon_google.png";
 // import { useAuth } from "../context/AuthContext"; // Adjust import path as needed
@@ -21,7 +21,7 @@ interface FormErrors {
   agreeToTerms: string;
 }
 
-interface OTPVerificationProps {
+/* interface OTPVerificationProps {
   isOpen: boolean;
   onClose: () => void;
   formData: FormData;
@@ -110,11 +110,11 @@ const OTPVerification: FC<OTPVerificationProps> = ({
       </div>
     </div>
   );
-};
+}; */
 
 const Signup: FC = () => {
   const navigate = useNavigate();
-  const [showOtp, setShowOtp] = useState<boolean>(false);
+// const [showOtp, setShowOtp] = useState<boolean>(false);
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [formData, setFormData] = useState<FormData>({
     fullName: "",
@@ -173,7 +173,7 @@ const Signup: FC = () => {
     );
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  /* const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateForm()) {
       try {
@@ -191,7 +191,7 @@ const Signup: FC = () => {
         console.error("Registration navigation error:", error);
       }
     }
-  };
+  }; */
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
