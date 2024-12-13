@@ -173,7 +173,7 @@ const Signup: FC = () => {
     );
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  /* const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateForm()) {
       try {
@@ -191,7 +191,7 @@ const Signup: FC = () => {
         console.error("Registration navigation error:", error);
       }
     }
-  };
+  }; */
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
