@@ -126,12 +126,16 @@ a.sidebar-link span {
   scrollbar-width: thin;
 }
 
+.scrollbar-hidden {
+  scrollbar-width: none;
+}
+
 table.inventory-table th {
   @apply text-[16px] leading-[30px] text-text-primary;
 }
 
-table.inventory-table div {
-  @apply flex items-center justify-center gap-[16px] w-full;
+table.inventory-table th > div {
+  @apply flex items-center justify-start gap-[16px] w-full;
 }
 
 table.inventory-table td,

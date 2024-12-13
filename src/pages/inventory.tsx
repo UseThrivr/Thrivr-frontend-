@@ -260,10 +260,10 @@ const Inventory = () => {
                         <Upload />
                         <span className="font-medium text-sm text-nowrap lg:text-lg leading-[30px]">Export CSV</span>
                     </a>
-                    <button className="flex col-span-1 justify-center items-center py-[8px] px-[16px] gap-[16px] h-[46px] bg-action-default rounded-[24px] text-white">
+                    <a href="/editinventory" className="flex col-span-1 justify-center items-center py-[8px] px-[16px] gap-[16px] h-[46px] bg-action-default rounded-[24px] text-white">
                         <Plus />
                         <span className="font-medium text-sm text-nowrap lg:text-lg leading-[30px]">Add new product</span>
-                    </button>
+                    </a>
                 </div>
             </div>
 

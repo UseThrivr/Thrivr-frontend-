@@ -50,11 +50,18 @@ const Ads = () => {
             <div className="">
               <button
                 onClick={() => setAddNewCampaign(!addNewCampaign)}
-                className="rounded-full bg-[#870E73] text-white py-2 px-3 flex gap-3"
+                className="rounded-full bg-[#870E73] text-white py-2 px-3 hidden lg:flex gap-3"
               >
                 <Megaphone />
                 Create New Campaign
               </button>
+              <a
+              href="/ads/new-campaign"
+                className="rounded-full bg-[#870E73] text-white py-2 px-3 flex lg:hidden gap-3 w-max"
+              >
+                <Megaphone />
+                Create New Campaign
+              </a>
             </div>
           </div>
 

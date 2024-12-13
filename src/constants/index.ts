@@ -166,7 +166,7 @@ export const salesData = [
 export const profile = {
     storename: "Coker Gadgets",
     tagline: "where technology meets your lifestyle...",
-    link: "https://cokergadgets..shop",
+    link: "https://cokergadgets.thrivr.shop",
     logo: ProfileImg,
     backgroundImg: Rectangle,
     userid: "cokergadgets",

@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import {
   type CellContext,
   type Column,
+  ColumnDef,
   type ColumnFiltersState,
   createColumnHelper,
   flexRender,
@@ -50,7 +51,16 @@ interface OrderData {
   status: "paid" | "part-paid" | "unpaid";
 }
 
+interface MobileData {
+  status: "paid" | "part-paid" | "unpaid";
+  orderId: string;
+  name: string;
+  amount: string;
+  chevronRight?: string;
+}
+
 const columnHelper = createColumnHelper<OrderData>();
+const mobileHelper = createColumnHelper<MobileData>();
 
 function sortableHeader(
   title: string,
@@ -81,6 +91,40 @@ function shortenCell(data: CellContext<OrderData, string>) {
   return value.slice(0, limit) + (value.length > limit ? "..." : "");
 }
 
+const mobile = [
+  mobileHelper.accessor("status", {
+    filterFn: "equalsString",
+    cell: (info) => (
+      <div
+        className={`h-full w-2 ${
+          info.getValue() === "unpaid"
+            ? "bg-alert-red"
+            : info.getValue() === "paid"
+            ? "bg-alert-green"
+            : "bg-[#777777]"
+        }`}
+      />
+    ),
+    header: "",
+  }),
+  mobileHelper.accessor("orderId", {
+    cell: (info) => info.getValue(),
+    header: "Order ID",
+  }),
+  mobileHelper.accessor("name", {
+    cell: (info) => info.getValue(),
+    header: "Name",
+  }),
+  mobileHelper.accessor("amount", {
+    cell: (info) => info.getValue(),
+    header: "Amount",
+  }),
+  mobileHelper.accessor("chevronRight", {
+    cell: () => <ChevronRight className="text-action-default" />,
+    header: "",
+  }),
+];
+
 const columns = [
   columnHelper.accessor("orderId", {
     cell: (info) => (
@@ -97,6 +141,7 @@ const columns = [
       <div className="flex flex-col items-start">
         {info.getValue().map((_, i) => (
           <div
+            className="flex w-max"
             style={{
               display: "block",
             }}
@@ -142,7 +187,7 @@ const columns = [
                 : "rgba(119, 119, 119, 0.2)",
           }}
           className={clsx(
-            "uppercase rounded-full h-[18px] py-1 px-[8px] text-center justify-center font-semibold text-[12px] leading-[18px]",
+            "uppercase w-max flex rounded-full py-1 px-[8px] text-center justify-center font-semibold text-xs",
             status === "unpaid"
               ? "text-alert-red"
               : status === "paid"
@@ -160,7 +205,7 @@ const columns = [
 
 const filterOptions: Array<{
   title: string;
-  state?: OrderData["status"];
+  state?: OrderData["status"] | MobileData["status"];
 }> = [
   {
     title: "All",
@@ -178,6 +223,23 @@ const filterOptions: Array<{
     state: "unpaid",
   },
 ];
+
+const useIsSmallScreen = () => {
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    const updateScreenSize = () => {
+      setIsSmallScreen(window.innerWidth < 1024); // Tailwind `lg` breakpoint
+    };
+
+    updateScreenSize(); // Check initial screen size
+    window.addEventListener("resize", updateScreenSize);
+
+    return () => window.removeEventListener("resize", updateScreenSize);
+  }, []);
+
+  return isSmallScreen;
+};
 
 // Mock data function - replace this with your actual data fetching logic
 const fetchOrderData = async (): Promise<OrderData[]> => {
@@ -205,6 +267,15 @@ const fetchOrderData = async (): Promise<OrderData[]> => {
       date: "10-4-2024",
       status: "part-paid",
     },
+    {
+      orderId: "ORD-04123",
+      name: "Oyedepo E.",
+      listOfProducts: ["Iphone 14 (Pro)", "Iphone 14 (Pro max)"],
+      amount: "236,900",
+      channel: "Physical sales",
+      date: "10-4-2024",
+      status: "paid",
+    },
     // Add more mock data as needed
   ];
 };
@@ -230,10 +301,13 @@ const Orders = () => {
 
     loadData();
   }, []);
+  const isSmallScreen = useIsSmallScreen();
 
   const table = useReactTable({
     data,
-    columns,
+    columns: isSmallScreen
+      ? (mobile as ColumnDef<OrderData, unknown>[])
+      : columns,
     state: {
       sorting,
       columnFilters,
@@ -261,16 +335,24 @@ const Orders = () => {
   }
 
   return (
-    <section className="px-[33px] w-full">
+    <section className="w-full gap-10 lg:gap-0 flex flex-col">
       <Seo title="Order" />
       <div className="flex flex-col items-start gap-[4px]">
-        <H1>Orders</H1>
-        <P>View the complete list of orders for your business</P>
+        <H1 className="hidden lg:flex">Orders</H1>
+        <h1 className="flex lg:hidden font-semibold text-2xl text-text-primary">
+          Orders
+        </h1>
+        <P className="hidden lg:flex">
+          View the complete list of orders for your business
+        </P>
+        <p className="font-normal text-base text-text-secondary flex lg:hidden">
+          View the complete list of orders for your business
+        </p>
       </div>
 
       {/* Tabs */}
-      <div className="mt-[54px] flex justify-between items-center w-full">
-        <div className="flex items-start gap-[16px]">
+      <div className="lg:mt-[54px] flex flex-col-reverse lg:flex-row justify-between items-center w-full gap-4">
+        <div className="flex items-start scrollbar-hidden gap-[8px] w-full overflow-auto lg:overflow-visible">
           {filterOptions.map((filterOption, index) => {
             const column = table.getColumn("status");
             const filter = column?.getFilterValue();
@@ -279,9 +361,9 @@ const Orders = () => {
                 key={index}
                 onClick={() => column?.setFilterValue(filterOption.state)}
                 className={clsx(
-                  "text-center px-[8px] cursor-pointer",
+                  "text-center text-base px-3 py-1 lg:px-[8px] border-2 lg:border-0 border-text-primary rounded-3xl lg:rounded-none cursor-pointer",
                   filter === filterOption.state &&
-                    "border-b-[4px] border-solid border-text-primary"
+                    "lg:border-b-[4px] lg:border-x-0 lg:border-t-0 border-solid border-2 border-text-primary bg-text-primary text-white lg:text-black lg:bg-transparent"
                 )}
               >
                 {filterOption.title}
@@ -290,9 +372,9 @@ const Orders = () => {
           })}
         </div>
 
-        <div className="flex items-center gap-6">
-          <button className="flex items-center py-[12px] px-[16px] h-[44px] border border-solid border-neutral-border rounded-[8px] gap-4 w-72">
-            <Search size={20} className="text-text-secondary" />
+        <div className="flex items-center gap-6 w-full">
+          <button className="flex items-center py-[12px] px-[16px] h-[44px] border border-solid border-neutral-border rounded-[8px] gap-4">
+            <Search size={24} className="text-text-secondary" />
             <input type="text" className="w-full outline-none" />
           </button>
           <a
@@ -300,51 +382,117 @@ const Orders = () => {
             className="flex justify-center items-center py-2 px-4 gap-4 bg-action-default rounded-[24px] text-white"
           >
             <Plus />
-            <span className="font-medium text-[20px] leading-[30px]">
+            <span className="font-medium lg:text-[20px] lg:leading-[30px] w-max text-base leading-[22.4px]">
               Record Order
             </span>
           </a>
         </div>
       </div>
+      <div className="w-full flex lg:hidden gap-4 justify-end">
+        {["paid", "part-paid", "unpaid"].map((stat, i) => (
+          <span
+            key={i}
+            style={{
+              background:
+                stat === "unpaid"
+                  ? "rgba(220, 53, 69, 0.2)"
+                  : stat === "paid"
+                  ? "rgba(40, 167, 69, 0.2)"
+                  : "rgba(119, 119, 119, 0.2)",
+            }}
+            className={clsx(
+              "uppercase w-max flex rounded-full py-1 px-[8px] text-center justify-center font-semibold text-xs",
+              stat === "unpaid"
+                ? "text-alert-red"
+                : stat === "paid"
+                ? "text-alert-green"
+                : "text-[#777777]"
+            )}
+          >{stat}</span>
+        ))}
+      </div>
 
       {table.getRowModel().rows.length > 0 ? (
         <>
-          <Table className="mt-[80px] border-separate rounded-[8px] border-spacing-0 overflow-hidden border border-solid border-neutral-border inventory-table">
-            <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow
-                  key={headerGroup.id}
-                  className="bg-neutral-alt-b hover:bg-neutral-alt-bg h-[94px] py-[32px] px-[16px] rounded-[8px]"
-                >
-                  {headerGroup.headers.map((header) => (
-                    <TableHead key={header.id}>
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                    </TableHead>
-                  ))}
-                </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody className="border-collapse">
-              {table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  className="box-border h-[84px] bg-neutral-alt p-[16px] text-[16px] leading-[30px] text-text-primary"
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <div className="hidden lg:flex">
+            <Table className="mt-[80px] border-separate rounded-[8px] border-spacing-0 overflow-hidden border border-solid border-neutral-border inventory-table">
+              <TableHeader>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow
+                    key={headerGroup.id}
+                    className="bg-neutral-alt-b hover:bg-neutral-alt-bg h-[94px] py-[32px] px-[16px] rounded-[8px]"
+                  >
+                    {headerGroup.headers.map((header) => (
+                      <TableHead key={header.id}>
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                      </TableHead>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableHeader>
+              <TableBody className="border-collapse">
+                {table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    className="box-border h-[84px] bg-neutral-alt p-[16px] text-[16px] leading-[30px] text-text-primary"
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+          <div className="flex lg:hidden w-full">
+            <Table>
+              <TableHeader>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow
+                    key={headerGroup.id}
+                    className="bg-neutral-alt-b py-2 px-2"
+                  >
+                    {headerGroup.headers.map((header) => (
+                      <TableHead
+                        key={header.id}
+                        className="font-normal text-base text-text-primary"
+                      >
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                      </TableHead>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableHeader>
+              <TableBody className="border-collapse">
+                {table.getRowModel().rows.map((row) => (
+                  <TableRow key={row.id} className="box-border bg-neutral-alt">
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell
+                        className="font-normal text-base text-text-primary h-8 max-w-6 truncate"
+                        key={cell.id}
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </>
       ) : (
         <div className="w-full h-[400px] flex items-center justify-center">
@@ -384,21 +532,21 @@ const Orders = () => {
               </defs>
             </svg>
             <p className="text-center">
-              No orders yet, but don't worry—soon <br /> they’ll start rolling in. Stay
-              tuned!
+              No orders yet, but don't worry—soon <br /> they’ll start rolling
+              in. Stay tuned!
             </p>
           </div>
         </div>
       )}
 
       {/* PAGINATION */}
-      <div className="flex justify-between items-star mt-[32px]">
-        <div className="flex items-center gap-[16px] text-[16px] leading-[30px] text-text-primary">
+      <div className="flex justify-center gap-14 min-[400px]:justify-between items-center mt-[32px] flex-wrap lg:flex-nowrap">
+        <div className="flex items-center gap-14 text-[16px] leading-[30px] text-text-primary">
           <span>Total products</span>
           <b className="font-semibold">{data.length}</b>
         </div>
         <div className="flex items-center justify-center gap-[48px]">
-          <div className="flex items-center gap-[16px] overflow-visible">
+          <div className="hidden lg:flex items-center gap-[16px] overflow-visible">
             <span className="text-[16px] leading-[30px] whitespace-nowrap text-text-primary">
               Lines per page
             </span>

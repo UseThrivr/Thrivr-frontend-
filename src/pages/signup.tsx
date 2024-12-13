@@ -3,6 +3,7 @@ import { P } from "@/components/global";
 import { Divide, Dot, Lock, User, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import googleImg from "../assets/devicon_google.png";
+// import { useAuth } from "../context/AuthContext"; // Adjust import path as needed
 
 interface FormData {
   fullName: string;
@@ -172,10 +173,23 @@ const Signup: FC = () => {
     );
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateForm()) {
-      setShowOtp(true);
+      try {
+        // Navigate to business setup with initial registration data
+        navigate("/business", {
+          state: {
+            userData: {
+              fullname: formData.fullName,
+              email: formData.email,
+              password: formData.password
+            }
+          }
+        });
+      } catch (error) {
+        console.error("Registration navigation error:", error);
+      }
     }
   };
 
@@ -374,11 +388,11 @@ const Signup: FC = () => {
         </div>
       </form>
 
-      <OTPVerification
+      {/* <OTPVerification
         isOpen={showOtp}
         onClose={() => setShowOtp(false)}
         formData={formData}
-      />
+      /> */}
     </div>
   );
 };

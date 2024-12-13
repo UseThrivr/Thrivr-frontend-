@@ -29,7 +29,7 @@ const MobileNewStaff = () => {
   ];
 
   return (
-    <div className="px-4 py-6 overflow-auto invincible-scrollbar">
+    <div className="py-6 overflow-auto invincible-scrollbar">
       <form className="w-full flex flex-col gap-4 z-10 relative">
         <div className="flex flex-col w-full gap-4">
           <label
@@ -43,7 +43,7 @@ const MobileNewStaff = () => {
             id="full-name"
             required
             type="text"
-            className="border border-neutral-border p-3 rounded-lg w-full focus:outline-none appearance-none text-text-secondary text-base font-medium"
+            className="border border-neutral-border p-3 rounded-lg w-full appearance-none text-text-secondary text-base font-medium"
           />
         </div>
         <div className="flex flex-col w-full gap-4">
@@ -58,7 +58,7 @@ const MobileNewStaff = () => {
             id="email"
             required
             type="email"
-            className="border border-neutral-border p-3 rounded-lg w-full focus:outline-none appearance-none text-text-secondary text-base font-medium"
+            className="border border-neutral-border p-3 rounded-lg w-full appearance-none text-text-secondary text-base font-medium"
           />
         </div>
         <div className="flex flex-col w-full gap-4">
@@ -71,7 +71,7 @@ const MobileNewStaff = () => {
           <div className="w-full flex relative items-center h-auto">
             <select
               required
-              className="border border-neutral-border p-3 pr-10 rounded-lg w-full focus:outline-none appearance-none text-text-secondary text-base font-medium"
+              className="border border-neutral-border p-3 pr-10 rounded-lg w-full appearance-none text-text-secondary text-base font-medium"
               id="role"
             >
               <option disabled selected value="">

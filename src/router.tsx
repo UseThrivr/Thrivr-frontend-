@@ -18,6 +18,13 @@ import {
   EditProfile,
   Integration,
   StoreManagers,
+  MobileNewStaff,
+  MobileNewCustomers,
+  MobileNewGroup,
+  MobileCreatePlan,
+  MobileStoreSettings,
+  MobilePayment,
+  MobileCampaign,
 } from "./pages";
 import Ads from "./pages/ads";
 import Login from "./pages/login";
@@ -55,6 +62,13 @@ const Router = () => {
             <Route path="/orders/:id/edit" element={<EditOrder />} />
             <Route path="/profile/:id/edit" element={<EditProfile />} />
             <Route path="/profile/store-managers" element={<StoreManagers />} />
+            <Route path="/profile/store-managers/new-staff" element={<MobileNewStaff />} />
+            <Route path="/profile/store-settings" element={<MobileStoreSettings />} />
+            <Route path="/customers/new-customers" element={<MobileNewCustomers />} />
+            <Route path="/customers/new-group" element={<MobileNewGroup />} />
+            <Route path="/todo/create-plan" element={<MobileCreatePlan />} />
+            <Route path="/mybank/payment" element={<MobilePayment />} />
+            <Route path="/ads/new-campaign" element={<MobileCampaign />} />
           </Route>
 
           <Route element={<LoginSignupLayout />}>
