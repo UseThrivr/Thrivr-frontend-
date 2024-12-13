@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import loginLogo from "../assets/thrivr-logo.png";
 import bgImage from "../assets/Rectangle 167.png";
 import { useState } from "react";
-import { ArrowLeft, ArrowRight, Circle } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 const LoginSignupLayout: React.FC = () => {
   const Reviews = [
@@ -52,7 +52,7 @@ const LoginSignupLayout: React.FC = () => {
                 <div className="">
                   <div className="w-4 h-4 border-2 border-white rounded-full flex justify-center items-center">
                     {currentIndex == index && (
-                      <div className="w-2 h-2 bg-white rounded-full"></div>
+                      <div className="w-2 h-2 bg-white rounded-full">{review.feedback}</div>
                     )}
                   </div>
                 </div>
