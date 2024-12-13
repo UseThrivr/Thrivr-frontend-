@@ -21,7 +21,7 @@ interface FormErrors {
   agreeToTerms: string;
 }
 
-/* interface OTPVerificationProps {
+interface OTPVerificationProps {
   isOpen: boolean;
   onClose: () => void;
   formData: FormData;
@@ -110,11 +110,11 @@ const OTPVerification: FC<OTPVerificationProps> = ({
       </div>
     </div>
   );
-}; */
+};
 
 const Signup: FC = () => {
   const navigate = useNavigate();
-// const [showOtp, setShowOtp] = useState<boolean>(false);
+  const [showOtp, setShowOtp] = useState<boolean>(false);
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [formData, setFormData] = useState<FormData>({
     fullName: "",
@@ -173,7 +173,7 @@ const Signup: FC = () => {
     );
   };
 
-  /* const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateForm()) {
       try {
@@ -191,7 +191,7 @@ const Signup: FC = () => {
         console.error("Registration navigation error:", error);
       }
     }
-  }; */
+  };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -388,11 +388,11 @@ const Signup: FC = () => {
         </div>
       </form>
 
-      {/* <OTPVerification
+      <OTPVerification
         isOpen={showOtp}
         onClose={() => setShowOtp(false)}
         formData={formData}
-      /> */}
+      />
     </div>
   );
 };
