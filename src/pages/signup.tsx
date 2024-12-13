@@ -173,7 +173,7 @@ const Signup: FC = () => {
     );
   };
 
-  /* const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateForm()) {
       try {
@@ -191,7 +191,7 @@ const Signup: FC = () => {
         console.error("Registration navigation error:", error);
       }
     }
-  }; */
+  };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -222,7 +222,7 @@ const Signup: FC = () => {
         <P>Get all your business tools you need in one place</P>
       </div>
 
-      <form id="form" className="mt-5">
+      <form id="form" onSubmit={handleSubmit} className="mt-5">
         {pageIndex == 0 ? (
           <div>
             <div>
