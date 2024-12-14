@@ -83,30 +83,44 @@
     @apply bg-background text-foreground font-dm-sans;
   }
 
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
   .invincible-scrollbar {
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;
   }
-  
+
   .invincible-scrollbar::-webkit-scrollbar {
     width: 0px;
   }
-  
+
   .invincible-scrollbar::-webkit-scrollbar-track {
     background: transparent;
   }
-  
+
   .invincible-scrollbar::-webkit-scrollbar-thumb {
     background: transparent;
   }
-  
+
   .invincible-scrollbar:hover::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.2);
   }
 }
 
 a.sidebar-link {
-  @apply flex rounded-none justify-start items-center p-0 gap-[37px] h-[48px] hover:!text-action-hover hover:!border-r-action-hover border-r-[4px] border-solid;
+  @apply flex rounded-none justify-start items-center gap-[37px] h-[48px] hover:!text-action-hover hover:!border-r-action-hover border-r-[4px] border-solid;
 }
 
 a.sidebar-link.active {
@@ -155,13 +169,11 @@ table.inventory-table th {
   clip-path: polygon(100% 0%, 0% 20%, 0% 100%, 100% 100%);
 }
 
-
 @media screen and (max-width: 650px) {
   .productDivBg {
     clip-path: polygon(100% 0%, 0% 8%, 0% 100%, 100% 100%);
   }
 }
-
 
 @layer utilities {
   .scrollbar-hide::-webkit-scrollbar {

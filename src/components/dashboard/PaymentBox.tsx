@@ -25,7 +25,7 @@ const PaymentBox: React.FC<PaymentBoxProps> = ({
       <div className="flex gap-[32px]">
         {/* Icon Section */}
 
-        <div className="flex-shrink-0 flex w-[64px] h-[64px] rounded-full items-center justify-center p-[12.8px] bg-white gap-[16px]">
+        <div className="flex-shrink-0 hidden md:flex w-[64px] h-[64px] rounded-full items-center justify-center p-[12.8px] bg-white gap-[16px]">
           {image ? (
             <img
               src={image}
@@ -40,9 +40,22 @@ const PaymentBox: React.FC<PaymentBoxProps> = ({
         {/* Content Section */}
         <div className="flex flex-col lg:w-[544px] lg:h-[158px] gap-[24px]">
           <div className="w-full lg:h-[94px] flex flex-col gap-[8px]">
-            <h3 className="text-[20px] text-wrap font-medium leading-[30px] text-black">
-              {title}
-            </h3>
+            <div className="flex gap-4 items-center">
+              <div className="flex-shrink-0 flex md:hidden size-8 rounded-full items-center justify-center bg-white gap-[16px]">
+                {image ? (
+                  <img
+                    src={image}
+                    alt={title}
+                    className="rounded-full object-cover size-8"
+                  />
+                ) : (
+                  icon
+                )}
+              </div>
+              <h3 className="text-[20px] text-wrap font-medium leading-[30px] text-black">
+                {title}
+              </h3>
+            </div>
 
             <div className="text-[#5C636D] text-[16px] leading-6 font-medium">
               {texts}

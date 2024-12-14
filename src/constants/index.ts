@@ -11,7 +11,9 @@ import {
     DollarSign,
     ShoppingCart,
     Users,
-    type LucideProps
+    type LucideProps,
+    Plus,
+    MessageCircleQuestion
 } from "lucide-react";
 import ProfileImg from "/src/assets/profile/Logo.svg";
 import Rectangle from "/src/assets/profile/Rectangle.png";
@@ -135,28 +137,28 @@ export const METADATA: Metadata = {
 export const salesData = [
     {
         name: "Total Sales",
-        amount: "₦400,000,470",
+        amount: "₦400,000",
         percentage: "+65%",
         color: "bg-[#FBF2FD]",
         icon: ShoppingBag
     },
     {
         name: "Thrivr store",
-        amount: "₦40,000,470",
+        amount: "₦400,000",
         percentage: "+65%",
         color: "bg-[#E7F7E8]",
         icon: DollarSign
     },
     {
         name: "Online (All)",
-        amount: "₦80,000,470",
+        amount: "₦800,000",
         percentage: "-15%",
         color: "bg-[#EAECFD]",
         icon: ShoppingCart
     },
     {
         name: "Offline",
-        amount: "₦80,000,470",
+        amount: "₦800,000",
         percentage: "+23%",
         color: "bg-[#FFF9E6]",
         icon: Users
@@ -178,3 +180,25 @@ export const profile = {
     },
     subscription: "BASIC",
   };
+
+export const sideBarMore: Array<{
+    name: string;
+    icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>;
+}> = [
+    {
+        name: "Record Order",
+        icon: Plus,
+    },
+    {
+        name: "Add new product",
+        icon: Plus,
+    }, 
+    {
+        name: "Add to-do",
+        icon: NotebookPen,
+    },
+    {
+        name: "Help",
+        icon: MessageCircleQuestion,
+    },
+]
