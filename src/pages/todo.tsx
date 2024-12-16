@@ -22,9 +22,9 @@ const Todo: React.FC = () => {
     const closePopup = () => setIsPopupOpen(false);
 
     return (
-        <div className="p-6">
+        <div className="">
             <div className="flex flex-col items-start gap-[4px]">
-                <H1>Things to do</H1>
+                <H1 className="hidden md:flex">Things to do</H1>
                 <P>Let's get your store ready for success</P>
             </div>
             <div className="mt-[54px] mb-9 flex justify-end items-center gap-[246px]">

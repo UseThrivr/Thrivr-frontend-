@@ -35,9 +35,9 @@ const StoreSettings: React.FC<StoreSettingsProps> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-[#000000CC] hidden lg:flex justify-center z-50 overflow-auto">
-      <div className="py-24 flex items-center min-h-fit">
-        <div className="relative z-40 w-[900px] h-max bg-white rounded-lg px-12 py-12 shadow-lg animate-scaleIn lg:flex justify-center hidden">
+    <div className="absolute top-0 left-0 w-full h-full bg-[#000000CC] hidden lg:flex justify-center z-50 overflow-auto">
+      <div className="py-24 flex items-center min-h-fit w-full justify-center">
+        <div className="relative h-max lg:w-[600px] xl:w-[800px] bg-white rounded-lg py-8 px-8 shadow-lg scale-95 animate-scaleIn flex justify-center">
           <div className="w-full flex flex-col gap-4">
             <button
               onClick={onClose}

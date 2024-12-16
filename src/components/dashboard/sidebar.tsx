@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import clsx from "clsx";
 import { Link, NavLink } from "react-router-dom";
 import { ThrivrHeader } from "../svg";
-import userImage from "@/assets/user-img.png"
+import userImage from "@/assets/user-img.png";
 import {
   SidebarContent,
   SidebarGroup,
@@ -41,7 +41,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       <div
         className={cn(
           "fixed inset-y-0 left-0 z-50 w-[var(--dashboard-sidebar-width)] bg-white transform transition-transform duration-300 ease-in-out",
-          "lg:relative lg:transform-none",
+          "lg:transform-none",
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
         onClick={(e) => e.stopPropagation()}
@@ -54,7 +54,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
             <ThrivrHeader />
           </SidebarHeader>
 
-          <SidebarContent className="overflow-scroll">
+          <SidebarContent className="overflow-auto lg:overflow-hidden lg:hover:overflow-auto">
             <SidebarGroup className="pr-0">
               <SidebarGroupLabel className="text-[16px] p-0 leading-22 text-text-secondary pl-[2rem]">
                 MENU

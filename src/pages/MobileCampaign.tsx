@@ -136,57 +136,55 @@ const MobileCampaign = () => {
                 <p className="mt-2 text-sm text-red-600">{errorMessage}</p>
               )}
             </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+              <div>
+                <p className="my-2">Start Date</p>
+                <input
+                  type="date"
+                  className="text-sm border-2 p-3 w-full rounded"
+                />
+              </div>
+              <div>
+                <p className="my-2">End Date</p>
+                <input
+                  type="date"
+                  className="text-sm border-2 p-3 w-full rounded"
+                />
+              </div>
+            </div>
+            <div>
+              <p className="my-1">Target Audience</p>
+              <p className="text-gray-600 text-sm my-2">Who are your target?</p>
+              <select
+                name="targetAudience"
+                id=""
+                value={campaignDetails.targetAudience}
+                onChange={handleChange}
+                className="border-2 rounded w-full p-3"
+              >
+                <option value="" disabled>
+                  Select an Audience
+                </option>
+                {targetAudience.map((audience, index) => (
+                  <option key={index} value={audience}>
+                    {audience}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="">
+              <p className="my-3">Budget</p>
+              <input
+                type="text"
+                placeholder="₦0.00"
+                className="text-sm border-2 rounded w-full p-3"
+              />
+            </div>
           </>
-        )}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          <div>
-            <p className="my-2">Start Date</p>
-            <input
-              type="date"
-              className="text-sm border-2 p-3 w-full rounded"
-            />
-          </div>
-          <div>
-            <p className="my-2">Start Date</p>
-            <input
-              type="date"
-              className="text-sm border-2 p-3 w-full rounded"
-            />
-          </div>
-        </div>
-        <div>
-          <p className="my-1">Target Audience</p>
-          <p className="text-gray-600 text-sm my-2">Who are your target?</p>
-          <select
-            name="targetAudience"
-            id=""
-            value={campaignDetails.targetAudience}
-            onChange={handleChange}
-            className="border-2 rounded w-full p-3"
-          >
-            <option value="" disabled>
-              Select an Audience
-            </option>
-            {targetAudience.map((audience, index) => (
-              <option key={index} value={audience}>
-                {audience}
-              </option>
-            ))}
-          </select>
-        </div>
-        {campaignDetails.platform === "Email" && (
-          <div className="">
-            <p className="my-3">Budget</p>
-            <input
-              type="text"
-              placeholder="₦0.00"
-              className="text-sm border-2 rounded w-full p-3"
-            />
-          </div>
         )}
         <div className="w-full ">
           <button className="w-full p-3 bg-[#870E73] rounded-full text-white">
-            {campaignDetails.platform === "Email" ? "Send": "Next"}
+            {campaignDetails.platform === "Email" ? "Send" : "Next"}
           </button>
         </div>
       </div>

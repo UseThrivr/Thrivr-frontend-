@@ -61,7 +61,7 @@ const Sales = () => {
       <Seo title="Sales" />
       <section className="w-full pt-[1rem]">
         <div className="flex flex-col gap-[4px]">
-          <h1 className="font-[600] text-[48px] leading-[52.8px] tracking-[-1%] text-primary">
+          <h1 className="font-[600] text-[48px] leading-[52.8px] tracking-[-1%] text-primary hidden md:flex">
             Sales
           </h1>
           <p className="text-[1rem] leading-[22.4px] font-[500] text-[#5c636d]">
@@ -75,10 +75,10 @@ const Sales = () => {
           <ChevronDown className="size-[18px] md:size-6" />
         </div>
         <SalesCard />
-        <div className="w-full flex flex-col lg:flex-row gap-[32px]">
+        <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-[32px]">
           {/* Section 1 Chart */}
-          <div className="lg:w-1/2 h-full flex flex-col gap-[24px]">
-            <div className="w-full h-[34px] flex items-center justify-between">
+          <div className="flex-1 flex flex-col gap-[24px]">
+            <div className="w-full flex items-center justify-between">
               <h1 className="font-semibold tracking-[-1%] md:leading-[35.2px] text-base md:text-[24px] text-text-primary">
                 Total Sales
               </h1>
@@ -95,8 +95,8 @@ const Sales = () => {
           </div>
 
           {/* Section 2 Chart */}
-          <div className="lg:w-1/2 flex flex-col gap-[24px]">
-            <div className="w-full h-[34px] flex items-center justify-between">
+          <div className="flex-1 flex flex-col gap-[24px]">
+            <div className="w-full flex items-center justify-between">
               <div className="flex items-center gap-1">
                 <h1 className="font-semibold tracking-[-1%] md:leading-[35.2px] text-base md:text-[24px] text-text-primary min-w-max">
                   Thrivr store

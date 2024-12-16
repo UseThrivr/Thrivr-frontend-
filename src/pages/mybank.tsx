@@ -16,9 +16,9 @@ const Mybank = () => {
   return (
     <>
       <Seo title="Bank Accounts" />
-      <section className="w-full h-screen pt-[1rem] md:px-[5%]">
+      <section className="w-full h-screen pt-[1rem]">
         <div className="flex flex-col gap-[4px] mb-5 w-full">
-          <h1 className="font-[600] text-[48px] leading-[52.8px] tracking-[-1%] text-primary">
+          <h1 className="font-[600] text-[48px] leading-[52.8px] tracking-[-1%] text-primary hidden md:flex">
             Bank accounts
           </h1>
           <p className="text-[1rem] leading-[22.4px] font-[500] text-[#5c636d]">

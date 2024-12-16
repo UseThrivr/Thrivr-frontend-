@@ -1,6 +1,6 @@
 import { Seo } from "@/components/global";
 import OverviewCard from "@/components/dashboard/OverviewCard";
-import { ChevronDown, ShoppingBag } from "lucide-react";
+import { ChevronDown, Copy, ShoppingBag, Store } from "lucide-react";
 import BarChart from "@/components/dashboard/BarChart";
 import ProgressBar from "@/components/dashboard/ProgressBar";
 import { progressData } from "@/constants";
@@ -22,10 +22,51 @@ const Dashboard = () => {
   ];
   const dataPoints = [50, 100, 120, 169, 78, 200, 246, 280, 150, 168, 178, 246];
 
+  const handleCopy = (data: string) => {
+    console.log(data)
+  }
+
   return (
     <>
       <Seo title="Dashboard" />
       <section className="w-full lg:pt-[1rem]">
+        <div className="mb-[28px] flex gap-[14px] md:hidden">
+          {[
+            {
+              name: "Visit store",
+              icon: <Store size={18} />,
+              color: "text-text-secondary",
+              link: "https://johngadgets.thrivr.shop"
+            },
+            {
+              name: "Copy link",
+              icon: <Copy size={18} />,
+              color: "text-action-default",
+              link: "https://johngadgets.thrivr.shop"
+            },
+          ].map(({ name, icon, color, link }, i) => (
+            <>
+              {name === "Copy link" ? (
+                <button
+                  onClick={() => handleCopy(link)}
+                  key={i}
+                  className={`bg-neutral-alt-b py-[6px] px-2 rounded-full gap-2 flex items-center ${color} font-medium text-xs cursor-pointer leading-[18px]`}
+                >
+                  {icon}
+                  {name}
+                </button>
+              ) : (
+                <button
+                  key={i}
+                  className={`bg-neutral-alt-b py-[6px] px-2 rounded-full gap-2 flex items-center ${color} font-medium text-xs cursor-pointer leading-[18px]`}
+                >
+                  {icon}
+                  {name}
+                </button>
+              )}
+            </>
+          ))}
+        </div>
         <div className="hidden md:flex flex-col gap-[4px]">
           <h1 className="font-[600] text-[48px] leading-[52.8px] tracking-[-1%] text-primary">
             Hello John
@@ -35,9 +76,11 @@ const Dashboard = () => {
           </p>
         </div>
         <div className="w-full flex items-end">
-          <div className="flex-col flex items-start gap-4">
+          <div className="flex-col flex md:hidden items-start gap-4">
             <h2 className="font-medium text-xs">Total sales</h2>
-            <p className="font-semibold text-2xl text-text-primary">₦1,500,000</p>
+            <p className="font-semibold text-2xl text-text-primary">
+              ₦1,500,000
+            </p>
           </div>
           <div className="flex items-center justify-end w-full py-[8px] px-[16px] gap-[16px] text-action-default md:text-[#5c636d]">
             <h4 className="font-[500] text-[12px] md:text-[20px] md:leading-[30px]">
@@ -79,6 +122,38 @@ const Dashboard = () => {
             </div>
             <BarChart labels={labels} dataPoints={dataPoints} />
           </div>
+          <div className="flex sm:hidden flex-col gap-4 items-start w-full">
+            <h2 className="font-medium text-base leading-5 text-text-primary">
+              To do
+            </h2>
+            <div className="flex flex-col items-start gap-2 relative">
+              {[
+                "Isaac Olaniyi just ordered “Fried Rice and Chicken” on the Thrivr app. Go and fulfill the order.",
+                "Ngozi just ordered 2 plates of “Fried Rice and Chicken” on the Thrivr app. Go and fulfill the order.",
+              ].map((todo, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-4 font-normal text-basemmt65  text-text-secondary"
+                >
+                  <div>
+                    <ShoppingBag size={24} />
+                  </div>
+                  {todo}
+                </div>
+              ))}
+              <div
+                className="absolute bottom-0 left-0 w-full bg-black h-[55px] items-end flex rounded-t-2xl p-[9px]"
+                style={{
+                  background:
+                    "linear-gradient(180deg, #FDF2FB 0%, #FFFFFF 51.17%)",
+                }}
+              >
+                <button className="text-action-default font-normal text-base flex md:hidden">
+                  View all
+                </button>
+              </div>
+            </div>
+          </div>
           <div className="lg:w-[303px] lg:h-[484px] flex flex-col gap-[24px]">
             <div className="flex w-full justify-between">
               <h2 className="md:font-semibold font-medium text-[16px] md:text-[32px] md:leading-[35.2px] tracking-[-1%] text-primary whitespace-nowrap">
@@ -88,7 +163,7 @@ const Dashboard = () => {
                 View all
               </button>
             </div>
-            <div className="lg:w-[271px] h-full flex flex-col gap-[24px]">
+            <div className=" h-full flex flex-col gap-[24px] pb-2">
               {progressData.map((item) => (
                 <ProgressBar
                   key={item.name}
