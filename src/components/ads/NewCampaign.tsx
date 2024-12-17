@@ -49,9 +49,9 @@ const NewCampaign: React.FC<btnProp> = ({ onBtnClick }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-[#000000CC] hidden lg:flex justify-center z-50 overflow-auto">
-      <div className="py-24 flex items-center min-h-fit">
-        <div className="relative z-40 w-[900px] h-max bg-white rounded-lg px-12 py-12 shadow-lg animate-scaleIn lg:flex justify-center hidden">
+    <div className="absolute top-0 left-0 w-full h-full bg-[#000000CC] hidden lg:flex justify-center z-50 overflow-auto">
+      <div className="py-24 flex items-center min-h-fit w-full justify-center">
+        <div className="relative h-max lg:w-[600px] xl:w-[800px] bg-white rounded-lg py-8 px-8 shadow-lg scale-95 animate-scaleIn flex justify-center">
           <div className="w-full flex flex-col gap-4">
             <button
               onClick={onBtnClick}
@@ -156,55 +156,53 @@ const NewCampaign: React.FC<btnProp> = ({ onBtnClick }) => {
                       </p>
                     )}
                   </div>
+                  <div className="grid grid-cols-2 gap-10">
+                    <div>
+                      <p className="my-2">Start Date</p>
+                      <input
+                        type="date"
+                        className="text-sm border-2 p-3 w-full rounded"
+                      />
+                    </div>
+                    <div>
+                      <p className="my-2">End Date</p>
+                      <input
+                        type="date"
+                        className="text-sm border-2 p-3 w-full rounded"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <p className="my-1">Target Audience</p>
+                    <p className="text-gray-600 text-sm my-2">
+                      Who are your target?
+                    </p>
+                    <select
+                      name="targetAudience"
+                      id=""
+                      value={campaignDetails.targetAudience}
+                      onChange={handleChange}
+                      className="border-2 rounded w-full p-3"
+                    >
+                      <option value="" disabled>
+                        Select an Audience
+                      </option>
+                      {targetAudience.map((audience, index) => (
+                        <option key={index} value={audience}>
+                          {audience}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="">
+                    <p className="my-3">Budget</p>
+                    <input
+                      type="text"
+                      placeholder="₦0.00"
+                      className="text-sm border-2 rounded w-full p-3"
+                    />
+                  </div>
                 </>
-              )}
-              <div className="grid grid-cols-2 gap-10">
-                <div>
-                  <p className="my-2">Start Date</p>
-                  <input
-                    type="date"
-                    className="text-sm border-2 p-3 w-full rounded"
-                  />
-                </div>
-                <div>
-                  <p className="my-2">Start Date</p>
-                  <input
-                    type="date"
-                    className="text-sm border-2 p-3 w-full rounded"
-                  />
-                </div>
-              </div>
-              <div>
-                <p className="my-1">Target Audience</p>
-                <p className="text-gray-600 text-sm my-2">
-                  Who are your target?
-                </p>
-                <select
-                  name="targetAudience"
-                  id=""
-                  value={campaignDetails.targetAudience}
-                  onChange={handleChange}
-                  className="border-2 rounded w-full p-3"
-                >
-                  <option value="" disabled>
-                    Select an Audience
-                  </option>
-                  {targetAudience.map((audience, index) => (
-                    <option key={index} value={audience}>
-                      {audience}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              {campaignDetails.platform === "Email" && (
-                <div className="">
-                  <p className="my-3">Budget</p>
-                  <input
-                    type="text"
-                    placeholder="₦0.00"
-                    className="text-sm border-2 rounded w-full p-3"
-                  />
-                </div>
               )}
               <div className="w-full ">
                 <button className="w-full p-3 bg-[#870E73] rounded-full text-white">

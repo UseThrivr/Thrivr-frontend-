@@ -224,10 +224,10 @@ const Inventory = () => {
     }
 
     return (
-        <section className="px-[33px]">
+        <section className="">
             <Seo title="Inventory" />
             <div className="flex flex-col items-start gap-[4px]">
-                <H1>Product Inventory</H1>
+                <H1 className="hidden md:flex">Product Inventory</H1>
                 <P>Check the full inventory list for your shop</P>
             </div>
 

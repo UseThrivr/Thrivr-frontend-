@@ -338,10 +338,7 @@ const Orders = () => {
     <section className="w-full gap-10 lg:gap-0 flex flex-col">
       <Seo title="Order" />
       <div className="flex flex-col items-start gap-[4px]">
-        <H1 className="hidden lg:flex">Orders</H1>
-        <h1 className="flex lg:hidden font-semibold text-2xl text-text-primary">
-          Orders
-        </h1>
+        <H1 className="hidden md:flex">Orders</H1>
         <P className="hidden lg:flex">
           View the complete list of orders for your business
         </P>

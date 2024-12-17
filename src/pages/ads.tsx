@@ -9,15 +9,17 @@ const Ads = () => {
   const buttons = ["All", "Facebook Ads", "Instagram Ads", "Email Ads"];
   const [tabNum, setTabNum] = useState<number>(1);
 
-    const filterFacebookAds = (campaigns: campaignData[]): campaignData[] => {
-        return campaigns.filter(campaigns => campaigns.name.includes("Facebook"))
-    }
-    const instagramFacebookAds = (campaigns: campaignData[]): campaignData[] => {
-        return campaigns.filter(campaigns => campaigns.name.includes("Instagram"))
-    }
-    const emailFacebookAds = (campaigns: campaignData[]): campaignData[] => {
-        return campaigns.filter(campaigns => campaigns.name.includes("Email"))
-    }
+  const filterFacebookAds = (campaigns: campaignData[]): campaignData[] => {
+    return campaigns.filter((campaigns) => campaigns.name.includes("Facebook"));
+  };
+  const instagramFacebookAds = (campaigns: campaignData[]): campaignData[] => {
+    return campaigns.filter((campaigns) =>
+      campaigns.name.includes("Instagram")
+    );
+  };
+  const emailFacebookAds = (campaigns: campaignData[]): campaignData[] => {
+    return campaigns.filter((campaigns) => campaigns.name.includes("Email"));
+  };
 
   const facebookAds = filterFacebookAds(campaigns);
   const instagramAds = instagramFacebookAds(campaigns);
@@ -28,8 +30,8 @@ const Ads = () => {
   return (
     <>
       <Seo title="Ads" />
-      <section className="px-[5%] pb-20">
-        <H1>Campaign & Ads</H1>
+      <section className="pb-20">
+        <H1 className="hidden md:flex">Campaign & Ads</H1>
         <P className="mt-1">
           Make it easier for potential customers to find your business with Ads
         </P>
@@ -38,6 +40,7 @@ const Ads = () => {
             <div className="flex gap-3 mt-3 lg:mt-0">
               {buttons.map((btn, index) => (
                 <button
+                  key={index}
                   onClick={() => setTabNum(index + 1)}
                   className={`${
                     tabNum === index + 1 ? "border-b-4" : "border-none"
@@ -56,7 +59,7 @@ const Ads = () => {
                 Create New Campaign
               </button>
               <a
-              href="/ads/new-campaign"
+                href="/ads/new-campaign"
                 className="rounded-full bg-[#870E73] text-white py-2 px-3 flex lg:hidden gap-3 w-max"
               >
                 <Megaphone />

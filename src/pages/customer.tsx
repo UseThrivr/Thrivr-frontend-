@@ -286,13 +286,10 @@ const Customer = () => {
   };
 
   return (
-    <section className="lg:px-[33px] gap-10 flex flex-col lg:gap-0">
+    <section className="gap-10 flex flex-col lg:gap-0">
       <Seo title="Customers" />
       <div className="flex flex-col items-start gap-[4px]">
-        <H1 className="hidden lg:flex">Customers</H1>
-        <h1 className="flex lg:hidden font-semibold text-2xl text-text-primary">
-          Customers
-        </h1>
+        <H1 className="hidden md:flex">Customers</H1>
         <P className="hidden lg:flex">
           View all customers who've shopped with you.
         </P>

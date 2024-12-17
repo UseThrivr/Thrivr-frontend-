@@ -33,14 +33,14 @@ const DashboardLayout: React.FC<NavBarProps> = (navBarProps) => {
                 <div className="flex h-screen w-full">
                     <Sidebar 
                         className={cn(
-                            "fixed lg:relative inset-y-0 left-0 z-50 w-64 lg:w-[var(--dashboard-sidebar-width)] bg-white transform transition-transform duration-300 ease-in-out",
+                            "fixed inset-y-0 left-0 z-50 w-64 lg:w-[var(--dashboard-sidebar-width)] bg-white transform transition-transform duration-300 ease-in-out",
                             isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
                         )}
                         onClose={() => setMobileSidebarOpen(false)}
                         isOpen={isMobileSidebarOpen}
                     />
                     
-                    <div className="flex flex-col flex-1 w-full overflow-hidden">
+                    <div className="flex relative flex-col flex-1 w-full overflow-hidden lg:ml-[var(--dashboard-sidebar-width)]">
                         <Navbar 
                             {...navBarProps}
                         />

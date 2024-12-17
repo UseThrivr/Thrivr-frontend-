@@ -1,4 +1,6 @@
-import { Outlet } from "react-router-dom";
+import { 
+  // NavLink, 
+  Outlet } from "react-router-dom";
 import loginLogo from "../assets/thrivr-logo.png";
 import bgImage from "../assets/Rectangle 167.png";
 import { useState } from "react";
@@ -39,7 +41,7 @@ const LoginSignupLayout: React.FC = () => {
     <div className=" w-full bg-[#870E73DB]">
       <div className="">
         <div
-          className="w-[45%] h-screen fixed flex flex-col"
+          className="md:w-[45%] h-screen fixed hidden md:flex flex-col"
           style={{
             backgroundImage: `url(${bgImage})`,
             backgroundPosition: "center",
@@ -47,7 +49,7 @@ const LoginSignupLayout: React.FC = () => {
           }}
         >
           <div className="bg-[#870E73] bg-opacity-75 h-2/5 mt-auto px-20 flex flex-col justify-center text-white">
-            <div className="flex mb-5 gap-2">
+            {/* <div className="flex mb-5 gap-2">
               {Reviews.map((review, index) => (
                 <div className="">
                   <div className="w-4 h-4 border-2 border-white rounded-full flex justify-center items-center">
@@ -57,7 +59,7 @@ const LoginSignupLayout: React.FC = () => {
                   </div>
                 </div>
               ))}
-            </div>
+            </div> */}
 
             <div className="overflow-hidden mx-auto">
               <div
@@ -83,8 +85,8 @@ const LoginSignupLayout: React.FC = () => {
           </div>
         </div>
         {/* White container for content */}
-        <div className="max-w-[55%] ms-auto bg-white p-5 lg:p-10 lg:px-36">
-          This will go large and get high amount of view Amen
+        <div className="md:max-w-[55%] ms-auto bg-white p-5 lg:p-10 lg:px-36">
+          {/* This will go large and get high amount of view Amen */}
           {/* Logo section */}
           <div className="flex gap-1 mb-5">
             <div className="my-auto w-[80px]">
@@ -98,8 +100,8 @@ const LoginSignupLayout: React.FC = () => {
               Thrivr
             </p>
           </div>
-          {/*           
-          Navigation tabs
+                    
+          {/* Navigation tabs
           <div className="flex justify-center mb-6">
             <NavLink
               to="/login"

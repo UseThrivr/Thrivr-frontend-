@@ -6,9 +6,9 @@ const Integration: React.FC = () => {
     return (
         <>
             <Seo title="Integration" />
-            <section className="w-full h-screen pt-[1rem] px-[5%]">
+            <section className="w-full h-screen pt-[1rem]">
                 <div className="flex flex-col gap-[4px]">
-                    <H1>Integrate apps</H1>
+                    <H1 className="hidden md:flex">Integrate apps</H1>
                     <P className="mt-1">    
                         Get your store ready for success through these apps
                     </P>
