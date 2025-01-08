@@ -101,6 +101,7 @@ const Login: React.FC = () => {
           password: errorMessage
         }))
       } else {
+        toast.error("Login Failed!");
         console.log("Mehn What the fuck did you just do?")
       }
     } finally {

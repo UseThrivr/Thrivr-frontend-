@@ -3,6 +3,7 @@ import { P } from "@/components/global";
 import { Dot, Lock, User, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import googleImg from "../assets/devicon_google.png";
+import facebookImg from "../assets/logos_facebook.png";
 // import { useAuth } from "../context/AuthContext"; // Adjust import path as needed
 
 interface FormData {
@@ -140,31 +141,32 @@ const Signup: FC = () => {
       confirmPassword: "",
       agreeToTerms: "",
     };
+    if (pageIndex === 0) {
+      if (!formData.fullName.trim()) {
+        newErrors.fullName = "Full name is required";
+      }
 
-    if (!formData.fullName.trim()) {
-      newErrors.fullName = "Full name is required";
-    }
+      if (!formData.email.trim()) {
+        newErrors.email = "Email is required";
+      } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+        newErrors.email = "Invalid email format";
+      }
+    } else {
+      if (!formData.password) {
+        newErrors.password = "Password is required";
+      } else if (formData.password.length < 6) {
+        newErrors.password = "Password must be at least 6 characters";
+      }
 
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Invalid email format";
-    }
+      if (!formData.confirmPassword) {
+        newErrors.confirmPassword = "Please confirm your password";
+      } else if (formData.password !== formData.confirmPassword) {
+        newErrors.confirmPassword = "Passwords do not match";
+      }
 
-    if (!formData.password) {
-      newErrors.password = "Password is required";
-    } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
-    }
-
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword = "Please confirm your password";
-    } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match";
-    }
-
-    if (!formData.agreeToTerms) {
-      newErrors.agreeToTerms = "You must agree to the terms";
+      if (!formData.agreeToTerms) {
+        newErrors.agreeToTerms = "You must agree to the terms";
+      }
     }
 
     setErrors(newErrors);
@@ -175,6 +177,10 @@ const Signup: FC = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (pageIndex === 0 && validateForm()) {
+      setPageIndex(1);
+      return;
+    }
     if (validateForm()) {
       try {
         // Navigate to business setup with initial registration data
@@ -183,9 +189,9 @@ const Signup: FC = () => {
             userData: {
               fullname: formData.fullName,
               email: formData.email,
-              password: formData.password
-            }
-          }
+              password: formData.password,
+            },
+          },
         });
       } catch (error) {
         console.error("Registration navigation error:", error);
@@ -204,14 +210,6 @@ const Signup: FC = () => {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
-
-  const setButtonClick = () =>{
-    if (pageIndex == 0) {
-      setPageIndex(1)
-    } else {
-      
-    }
-  }
 
   return (
     <div className="pb-10">
@@ -352,41 +350,43 @@ const Signup: FC = () => {
           </div>
         )}
 
-        <button
-          onClick={setButtonClick}
-          className="w-full rounded-2xl bg-[#870E73] text-white p-2 mt-10 font-semibold"
-        >
+        <button className="w-full rounded-2xl bg-[#870E73] text-white p-2 mt-10 font-semibold">
           {pageIndex == 0 ? "Continue" : "Sign Up"}
         </button>
-
-        <div className="flex my-5">
-          <div className="w-full border border-black h-fit my-auto"></div>
-          <p className="mx-5">or</p>
-          <div className="w-full border border-black h-fit my-auto"></div>
-        </div>
-
-        <div className="flex gap-10">
-          <button
-            type="button"
-            onClick={() => navigate("/setupbusiness")}
-            className="text-black bg-white mt-5 w-full rounded-lg py-2 border-2 flex justify-center gap-2"
-          >
-            <img src={googleImg} alt="" />
-            Sign In with Google
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate("/setupbusiness")}
-            className="text-black bg-white mt-5 w-full rounded-lg py-2 border-2 flex justify-center gap-2"
-          >
-            <img src={googleImg} alt="" />
-            Sign In with Facebook
-          </button>
-        </div>
-        <div className="mt-10">
-          <p className="">Already have an account? <Link to="/login" className="text-[#870E73] ms-1">log In</Link></p>
-        </div>
       </form>
+
+      <div className="flex my-5">
+        <div className="w-full border border-black h-fit my-auto"></div>
+        <p className="mx-5">or</p>
+        <div className="w-full border border-black h-fit my-auto"></div>
+      </div>
+
+      <div className="flex gap-x-10 flex-col lg:flex-row">
+        <button
+          type="button"
+          onClick={() => navigate("/setupbusiness")}
+          className="text-black bg-white mt-5 w-full rounded-lg py-2 border-2 flex justify-center gap-2"
+        >
+          <img src={googleImg} alt="" />
+          Sign In with Google
+        </button>
+        <button
+          type="button"
+          onClick={() => navigate("/setupbusiness")}
+          className="text-black bg-white mt-5 w-full rounded-lg py-2 border-2 flex justify-center gap-2"
+        >
+          <img src={facebookImg} alt="" />
+          Sign In with Facebook
+        </button>
+      </div>
+      <div className="mt-10">
+        <p className="">
+          Already have an account?{" "}
+          <Link to="/login" className="text-[#870E73] ms-1">
+            log In
+          </Link>
+        </p>
+      </div>
 
       <OTPVerification
         isOpen={showOtp}
