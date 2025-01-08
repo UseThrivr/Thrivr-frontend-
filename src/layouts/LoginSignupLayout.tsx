@@ -41,7 +41,7 @@ const LoginSignupLayout: React.FC = () => {
     <div className=" w-full bg-[#870E73DB]">
       <div className="">
         <div
-          className="md:w-[45%] h-screen fixed hidden md:flex flex-col"
+          className="md:w-[45%] h-dvh fixed hidden md:flex flex-col"
           style={{
             backgroundImage: `url(${bgImage})`,
             backgroundPosition: "center",
@@ -85,7 +85,7 @@ const LoginSignupLayout: React.FC = () => {
           </div>
         </div>
         {/* White container for content */}
-        <div className="md:max-w-[55%] ms-auto bg-white p-5 lg:p-10 lg:px-36">
+        <div className="md:max-w-[55%] ms-auto bg-white p-5 lg:p-10 xl:px-36">
           {/* This will go large and get high amount of view Amen */}
           {/* Logo section */}
           <div className="flex gap-1 mb-5">

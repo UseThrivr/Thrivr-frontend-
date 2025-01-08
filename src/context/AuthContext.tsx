@@ -17,14 +17,14 @@ import {
 
 // Types for registration and login
 interface BusinessRegistrationData {
-  fullname: string;
+  full_name: string;
   business_name: string;
   location: string;
   email: string;
   phone_number: string;
   description: string;
   password: string;
-  logo?: File | null;
+  logo?: File | null | string;
 }
 
 interface LoginData {
@@ -38,13 +38,18 @@ interface ApiError {
   code?: string;
 }
 
+interface OtpData {
+  otp: string;
+  email: string;
+}
+
 // Auth Context Type
 interface AuthContextType {
   isAuthenticated: boolean;
   user: UserDetails | null;
   register: (data: BusinessRegistrationData) => Promise<unknown>;
   login: (data: LoginData) => Promise<unknown>;
-  verifyOTP: (otp: string) => Promise<unknown>;
+  verifyOTP: (data: OtpData) => Promise<unknown>;
   resendOTP: () => Promise<unknown>;
   logout: () => void;
 }
@@ -92,9 +97,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   }, []);
 
-  const verifyOTP = useCallback(async (otp: string) => {
+  const verifyOTP = useCallback(async (data: OtpData) => {
     try {
-      const response = await axiosInstance.post('/api/v1/auth/verify-otp', { otp });
+      const response = await axiosInstance.post('/api/v1/auth/verify-otp', data);
       
       // Store token and user details after OTP verification
       setToken(response.data.token);

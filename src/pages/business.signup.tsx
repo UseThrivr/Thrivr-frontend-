@@ -1,4 +1,4 @@
-import { useState, useRef, ChangeEvent, FormEvent } from 'react';
+import { useState, useRef, ChangeEvent, FormEvent, useEffect } from 'react';
 import { MapPin, Phone, Building2, Upload, X } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext'; // Adjust import path as needed
@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext'; // Adjust import path as neede
 
 const BusinessSetup = () => {
   const navigate = useNavigate();
-  const { register } = useAuth();
+  const { register, verifyOTP } = useAuth();
   const location = useLocation();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const userData = location.state?.userData || {};
@@ -14,7 +14,15 @@ const BusinessSetup = () => {
   const [showOtp, setShowOtp] = useState(false);
   const [otp, setOtp] = useState<string[]>(['', '', '', '']);
   const [loading, setLoading] = useState(false);
+  const [otpLoading, setOtpLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!userData.email) {
+      navigate("/signup")
+    }
+  }, [])
+  
 
   const [formData, setFormData] = useState({
     businessName: '',
@@ -62,17 +70,28 @@ const BusinessSetup = () => {
 
     try {
       // Combine initial signup data with business data
-      const completeRegistrationData = {
-        fullname: userData.fullname,
+      const completeRegistrationData = 
+      formData.logo ?
+      {
+        full_name: userData.fullname,
         email: userData.email,
         password: userData.password,
         business_name: formData.businessName,
         location: formData.businessLocation,
-        phone_number: formData.phoneNumber,
+        phone_number: formData.businessLocation === 'NG' ? `+234${formData.phoneNumber.trim()}` : `+233${formData.phoneNumber.trim()}` ,
         description: formData.description,
-        logo: formData.logo
+        logo: formData.logo || ""
+      } : {
+        full_name: userData.fullname,
+        email: userData.email,
+        password: userData.password,
+        business_name: formData.businessName,
+        location: formData.businessLocation,
+        phone_number: formData.businessLocation === 'NG' ? `+234${formData.phoneNumber.trim()}` : `+233${formData.phoneNumber.trim()}` ,
+        description: formData.description,
       };
 
+      console.log({...completeRegistrationData})
       const response = await register(completeRegistrationData);
       console.log(response)
       setShowOtp(true);
@@ -87,9 +106,27 @@ const BusinessSetup = () => {
     }
   };
 
-  const handleOtpVerification = () => {
-    // Implement OTP verification logic here
-    navigate('/dashboard');
+  const handleOtpVerification = async () => {
+    setOtpLoading(true);
+    try {
+      const otpVerification = {
+        otp: otp.join(""),
+        email: userData.email,
+      }
+
+      console.log({...otpVerification})
+      const response = await verifyOTP(otpVerification);
+      console.log(response)
+      navigate('/dashboard');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unexpected error occurred.');
+      }
+    } finally {
+      setOtpLoading(false);
+    }
   };
 
   return (
@@ -128,8 +165,9 @@ const BusinessSetup = () => {
             <button
               onClick={handleOtpVerification}
               className="w-full bg-[#870E73] text-white rounded-[24px] py-4 hover:opacity-90"
+              disabled={otpLoading}
             >
-              Verify
+              {otpLoading ? 'Verifying...' : 'Verify'}
             </button>
           </div>
         </div>
@@ -197,6 +235,7 @@ const BusinessSetup = () => {
               onChange={handleInputChange}
               placeholder="Enter Business Phone Number"
               className="w-full focus:outline-none"
+              maxLength={10}
               required
             />
           </div>
