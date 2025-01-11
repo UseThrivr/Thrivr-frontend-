@@ -157,8 +157,8 @@ const Login: React.FC = () => {
           
           <div className="flex justify-between mt-4">
             <div className="flex gap-1">
-              <input type="checkbox" />
-              <p className="">Remember me</p>
+              <input type="checkbox" id="remember"/>
+              <label className="" htmlFor="remember">Remember me</label>
             </div>
             <Link to="/forgot-password" className="text-sm underline text-[#870E73]">
               Forgot Password

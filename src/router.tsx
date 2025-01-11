@@ -33,6 +33,7 @@ import Signup from "./pages/signup";
 import Businesssetup from "./pages/businesssetup";
 import BusinessSetup from "./pages/business.signup";
 import { SidebarProvider } from "./context/SidebarContext";
+import Onboarding from "./pages/Onboarding";
 
 const Router = () => {
   return (
@@ -74,6 +75,7 @@ const Router = () => {
           <Route element={<LoginSignupLayout />}>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/onboarding" element={<Onboarding />} />
             <Route path="/setupbusiness" element={<Businesssetup />} />
             <Route path="/business" element={<BusinessSetup />} />
           </Route>
