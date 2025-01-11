@@ -81,7 +81,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const login = useCallback(async (data: LoginData) => {
     try {
-      const response = await axiosInstance.post('/auth/login', data);
+      const response = await axiosInstance.post('/api/v1/auth/login', data);
       
       // Store token and user details
       setToken(response.data.token);

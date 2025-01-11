@@ -1,11 +1,11 @@
 import { 
+  Link,
   // NavLink, 
   Outlet } from "react-router-dom";
 import loginLogo from "../assets/thrivr-logo.png";
 import bgImage from "../assets/Rectangle 167.png";
 import { useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-
 const LoginSignupLayout: React.FC = () => {
   const Reviews = [
     {
@@ -36,6 +36,7 @@ const LoginSignupLayout: React.FC = () => {
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % Reviews.length);
   };
+  
 
   return (
     <div className=" w-full bg-[#870E73DB]">
@@ -88,7 +89,7 @@ const LoginSignupLayout: React.FC = () => {
         <div className="md:max-w-[55%] ms-auto bg-white p-5 lg:p-10 xl:px-36">
           {/* This will go large and get high amount of view Amen */}
           {/* Logo section */}
-          <div className="flex gap-1 mb-5">
+          <Link to="/" className="flex gap-1 mb-5">
             <div className="my-auto w-[80px]">
               <img
                 src={loginLogo}
@@ -99,7 +100,7 @@ const LoginSignupLayout: React.FC = () => {
             <p className="text-[#870E73] text-4xl font-bold my-auto -translate-x-[50px]">
               Thrivr
             </p>
-          </div>
+          </Link>
                     
           {/* Navigation tabs
           <div className="flex justify-center mb-6">

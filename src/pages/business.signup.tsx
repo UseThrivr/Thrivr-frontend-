@@ -1,8 +1,7 @@
-import { useState, useRef, ChangeEvent, FormEvent, useEffect } from 'react';
-import { MapPin, Phone, Building2, Upload, X } from 'lucide-react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; // Adjust import path as needed
-
+import { useState, useRef, ChangeEvent, FormEvent, useEffect } from "react";
+import { MapPin, Phone, Building2, Upload, X } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; // Adjust import path as needed
 
 const BusinessSetup = () => {
   const navigate = useNavigate();
@@ -12,42 +11,43 @@ const BusinessSetup = () => {
   const userData = location.state?.userData || {};
 
   const [showOtp, setShowOtp] = useState(false);
-  const [otp, setOtp] = useState<string[]>(['', '', '', '']);
+  const [otp, setOtp] = useState<string[]>(["", "", "", ""]);
   const [loading, setLoading] = useState(false);
   const [otpLoading, setOtpLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!userData.email) {
-      navigate("/signup")
+      navigate("/signup");
     }
-  }, [])
-  
+  }, []);
 
   const [formData, setFormData] = useState({
-    businessName: '',
-    businessLocation: '',
-    phoneNumber: '',
-    description: '',
+    businessName: "",
+    businessLocation: "",
+    phoneNumber: "",
+    description: "",
     logo: null as File | null,
   });
 
   const countryList = [
-    { code: 'NG', name: 'Nigeria', flag: '🇳🇬', dialCode: '+234' },
-    { code: 'GH', name: 'Ghana', flag: '🇬🇭', dialCode: '+233' },
+    { code: "NG", name: "Nigeria", flag: "🇳🇬", dialCode: "+234" },
+    { code: "GH", name: "Ghana", flag: "🇬🇭", dialCode: "+233" },
   ];
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file && file.size <= 10 * 1024 * 1024) {
-      setFormData(prev => ({ ...prev, logo: file }));
+      setFormData((prev) => ({ ...prev, logo: file }));
     } else {
-      alert('File size should be less than 10MB');
+      alert("File size should be less than 10MB");
     }
   };
 
@@ -70,36 +70,42 @@ const BusinessSetup = () => {
 
     try {
       // Combine initial signup data with business data
-      const completeRegistrationData = 
-      formData.logo ?
-      {
-        full_name: userData.fullname,
-        email: userData.email,
-        password: userData.password,
-        business_name: formData.businessName,
-        location: formData.businessLocation,
-        phone_number: formData.businessLocation === 'NG' ? `+234${formData.phoneNumber.trim()}` : `+233${formData.phoneNumber.trim()}` ,
-        description: formData.description,
-        logo: formData.logo || ""
-      } : {
-        full_name: userData.fullname,
-        email: userData.email,
-        password: userData.password,
-        business_name: formData.businessName,
-        location: formData.businessLocation,
-        phone_number: formData.businessLocation === 'NG' ? `+234${formData.phoneNumber.trim()}` : `+233${formData.phoneNumber.trim()}` ,
-        description: formData.description,
-      };
+      const completeRegistrationData = formData.logo
+        ? {
+            full_name: userData.fullname,
+            email: userData.email,
+            password: userData.password,
+            business_name: formData.businessName,
+            location: formData.businessLocation,
+            phone_number:
+              formData.businessLocation === "NG"
+                ? `+234${formData.phoneNumber.trim()}`
+                : `+233${formData.phoneNumber.trim()}`,
+            description: formData.description,
+            logo: formData.logo || "",
+          }
+        : {
+            full_name: userData.fullname,
+            email: userData.email,
+            password: userData.password,
+            business_name: formData.businessName,
+            location: formData.businessLocation,
+            phone_number:
+              formData.businessLocation === "NG"
+                ? `+234${formData.phoneNumber.trim()}`
+                : `+233${formData.phoneNumber.trim()}`,
+            description: formData.description,
+          };
 
-      console.log({...completeRegistrationData})
+      console.log({ ...completeRegistrationData });
       const response = await register(completeRegistrationData);
-      console.log(response)
+      console.log(response);
       setShowOtp(true);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError('An unexpected error occurred.');
+        setError("An unexpected error occurred.");
       }
     } finally {
       setLoading(false);
@@ -112,17 +118,14 @@ const BusinessSetup = () => {
       const otpVerification = {
         otp: otp.join(""),
         email: userData.email,
-      }
-
-      console.log({...otpVerification})
-      const response = await verifyOTP(otpVerification);
-      console.log(response)
-      navigate('/dashboard');
+      };
+      await verifyOTP(otpVerification);
+      navigate("/onboarding");
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError('An unexpected error occurred.');
+        setError("An unexpected error occurred.");
       }
     } finally {
       setOtpLoading(false);
@@ -142,7 +145,9 @@ const BusinessSetup = () => {
             </button>
 
             <div className="text-center mb-8">
-              <h2 className="text-[32px] font-semibold mb-2">Email Verification</h2>
+              <h2 className="text-[32px] font-semibold mb-2">
+                Email Verification
+              </h2>
               <p className="text-[#5C636D]">
                 Input the four-digit code sent to your email
               </p>
@@ -167,7 +172,7 @@ const BusinessSetup = () => {
               className="w-full bg-[#870E73] text-white rounded-[24px] py-4 hover:opacity-90"
               disabled={otpLoading}
             >
-              {otpLoading ? 'Verifying...' : 'Verify'}
+              {otpLoading ? "Verifying..." : "Verify"}
             </button>
           </div>
         </div>
@@ -175,14 +180,10 @@ const BusinessSetup = () => {
 
       <div className="text-center mb-8">
         <h1 className="text-4xl font-semibold mb-2">Setup your business</h1>
-        <p className="text-gray-600">Welcome, {userData.fullname}! Let's get your business online!</p>
+        <p className="text-gray-600">
+          Welcome, {userData.fullname}! Let's get your business online!
+        </p>
       </div>
-
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-          {error}
-        </div>
-      )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
@@ -214,7 +215,7 @@ const BusinessSetup = () => {
                 required
               >
                 <option value="">Select Country</option>
-                {countryList.map(country => (
+                {countryList.map((country) => (
                   <option key={country.code} value={country.code}>
                     {country.flag} {country.name} ({country.dialCode})
                   </option>
@@ -242,7 +243,9 @@ const BusinessSetup = () => {
         </div>
 
         <div>
-          <label className="block mb-1">Describe your business - what you sell</label>
+          <label className="block mb-1">
+            Describe your business - what you sell
+          </label>
           <textarea
             name="description"
             value={formData.description}
@@ -255,7 +258,7 @@ const BusinessSetup = () => {
 
         <div>
           <label className="block mb-1">Upload business Logo - Optional</label>
-          <div 
+          <div
             onClick={() => fileInputRef.current?.click()}
             className="p-6 border-2 border-dashed rounded-lg cursor-pointer hover:border-[#870E73] text-center"
           >
@@ -269,17 +272,25 @@ const BusinessSetup = () => {
             <Upload className="w-8 h-8 mx-auto mb-2 text-gray-500" />
             <p className="text-sm text-gray-500">PNG, JPG | 10MB max</p>
             {formData.logo && (
-              <p className="mt-2 text-sm text-[#870E73]">{formData.logo.name}</p>
+              <p className="mt-2 text-sm text-[#870E73]">
+                {formData.logo.name}
+              </p>
             )}
           </div>
         </div>
 
-        <button 
-          type="submit" 
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+            {error}
+          </div>
+        )}
+
+        <button
+          type="submit"
           disabled={loading}
           className="w-full bg-[#870E73] text-white rounded-lg py-3 font-semibold hover:opacity-90 transition-opacity"
         >
-          {loading ? 'Creating Business...' : 'Create Business'}
+          {loading ? "Creating Business..." : "Create Business"}
         </button>
       </form>
     </div>
