@@ -1,11 +1,12 @@
 import React, { createContext, useContext, ReactNode, useCallback } from "react";
 import authAxios from "../api/authAxios";
-import { setUserDetails } from "../api/tokenService";
+import { getUserDetails, setUserDetails } from "../api/tokenService";
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
 
 // Types for updating business details
 interface BusinessUpdateData {
+  id?: number;
   full_name: string;
   business_name: string;
   location: string;
@@ -23,6 +24,7 @@ interface DataContextType {
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
 export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const user = getUserDetails()
   const updateBusiness = useCallback(async (data: BusinessUpdateData) => {
     try {
       const formData = new FormData();
@@ -40,7 +42,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       });
 
       // Update user details after successful API call
-      setUserDetails(response.data.user);
+      setUserDetails({...response.data.user, id: user?.id});
 
       return response.data;
     } catch (error) {
@@ -54,7 +56,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       console.error("Unexpected error:", error);
       throw new Error("An unexpected error occurred. Please try again.");
     }
-  }, []);
+  }, [user?.id]);
 
   return (
     <DataContext.Provider value={{ updateBusiness }}>

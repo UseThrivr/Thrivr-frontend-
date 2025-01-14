@@ -4,8 +4,10 @@ import { ChevronDown, Copy, ShoppingBag, Store } from "lucide-react";
 import BarChart from "@/components/dashboard/BarChart";
 import ProgressBar from "@/components/dashboard/ProgressBar";
 import { progressData } from "@/constants";
+import { useAuth } from "@/context/AuthContext";
 
 const Dashboard = () => {
+  const { user } = useAuth()
   const labels = [
     "Jan",
     "Feb",
@@ -69,7 +71,7 @@ const Dashboard = () => {
         </div>
         <div className="hidden md:flex flex-col gap-[4px]">
           <h1 className="font-[600] text-[48px] leading-[52.8px] tracking-[-1%] text-primary">
-            Hello John
+             Hello, {user?.full_name.split(" ")[0]}
           </h1>
           <p className="text-[1rem] leading-[22.4px] font-[500] text-[#5c636d]">
             An overview of how your business is fairing

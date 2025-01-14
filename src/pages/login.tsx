@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { H1, P } from "@/components/global";
 import { PersonIcon } from "@radix-ui/react-icons";
-import { Lock } from "lucide-react";
+import { Eye, EyeOff, Lock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"; // Adjust the import path as needed
 import googleImg from "../assets/devicon_google.png";
@@ -19,6 +19,7 @@ interface FormErrors {
 }
 
 const Login: React.FC = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -96,10 +97,10 @@ const Login: React.FC = () => {
         toast.error(errorMessage);
 
         // Optionally set specific error states
-        setError(errorMessage)
+        setError(errorMessage);
       } else {
         toast.error("Login Failed!");
-        setError("Login Failed")
+        setError("Login Failed");
       }
     } finally {
       setIsLoading(false);
@@ -122,15 +123,21 @@ const Login: React.FC = () => {
           <label htmlFor="email" className="text-small">
             Email Address
           </label>
-          <div className="flex border-2 rounded-md px-4 mt-2">
-            <PersonIcon className="w-4 h-4 my-auto" />
+          <div className="flex border-2 rounded-md mt-2 relative items-center">
+            <label
+              htmlFor="email"
+              className="w-4 h-4 my-auto absolute left-4 cursor-text"
+            >
+              <PersonIcon />
+            </label>
             <input
               type="email"
               name="email"
+              id="email"
               value={loginData.email}
               onChange={handleChange}
-              placeholder="Enter your email"
-              className="focus:outline-none p-2 w-full"
+              placeholder="Enter your email Address"
+              className="focus:outline-none py-2 w-full px-10"
             />
           </div>
           {errors.email && (
@@ -141,16 +148,33 @@ const Login: React.FC = () => {
           <label htmlFor="password" className="text-small">
             Password
           </label>
-          <div className="flex border-2 rounded-md px-4 mt-2">
-            <Lock className="w-4 h-4 my-auto" />
+          <div className="flex border-2 rounded-md mt-2 relative items-center">
+            <label
+              htmlFor="password"
+              className="w-4 h-4 my-auto absolute left-4 cursor-text"
+            >
+              <Lock size={15} />
+            </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
+              id="password"
               value={loginData.password}
               onChange={handleChange}
               placeholder="Enter your password"
-              className="focus:outline-none p-2 w-full"
+              className="focus:outline-none py-2 w-full px-10"
             />
+            {showPassword ? (
+              <EyeOff
+                className="w-4 h-4 my-auto absolute right-4 cursor-pointer"
+                onClick={() => setShowPassword(false)}
+              />
+            ) : (
+              <Eye
+                className="w-4 h-4 my-auto absolute right-4 cursor-pointer"
+                onClick={() => setShowPassword(true)}
+              />
+            )}
           </div>
           {errors.password && (
             <p className="text-red-500 text-sm mt-1">{errors.password}</p>
