@@ -10,11 +10,14 @@ import {
 import userImage from "@/assets/user-img.png";
 import { useSidebar } from "@/context/SidebarContext";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 
 const NavRight = () => {
   const { toggleMobileSidebar } = useSidebar();
   const { pathname } = useLocation();
   const [route] = pathname.match(/\w+/g) ?? [""];
+
+  const { user } = useAuth();
 
   return (
     <div className="flex overflow-hidden lg:relative items-center justify-end lg:justify-between w-full">
@@ -22,20 +25,20 @@ const NavRight = () => {
         <div>
           <div className="md:hidden">
             {route === "dashboard" && (
-              <div className="flex gap-4 items-center">
+              <a href="/profile" className="flex gap-4 items-center">
                 <div
                   className="box-border size-[32px] border border-solid border-text-secondary rounded-[24px] bg-cover bg-center"
-                  style={{ backgroundImage: `url(${userImage})` }}
+                  style={{ backgroundImage: `url(${user?.image_path || userImage})` }}
                 />
                 <div className="flex flex-col items-start">
                   <p className="font-normal text-xs text-text-primary">
-                    John Stephen
+                    {user?.full_name}
                   </p>
                   <p className="font-medium text-[10px] text-text-secondary">
                     johngadgets.thrivr.shop
                   </p>
                 </div>
-              </div>
+              </a>
             )}
             {route === "sales" && (
               <h1 className="flex lg:hidden font-semibold text-2xl text-text-primary">
@@ -110,16 +113,16 @@ const NavRight = () => {
 
       <div className="hidden lg:flex items-center gap-4 ml-auto">
         <BellDot size={24} className="text-text-secondary" />
-        <div className="flex items-center gap-2">
+        <a href="/profile" className="flex items-center gap-2">
           <div
             className="box-border size-[48px] border border-solid border-text-secondary rounded-[24px] bg-cover bg-center"
-            style={{ backgroundImage: `url(${userImage})` }}
+            style={{ backgroundImage: `url(${user?.image_path || userImage})` }}
           />
           <ChevronDown
             size={24}
             className="text-text-secondary hidden lg:block"
           />
-        </div>
+        </a>
       </div>
     </div>
   );

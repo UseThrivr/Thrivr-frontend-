@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import clsx from "clsx";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { ThrivrHeader } from "../svg";
 import userImage from "@/assets/user-img.png";
 import {
@@ -17,6 +17,7 @@ import {
 import { ChevronDown, LogOut, Store } from "lucide-react";
 import { sidebarLinks, sideBarMore } from "@/constants";
 import { useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -35,6 +36,8 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   const handleAccordion = () => {
     setAccordionOpen(!accordionOpen);
   };
+
+  const { logout, user } = useAuth();
 
   return (
     <>
@@ -118,20 +121,22 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                     My Thrivr store
                   </button>
                 </div>
-                <div className="flex gap-4 items-center">
+                <a href="/profile" className="flex gap-4 items-center">
                   <div
                     className="box-border size-[48px] border border-solid border-text-secondary rounded-[24px] bg-cover bg-center"
-                    style={{ backgroundImage: `url(${userImage})` }}
+                    style={{
+                      backgroundImage: `url(${user?.image_path || userImage})`,
+                    }}
                   />
                   <div className="flex flex-col items-start gap-[2px]">
                     <p className="font-medium text-base text-text-secondary">
-                      John Stephen
+                      {user?.full_name}
                     </p>
                     <p className="font-medium text-xs text-text-secondary">
-                      Profile
+                      {user?.role}
                     </p>
                   </div>
-                </div>
+                </a>
               </div>
             </div>
 
@@ -141,14 +146,14 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                   <SidebarMenuItem>
                     <SidebarMenuButton
                       asChild
-                      className="sidebar-link pl-[2rem]"
+                      className="pl-[2rem] cursor-pointer"
                     >
-                      <Link to="#">
-                        <span>
+                      <button onClick={logout} className="flex rounded-none justify-start items-center gap-[37px] h-[48px] hover:!text-action-hover hover:!border-r-action-hover border-r-[4px] hover:border-solid border-transparent text-text-secondary">
+                        <span className="font-medium text-[20px] leading-22 flex flex-row items-center p-0 gap-[16px] h-[24px]">
                           <LogOut />
                           Log Out
                         </span>
-                      </Link>
+                      </button>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 </SidebarMenu>

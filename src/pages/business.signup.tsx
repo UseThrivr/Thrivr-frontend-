@@ -1,30 +1,34 @@
 import { useState, useRef, ChangeEvent, FormEvent, useEffect } from "react";
-import { MapPin, Phone, Building2, Upload, X } from "lucide-react";
+import { MapPin, Phone, Building2, Upload, X, House } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"; // Adjust import path as needed
 
 const BusinessSetup = () => {
   const navigate = useNavigate();
-  const { register, verifyOTP } = useAuth();
+  const { register, verifyOTP, resendOTP } = useAuth();
   const location = useLocation();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const userData = location.state?.userData || {};
 
   const [showOtp, setShowOtp] = useState(false);
+  const [otpMessage, setotpMessage] = useState("");
+  const [otpErrorMessage, setotpErrorMessage] = useState("");
   const [otp, setOtp] = useState<string[]>(["", "", "", ""]);
   const [loading, setLoading] = useState(false);
   const [otpLoading, setOtpLoading] = useState(false);
+  const [resendOtpLoading, setResendOtpLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!userData.email) {
       navigate("/signup");
     }
-  }, []);
+  }, [userData.email, navigate]);
 
   const [formData, setFormData] = useState({
     businessName: "",
     businessLocation: "",
+    location: "",
     phoneNumber: "",
     description: "",
     logo: null as File | null,
@@ -70,13 +74,12 @@ const BusinessSetup = () => {
 
     try {
       // Combine initial signup data with business data
-      const completeRegistrationData = formData.logo
-        ? {
+      const completeRegistrationData = {
             full_name: userData.fullname,
             email: userData.email,
             password: userData.password,
             business_name: formData.businessName,
-            location: formData.businessLocation,
+            location: formData.location,
             phone_number:
               formData.businessLocation === "NG"
                 ? `+234${formData.phoneNumber.trim()}`
@@ -84,19 +87,6 @@ const BusinessSetup = () => {
             description: formData.description,
             logo: formData.logo || "",
           }
-        : {
-            full_name: userData.fullname,
-            email: userData.email,
-            password: userData.password,
-            business_name: formData.businessName,
-            location: formData.businessLocation,
-            phone_number:
-              formData.businessLocation === "NG"
-                ? `+234${formData.phoneNumber.trim()}`
-                : `+233${formData.phoneNumber.trim()}`,
-            description: formData.description,
-          };
-
       console.log({ ...completeRegistrationData });
       const response = await register(completeRegistrationData);
       console.log(response);
@@ -105,6 +95,7 @@ const BusinessSetup = () => {
       if (err instanceof Error) {
         setError(err.message);
       } else {
+        console.log(err)
         setError("An unexpected error occurred.");
       }
     } finally {
@@ -123,12 +114,33 @@ const BusinessSetup = () => {
       navigate("/onboarding");
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setError(err.message);
+        setotpErrorMessage(err.message);
       } else {
-        setError("An unexpected error occurred.");
+        setotpErrorMessage("An unexpected error occurred.");
       }
     } finally {
       setOtpLoading(false);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    setResendOtpLoading(true);
+    try {
+      const otpVerification = {
+        email: userData.email,
+      };
+      await resendOTP(otpVerification);
+      setotpErrorMessage("");
+      setotpMessage("otp sent");
+    } catch (err: unknown) {
+      setotpMessage("");
+      if (err instanceof Error) {
+        setotpErrorMessage(err.message);
+      } else {
+        setotpErrorMessage("An unexpected error occurred.");
+      }
+    } finally {
+      setResendOtpLoading(false);
     }
   };
 
@@ -136,7 +148,7 @@ const BusinessSetup = () => {
     <div className="max-w-2xl mx-auto p-6">
       {showOtp && (
         <div className="fixed inset-0 bg-[#000000CC] flex items-center justify-center z-50">
-          <div className="relative w-[550px] bg-white rounded-[13px] p-8 shadow-lg scale-95 animate-scaleIn">
+          <div className="relative w-[550px] bg-white rounded-[13px] p-8 shadow-lg scale-95 animate-scaleIn flex flex-col items-center">
             <button
               onClick={() => setShowOtp(false)}
               className="absolute -top-16 -right-16 w-[64px] h-[64px] bg-white rounded-full p-1 shadow-md flex items-center justify-center"
@@ -166,11 +178,28 @@ const BusinessSetup = () => {
                 />
               ))}
             </div>
+            {otpErrorMessage && (
+              <div className="text-red-700">
+                {otpErrorMessage}
+              </div>
+            )}
+            {otpMessage && (
+              <div className="text-green-700">
+                {otpMessage}
+              </div>
+            )}
+            <button
+              className="text-sm underline text-[#870E73] my-3 disabled:opacity-50"
+              onClick={handleResendOtp}
+              disabled={resendOtpLoading}
+            >
+              {resendOtpLoading ? "Resending..." : "Resend otp"}
+            </button>
 
             <button
               onClick={handleOtpVerification}
-              className="w-full bg-[#870E73] text-white rounded-[24px] py-4 hover:opacity-90"
-              disabled={otpLoading}
+              className="w-full bg-[#870E73] text-white rounded-[24px] py-4 hover:opacity-90 disabled:opacity-50"
+              disabled={otpLoading || !otp[3]}
             >
               {otpLoading ? "Verifying..." : "Verify"}
             </button>
@@ -241,6 +270,20 @@ const BusinessSetup = () => {
             />
           </div>
         </div>
+        <div>
+          <label className="block mb-1">Business Location</label>
+          <div className="p-2 border-2 rounded-lg flex gap-2">
+            <House className="w-4 h-4 my-auto text-gray-500" />
+            <input
+              name="location"
+              value={formData.location}
+              onChange={handleInputChange}
+              placeholder="Enter Business Location"
+              className="w-full focus:outline-none"
+              required
+            />
+          </div>
+        </div>
 
         <div>
           <label className="block mb-1">
@@ -281,7 +324,10 @@ const BusinessSetup = () => {
 
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-            {error}
+            {error}{" "}
+            {error.includes("Login") && (
+              <a className="text-blue-500 hover:underline" href="/login">Login</a>
+            )}
           </div>
         )}
 

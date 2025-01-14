@@ -1,28 +1,24 @@
+import { UserDetails } from "@/api/tokenService";
 import { Seo } from "@/components/global";
 import { Button } from "@/components/ui/button";
-import { profile } from "@/constants";
+import { useAuth } from "@/context/AuthContext";
+import { useData } from "@/context/DataContext";
 import { CloudDownload, FileDown } from "lucide-react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const required = <span className="text-alert-red font-medium text-xl">*</span>;
 const optional = "(Optional)";
 
 const EditProfile = () => {
-  const navigate = useNavigate();
+  const { updateBusiness } = useData();
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [formData, setFormData] = useState({
-    fullname: profile.contact.name,
-    email: profile.contact.email,
-    phone: profile.contact.phone,
-    storename: profile.storename,
-    tagline: profile.tagline,
-    address: profile.contact.address,
-    photo: "",
-    description: "",
-  });
+  const [file, setFile] = useState<File | null>(null);
+  const [formData, setFormData] = useState<UserDetails>(user as UserDetails);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -44,7 +40,7 @@ const EditProfile = () => {
       setImagePreview(null);
       return;
     }
-
+    setFile(file)
     setErrorMessage(null);
     const reader = new FileReader();
     reader.onload = () => {
@@ -53,17 +49,39 @@ const EditProfile = () => {
     reader.readAsDataURL(file);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
-    setTimeout(() => navigate("/profile"), 3000);
-    setTimeout(
-      () =>
-        alert(
-          `Saved ${formData.fullname}'s details succesfully, navigating to profile...`
-        ),
-      2000
-    );
+
+    try {
+      setLoading(true);
+
+      // Attempt login using AuthContext's login method
+      await updateBusiness({
+        full_name: formData?.full_name as string,
+        business_name: formData?.business_name as string,
+        location: formData?.location as string,
+        email: formData?.email as string,
+        phone_number: formData?.phone_number as string,
+        description: formData?.description as string,
+        logo: file || (formData?.image_path as string),
+      });
+
+      // Show success toast and navigate to dashboard
+      toast.success("Updated Successfullly!");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        const errorMessage = err.message || "Update failed. Please try again.";
+        toast.error(errorMessage);
+
+        // Optionally set specific error states
+        setError(errorMessage);
+      } else {
+        toast.error("Update Failed!");
+        setError("Update Failed");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -82,7 +100,7 @@ const EditProfile = () => {
               <div className="flex flex-col gap-4 w-full">
                 <label
                   className="font-medium text-xl text-text-primary"
-                  htmlFor="fullname"
+                  htmlFor="full_name"
                 >
                   Full name {required}
                 </label>
@@ -90,11 +108,11 @@ const EditProfile = () => {
                   required
                   onChange={handleChange}
                   placeholder="Enter name"
-                  name="fullname"
+                  name="full_name"
                   className="w-full p-4 rounded-md border border-neutral-border text-text-secondary font-medium text-base"
                   type="text"
-                  id="fullname"
-                  value={formData.fullname}
+                  id="full_name"
+                  value={formData.full_name}
                 />
               </div>
               <div className="flex flex-col gap-4 w-full">
@@ -107,18 +125,18 @@ const EditProfile = () => {
                 <input
                   required
                   placeholder="Enter email address"
-                  onChange={handleChange}
                   name="email"
-                  className="w-full p-4 rounded-md border border-neutral-border text-text-secondary font-medium text-base"
+                  className="w-full p-4 rounded-md border border-neutral-border text-text-secondary font-medium text-base cursor-not-allowed"
                   type="email"
                   id="email"
+                  disabled
                   value={formData.email}
                 />
               </div>
               <div className="flex flex-col gap-4 w-full">
                 <label
                   className="font-medium text-xl text-text-primary"
-                  htmlFor="phone"
+                  htmlFor="phone_number"
                 >
                   WhatsApp number {required}
                 </label>
@@ -126,11 +144,11 @@ const EditProfile = () => {
                   required
                   placeholder="Enter WhatsApp number"
                   onChange={handleChange}
-                  name="phone"
+                  name="phone_number"
                   className="w-full p-4 rounded-md border border-neutral-border text-text-secondary font-medium text-base"
                   type="tel"
-                  id="phone"
-                  value={formData.phone}
+                  id="phone_number"
+                  value={formData.phone_number}
                 />
               </div>
             </div>
@@ -143,7 +161,7 @@ const EditProfile = () => {
               <div className="flex flex-col gap-4 w-full">
                 <label
                   className="font-medium text-xl text-text-primary"
-                  htmlFor="storename"
+                  htmlFor="business_name"
                 >
                   Store name {required}
                 </label>
@@ -151,11 +169,11 @@ const EditProfile = () => {
                   required
                   onChange={handleChange}
                   placeholder="Enter business name"
-                  name="storename"
+                  name="business_name"
                   className="w-full p-4 rounded-md border border-neutral-border text-text-secondary font-medium text-base"
                   type="text"
-                  id="storename"
-                  value={formData.storename}
+                  id="business_name"
+                  value={formData.business_name}
                 />
               </div>
               <div className="flex flex-col gap-4 w-full">
@@ -163,10 +181,9 @@ const EditProfile = () => {
                   className="font-medium text-xl text-text-primary"
                   htmlFor="tagline"
                 >
-                  Tagline {required}
+                  Tagline {optional}
                 </label>
                 <input
-                  required
                   placeholder="Enter business tagline"
                   onChange={handleChange}
                   name="tagline"
@@ -179,7 +196,7 @@ const EditProfile = () => {
               <div className="flex flex-col gap-4 w-full">
                 <label
                   className="font-medium text-xl text-text-primary"
-                  htmlFor="address"
+                  htmlFor="location"
                 >
                   Address {required}
                 </label>
@@ -187,11 +204,11 @@ const EditProfile = () => {
                   required
                   placeholder="Enter WhatsApp number"
                   onChange={handleChange}
-                  name="address"
+                  name="location"
                   className="w-full p-4 rounded-md border border-neutral-border text-text-secondary font-medium text-base"
                   type="text"
-                  id="address"
-                  value={formData.address}
+                  id="location"
+                  value={formData.location}
                 />
               </div>
             </div>
@@ -201,10 +218,10 @@ const EditProfile = () => {
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-4 w-full">
               <label
-                className="block text-base font-medium text-text-primary"
+                className="block text-xl font-medium text-text-primary"
                 htmlFor="photo"
               >
-                Personal photo {required}
+                Personal photo {optional}
               </label>
               <div className="flex w-full flex-col">
                 <label
@@ -231,7 +248,6 @@ const EditProfile = () => {
                   </div>
                 </label>
                 <input
-                  required
                   onChange={handleFileChange}
                   name="photo"
                   accept="image/*"
@@ -267,10 +283,17 @@ const EditProfile = () => {
                 name="description"
                 id="description"
                 placeholder="Write..."
+                onChange={handleChange}
                 className="resize-none border border-neutral-border p-4 h-[15rem] w-full rounded-md"
+                value={formData.description}
               ></textarea>
             </div>
           </div>
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+              {error}
+            </div>
+          )}
           <Button
             disabled={loading}
             className="rounded-xl md:rounded-full py-4 box-border md:py-2 px-6 disabled:cursor-not-allowed cursor-pointer disabled:bg-[#870E7380] bg-action-default hover:bg-action-hover w-full md:w-max text-white font-medium text-base h-max"

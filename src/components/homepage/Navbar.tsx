@@ -3,9 +3,11 @@ import ThrivrImg from "@/assets/thrivr-logo.png";
 import { Link } from "react-router-dom";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { X } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 const Navbar = () => {
   const [navOpen, setNavOpen] = useState<boolean>(false);
+  const { isAuthenticated } = useAuth()
 
   return (
     <nav className=" bg-[#870E731A] py-7 px-[5%] lg:[10%]">
@@ -40,13 +42,24 @@ const Navbar = () => {
             </Link>
           </div>
           <div className="flex flex-col lg:flex-row gap-7 align-center items-center mt-20 lg:mt-0">
-            <Link to="/login">Log In</Link>
-            <Link
-              to="/signup"
-              className="px-5 py-2 bg-white lg:bg-[#870E73] rounded-full text-[#870E73] lg:text-white"
-            >
-              Register
-            </Link>
+            {isAuthenticated ? (
+              <Link
+                to="/dashboard"
+                className="px-5 py-2 bg-white lg:bg-[#870E73] rounded-full text-[#870E73] lg:text-white"
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <>
+                <Link to="/login">Log In</Link>
+                <Link
+                  to="/signup"
+                  className="px-5 py-2 bg-white lg:bg-[#870E73] rounded-full text-[#870E73] lg:text-white"
+                >
+                  Register
+                </Link>
+              </>
+            )}
           </div>
         </div>
         <button
@@ -55,7 +68,11 @@ const Navbar = () => {
           }}
           className="block lg:hidden"
         >
-          {!navOpen ? <HamburgerMenuIcon className=" w-[30px] h-[30px]"/> : <X className=" w-[30px] h-[30px]"/>}
+          {!navOpen ? (
+            <HamburgerMenuIcon className=" w-[30px] h-[30px]" />
+          ) : (
+            <X className=" w-[30px] h-[30px]" />
+          )}
         </button>
       </div>
     </nav>
