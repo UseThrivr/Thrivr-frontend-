@@ -5,7 +5,7 @@ import { SidebarProvider as UISidebarProvider } from "@/components/ui/sidebar";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useSidebar } from "@/context/SidebarContext";
 import { useEffect } from "react";
-import { getToken } from "@/api/tokenService";
+import { useAuth } from "@/context/AuthContext";
 
 // First, create the custom scrollbar utility in your global CSS file (e.g., index.css or globals.css)
 // @layer utilities {
@@ -25,15 +25,15 @@ interface NavBarProps {
 
 const DashboardLayout: React.FC<NavBarProps> = (navBarProps) => {
   const { isMobileSidebarOpen, setMobileSidebarOpen } = useSidebar();
+  const { isAuthenticated } = useAuth()
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = getToken();
-    if (!token) {
+    if (!isAuthenticated) {
       navigate("/login");
     }
-  }, [navigate]);
+  }, [navigate, isAuthenticated]);
 
   return (
     <>

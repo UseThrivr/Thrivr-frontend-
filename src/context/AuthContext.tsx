@@ -14,6 +14,8 @@ import {
   getToken,
   UserDetails 
 } from '../api/tokenService';
+import axios from 'axios';
+import { Toaster } from 'react-hot-toast';
 
 // Types for registration and login
 interface BusinessRegistrationData {
@@ -43,6 +45,10 @@ interface OtpData {
   email: string;
 }
 
+interface resendOtpData {
+  email: string;
+}
+
 // Auth Context Type
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -50,7 +56,7 @@ interface AuthContextType {
   register: (data: BusinessRegistrationData) => Promise<unknown>;
   login: (data: LoginData) => Promise<unknown>;
   verifyOTP: (data: OtpData) => Promise<unknown>;
-  resendOTP: () => Promise<unknown>;
+  resendOTP: (data: resendOtpData) => Promise<unknown>;
   logout: () => void;
 }
 
@@ -67,17 +73,41 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       Object.entries(data).forEach(([key, value]) => {
         formData.append(key, value instanceof File ? value : String(value));
       });
-
+  
       const response = await axiosInstance.post('/api/v1/auth/signup/business', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
-      
+  
       return response.data;
     } catch (error) {
-      const apiError = error as { response?: { data: ApiError } };
-      throw apiError.response?.data || new Error('Registration failed');
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          const status = error.response.status;
+          const serverError = error.response.data?.error || 'Unknown error from server';
+  
+          if (status === 422) {
+            // Handle 422 specific errors like email already registered
+            if (serverError.includes('Email already exists.')) {
+              throw new Error('The email address is already registered. Please use a different email or Login.');
+            }
+  
+            throw new Error(`Validation failed: ${serverError}`);
+          }
+  
+          throw new Error(`Request failed with status ${status}: ${serverError}`);
+        } else if (error.request) {
+          // Handle cases where no response was received
+          console.error('No response received:', error.request);
+          throw new Error('No response from the server. Please try again later.');
+        }
+      }
+  
+      // Handle unexpected errors
+      console.error('Unexpected error:', error);
+      throw new Error('An unexpected error occurred. Please try again.');
     }
   }, []);
+  
 
   const login = useCallback(async (data: LoginData) => {
     try {
@@ -92,8 +122,31 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       
       return response.data;
     } catch (error) {
-      const apiError = error as { response?: { data: ApiError } };
-      throw apiError.response?.data || new Error('Login failed');
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          const status = error.response.status;
+          const serverError = error.response.data?.error || 'Unknown error from server';
+  
+          if (status === 422 || status === 404) {
+            // Handle 422 specific errors like email already registered
+            if (serverError.includes('Invalid credentials.')) {
+              throw new Error('The Email or Password is incorrect');
+            }
+  
+            throw new Error(`Validation failed: ${serverError}`);
+          }
+  
+          throw new Error(`Request failed with status ${status}: ${serverError}`);
+        } else if (error.request) {
+          // Handle cases where no response was received
+          console.error('No response received:', error.request);
+          throw new Error('No response from the server. Please try again later.');
+        }
+      }
+  
+      // Handle unexpected errors
+      console.error('Unexpected error:', error);
+      throw new Error('An unexpected error occurred. Please try again.');
     }
   }, []);
 
@@ -115,9 +168,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   }, []);
 
-  const resendOTP = useCallback(async () => {
+  const resendOTP = useCallback(async (data: resendOtpData) => {
     try {
-      const response = await axiosInstance.get('/api/v1/resend-otp');
+      const response = await axiosInstance.post('/api/v1/resend-otp', data);
       return response.data;
     } catch (error) {
       const apiError = error as { response?: { data: ApiError } };
@@ -142,6 +195,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       logout
     }}>
       {children}
+      <Toaster />
     </AuthContext.Provider>
   );
 };

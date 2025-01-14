@@ -5,7 +5,7 @@ import { PersonIcon } from "@radix-ui/react-icons";
 import { Lock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"; // Adjust the import path as needed
-import googleImg from '../assets/devicon_google.png';
+import googleImg from "../assets/devicon_google.png";
 import { toast } from "react-hot-toast"; // Assuming you're using react-hot-toast for notifications
 
 interface LoginFormData {
@@ -31,6 +31,7 @@ const Login: React.FC = () => {
     email: "",
     password: "",
   });
+  const [error, setError] = useState("");
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -79,13 +80,12 @@ const Login: React.FC = () => {
 
     try {
       setIsLoading(true);
-      
+
       // Attempt login using AuthContext's login method
-      const response = await login({
+      await login({
         email: loginData.email,
-        password: loginData.password
+        password: loginData.password,
       });
-      console.log(response)
 
       // Show success toast and navigate to dashboard
       toast.success("Login Successful!");
@@ -94,15 +94,12 @@ const Login: React.FC = () => {
       if (err instanceof Error) {
         const errorMessage = err.message || "Login failed. Please try again.";
         toast.error(errorMessage);
-        
+
         // Optionally set specific error states
-        setErrors((prev) => ({
-          ...prev,
-          password: errorMessage
-        }))
+        setError(errorMessage)
       } else {
         toast.error("Login Failed!");
-        console.log("Mehn What the fuck did you just do?")
+        setError("Login Failed")
       }
     } finally {
       setIsLoading(false);
@@ -136,7 +133,9 @@ const Login: React.FC = () => {
               className="focus:outline-none p-2 w-full"
             />
           </div>
-          {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+          )}
         </div>
         <div className="mt-5">
           <label htmlFor="password" className="text-small">
@@ -153,38 +152,51 @@ const Login: React.FC = () => {
               className="focus:outline-none p-2 w-full"
             />
           </div>
-          {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
-          
+          {errors.password && (
+            <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+          )}
+
           <div className="flex justify-between mt-4">
             <div className="flex gap-1">
-              <input type="checkbox" id="remember"/>
-              <label className="" htmlFor="remember">Remember me</label>
+              <input type="checkbox" id="remember" />
+              <label className="" htmlFor="remember">
+                Remember me
+              </label>
             </div>
-            <Link to="/forgot-password" className="text-sm underline text-[#870E73]">
+            <Link
+              to="/forgot-password"
+              className="text-sm underline text-[#870E73]"
+            >
               Forgot Password
             </Link>
           </div>
-          
-          <button 
-            type="submit" 
+
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+              {error}
+            </div>
+          )}
+
+          <button
+            type="submit"
             disabled={isLoading}
             className={`
               text-white 
-              ${isLoading ? 'bg-[#870E7388]' : 'bg-[#870E73CC]'} 
+              ${isLoading ? "bg-[#870E7388]" : "bg-[#870E73CC]"} 
               mt-5 w-full rounded-lg py-2
-              ${isLoading ? 'cursor-not-allowed' : ''}
+              ${isLoading ? "cursor-not-allowed" : ""}
             `}
           >
-            {isLoading ? 'Logging in...' : 'Login'}
+            {isLoading ? "Logging in..." : "Login"}
           </button>
-          
+
           <div className="flex my-5 items-center">
             <div className="w-full border border-black h-px"></div>
             <p className="mx-5">or</p>
             <div className="w-full border border-black h-px"></div>
           </div>
-          
-          <button 
+
+          <button
             type="button"
             onClick={handleGoogleLogin}
             className="text-black bg-white mt-5 w-full rounded-lg py-2 border-2 flex justify-center gap-2"

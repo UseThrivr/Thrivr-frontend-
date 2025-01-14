@@ -166,7 +166,7 @@ export const salesData = [
   },
 ];
 
-export const profile = {
+export const profiles = {
   storename: "Coker Gadgets",
   tagline: "where technology meets your lifestyle...",
   link: "https://cokergadgets.thrivr.shop",
