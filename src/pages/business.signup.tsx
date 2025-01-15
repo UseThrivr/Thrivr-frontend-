@@ -2,6 +2,7 @@ import { useState, useRef, ChangeEvent, FormEvent, useEffect } from "react";
 import { MapPin, Phone, Building2, Upload, X, House } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"; // Adjust import path as needed
+import toast from "react-hot-toast";
 
 const BusinessSetup = () => {
   const navigate = useNavigate();
@@ -87,15 +88,15 @@ const BusinessSetup = () => {
             description: formData.description,
             logo: formData.logo || "",
           }
-      console.log({ ...completeRegistrationData });
-      const response = await register(completeRegistrationData);
-      console.log(response);
+      await register(completeRegistrationData);
+      toast.success("Registration Successful!");
       setShowOtp(true);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
+        toast.error(err.message);
       } else {
-        console.log(err)
+        toast.error("An unexpected error occurred!");
         setError("An unexpected error occurred.");
       }
     } finally {
@@ -111,11 +112,14 @@ const BusinessSetup = () => {
         email: userData.email,
       };
       await verifyOTP(otpVerification);
+      toast.success("Email Verified!");
       navigate("/onboarding");
     } catch (err: unknown) {
       if (err instanceof Error) {
         setotpErrorMessage(err.message);
+        toast.error(err.message)
       } else {
+        toast.error("An unexpected error occurred!");
         setotpErrorMessage("An unexpected error occurred.");
       }
     } finally {
@@ -132,12 +136,15 @@ const BusinessSetup = () => {
       await resendOTP(otpVerification);
       setotpErrorMessage("");
       setotpMessage("otp sent");
+      toast.success("OTP Sent!")
     } catch (err: unknown) {
       setotpMessage("");
       if (err instanceof Error) {
         setotpErrorMessage(err.message);
+        toast.error(err.message)
       } else {
         setotpErrorMessage("An unexpected error occurred.");
+        toast.error("An unexpected error occurred.");
       }
     } finally {
       setResendOtpLoading(false);

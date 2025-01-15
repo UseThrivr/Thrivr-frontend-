@@ -1,10 +1,9 @@
 import { FC, useState, ChangeEvent, FormEvent } from "react";
 import { P } from "@/components/global";
-import { Dot, Lock, User, X } from "lucide-react";
+import { Dot, Eye, EyeOff, Lock, Mail, User} from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import googleImg from "../assets/devicon_google.png";
 import facebookImg from "../assets/logos_facebook.png";
-// import { useAuth } from "../context/AuthContext"; // Adjust import path as needed
 
 interface FormData {
   fullName: string;
@@ -22,101 +21,10 @@ interface FormErrors {
   agreeToTerms: string;
 }
 
-interface OTPVerificationProps {
-  isOpen: boolean;
-  onClose: () => void;
-  formData: FormData;
-}
-
-const OTPVerification: FC<OTPVerificationProps> = ({
-  isOpen,
-  onClose,
-  formData,
-}) => {
-  const [otp, setOtp] = useState<string[]>(["", "", "", ""]);
-  const navigate = useNavigate();
-
-  if (!isOpen) return null;
-
-  const handleOtpChange = (index: number, value: string) => {
-    if (value.length > 1) return;
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
-
-    // Auto-focus next input
-    if (value && index < 3) {
-      const nextInput = document.getElementById(`otp-${index + 1}`);
-      if (nextInput) nextInput.focus();
-    }
-  };
-
-  const handleVerify = () => {
-    // Navigate to BusinessSetup with user data
-    navigate("/business", {
-      state: {
-        userData: formData,
-        // Extract phone from email for demo purposes - in real app, get from proper source
-        phoneNumber: formData.email.includes("@")
-          ? "+1234567890"
-          : formData.email,
-      },
-    });
-    onClose();
-  };
-
-  return (
-    <div className="fixed inset-0 bg-[#000000CC] flex items-center justify-center z-50">
-      <div className="relative w-[550px] bg-white rounded-[13px] p-8 shadow-lg scale-95 animate-scaleIn">
-        <button
-          onClick={onClose}
-          className="absolute -top-16 -right-16 w-[64px] h-[64px] bg-white rounded-full p-1 shadow-md flex items-center justify-center"
-        >
-          <X className="text-gray-700" />
-        </button>
-
-        <div className="text-center mb-8">
-          <h2 className="text-[32px] font-semibold mb-2">Email verification</h2>
-          <p className="text-[#5C636D]">
-            Input the four digit code sent to your email
-          </p>
-        </div>
-
-        <div className="flex justify-center gap-4 mb-8">
-          {otp.map((digit, index) => (
-            <input
-              key={index}
-              id={`otp-${index}`}
-              type="text"
-              maxLength={1}
-              value={digit}
-              onChange={(e) => handleOtpChange(index, e.target.value)}
-              className="w-16 h-16 text-center text-2xl border-2 rounded-lg focus:border-[#870E73] focus:outline-none"
-            />
-          ))}
-        </div>
-
-        <p className="text-center mb-6">
-          <button className="text-[#870E73]">
-            Didn't receive code? Resend
-          </button>
-        </p>
-
-        <button
-          onClick={handleVerify}
-          className="w-full bg-[#870E73] text-white rounded-[24px] py-4 hover:opacity-90"
-        >
-          Verify
-        </button>
-      </div>
-    </div>
-  );
-};
-
 const Signup: FC = () => {
   const navigate = useNavigate();
-  const [showOtp, setShowOtp] = useState<boolean>(false);
   const [pageIndex, setPageIndex] = useState<number>(0);
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     fullName: "",
     email: "",
@@ -225,19 +133,21 @@ const Signup: FC = () => {
           <div>
             <div>
               <p className="">Full name</p>
-              <div
-                className={`p-2 border-2 rounded-lg flex gap-2 mt-1 ${
-                  errors.fullName ? "border-red-500" : ""
-                }`}
-              >
-                <User className="w-4 h-4 my-auto" />
+              <div className="flex border-2 rounded-md mt-2 relative items-center">
+                <label
+                  htmlFor="fullName"
+                  className="w-4 h-4 my-auto absolute left-4 cursor-text"
+                >
+                  <User size={15} />
+                </label>
                 <input
                   type="text"
                   name="fullName"
+                  id="fullName"
                   value={formData.fullName}
                   onChange={handleInputChange}
-                  placeholder="Enter First and Last Name"
-                  className="w-full focus:outline-none"
+                  placeholder="Enter your email Address"
+                  className="focus:outline-none py-2 w-full px-10"
                 />
               </div>
               {errors.fullName && (
@@ -249,19 +159,21 @@ const Signup: FC = () => {
 
             <div className="mt-5">
               <p className="">Email</p>
-              <div
-                className={`p-2 border-2 rounded-lg flex gap-2 mt-1 ${
-                  errors.email ? "border-red-500" : ""
-                }`}
-              >
-                <User className="w-4 h-4 my-auto" />
+              <div className="flex border-2 rounded-md mt-2 relative items-center">
+                <label
+                  htmlFor="email"
+                  className="w-4 h-4 my-auto absolute left-4 cursor-text"
+                >
+                  <Mail size={15} />
+                </label>
                 <input
                   type="email"
                   name="email"
+                  id="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  placeholder="Enter Your Email Address"
-                  className="w-full focus:outline-none"
+                  placeholder="Enter your email Address"
+                  className="focus:outline-none py-2 w-full px-10"
                 />
               </div>
               {errors.email && (
@@ -275,20 +187,33 @@ const Signup: FC = () => {
           <div>
             <div className="mt-5">
               <p className="">Password</p>
-              <div
-                className={`p-2 border-2 rounded-lg flex gap-2 mt-1 ${
-                  errors.password ? "border-red-500" : ""
-                }`}
-              >
-                <Lock className="w-4 h-4 my-auto" />
+              <div className="flex border-2 rounded-md mt-2 relative items-center">
+                <label
+                  htmlFor="password"
+                  className="w-4 h-4 my-auto absolute left-4 cursor-text"
+                >
+                  <Lock size={15} />
+                </label>
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
+                  id="password"
                   value={formData.password}
                   onChange={handleInputChange}
-                  placeholder="Password"
-                  className="w-full focus:outline-none"
+                  placeholder="Enter your password"
+                  className="focus:outline-none py-2 w-full px-10"
                 />
+                {showPassword ? (
+                  <EyeOff
+                    className="w-4 h-4 my-auto absolute right-4 cursor-pointer"
+                    onClick={() => setShowPassword(false)}
+                  />
+                ) : (
+                  <Eye
+                    className="w-4 h-4 my-auto absolute right-4 cursor-pointer"
+                    onClick={() => setShowPassword(true)}
+                  />
+                )}
               </div>
               {errors.password && (
                 <p className="text-red-500 flex text-xs mt-1 items-center">
@@ -299,19 +224,21 @@ const Signup: FC = () => {
 
             <div className="mt-5">
               <p className="">Confirm Password</p>
-              <div
-                className={`p-2 border-2 rounded-lg flex gap-2 mt-1 ${
-                  errors.confirmPassword ? "border-red-500" : ""
-                }`}
-              >
-                <Lock className="w-4 h-4 my-auto" />
+              <div className="flex border-2 rounded-md mt-2 relative items-center">
+                <label
+                  htmlFor="confirmPassword"
+                  className="w-4 h-4 my-auto absolute left-4 cursor-text"
+                >
+                  <Lock size={15} />
+                </label>
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="confirmPassword"
+                  id="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
-                  placeholder="Confirm Password"
-                  className="w-full focus:outline-none"
+                  placeholder="Enter your password"
+                  className="focus:outline-none py-2 w-full px-10"
                 />
               </div>
               {errors.confirmPassword && (
@@ -387,12 +314,6 @@ const Signup: FC = () => {
           </Link>
         </p>
       </div>
-
-      <OTPVerification
-        isOpen={showOtp}
-        onClose={() => setShowOtp(false)}
-        formData={formData}
-      />
     </div>
   );
 };
