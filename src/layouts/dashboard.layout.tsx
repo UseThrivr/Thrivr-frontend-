@@ -14,7 +14,7 @@ import { useAuth } from "@/context/AuthContext";
 //     scrollbar-width: none;
 //   }
 //   .scrollbar-hide::-webkit-scrollbar {
-//     display: none;
+//     display: none;mn njbhjkbhn n vkmknkhj  n
 //   }
 // }
 
