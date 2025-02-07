@@ -1,4 +1,9 @@
-import React, { createContext, useContext, ReactNode, useCallback } from "react";
+import React, {
+  createContext,
+  useContext,
+  ReactNode,
+  useCallback,
+} from "react";
 import authAxios from "../api/authAxios";
 import { getUserDetails, setUserDetails } from "../api/tokenService";
 import axios from "axios";
@@ -16,16 +21,142 @@ interface BusinessUpdateData {
   logo?: File | null | string; // j
 }
 
+interface updateSettingsData {
+  theme: string;
+  banner_image: string;
+  working_days: string;
+  opening_hours: string;
+  currency: string; //format: +234XXX-XXXX-XXX
+  logo: File | null | string; // single file
+}
+
+interface createTaskData {
+  status: string;
+  title: string;
+  details: string;
+  due_date: string;
+  time: string;
+  reminder: string;
+}
+
+interface addProductsData {
+  name: string;
+  price: string;
+  category: string;
+  description: string;
+  purchase_date: string;
+  supplier: string;
+  logos: [];
+}
+
+interface addCustomerData {
+  name: string;
+  email: string;
+  phone_number: string;
+  group?: string;
+  instagram?: string;
+}
+
+interface addStaffData {
+  name: string;
+  email: string;
+  role: string;
+  permissions: {
+    products: boolean;
+    manage_payments: boolean;
+    edit_store_settings: boolean;
+    order: boolean;
+    customers: boolean;
+    business_reports: boolean;
+  };
+}
+
+interface forgetPasswordData {
+  email: string;
+  url: string; //url of the frontend website
+}
+
+interface makeOrderData {
+  product_id: number[]; // [12, 10, 9]
+  business_id: string;
+  role: string;
+  customer_name: string;
+  customers_contact: string;
+  sales_channel: string;
+  payment_channel: string;
+  order_date: string;
+  payment_status: string;
+  note: string;
+}
+
 // Data Context Type
 interface DataContextType {
   updateBusiness: (data: BusinessUpdateData) => Promise<unknown>;
+  getBusiness: () => Promise<unknown>;
+  addProducts: (data: addProductsData) => Promise<unknown>;
+  createTask: (data: createTaskData) => Promise<unknown>;
+  getProducts: (id?: string) => Promise<unknown>;
+  updateSettings: (data: updateSettingsData) => Promise<unknown>;
+  addCustomer: (data: addCustomerData) => Promise<unknown>;
+  addStaff: (data: addStaffData) => Promise<unknown>;
+  addGroup: (name: string) => Promise<unknown>;
+  getTask: () => Promise<unknown>;
+  markTaskDone: (id: string) => Promise<unknown>;
+  makeOrder: (data: makeOrderData) => Promise<unknown>;
+  forgetPassword: (data: forgetPasswordData) => Promise<unknown>;
+  deleteAccount: () => Promise<unknown>;
+  updateOrder: ({
+    id,
+    payment_status,
+  }: {
+    id: string;
+    payment_status: string;
+  }) => Promise<unknown>;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
-export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const user = getUserDetails()
-  const updateBusiness = useCallback(async (data: BusinessUpdateData) => {
+export const DataProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
+  const user = getUserDetails();
+  // Post or Patch request
+  const updateBusiness = useCallback(
+    async (data: BusinessUpdateData) => {
+      try {
+        const formData = new FormData();
+
+        // Append all fields to FormData
+        Object.entries(data).forEach(([key, value]) => {
+          if (value !== undefined && value !== null) {
+            formData.append(key, value as string);
+          }
+        });
+
+        // Make API call to update business details
+        const response = await authAxios.patch("/api/v1/business", formData);
+
+        // Update user details after successful API call
+        setUserDetails({ ...response.data.user, id: user?.id });
+
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          const serverError = error.response?.data?.error || "Unknown error";
+          const status = error.response?.status || "No status";
+
+          throw new Error(
+            `Request failed with status ${status}: ${serverError}`
+          );
+        }
+
+        console.error("Unexpected error:", error);
+        throw new Error("An unexpected error occurred. Please try again.");
+      }
+    },
+    [user?.id]
+  );
+  const addProducts = useCallback(async (data: addProductsData) => {
     try {
       const formData = new FormData();
 
@@ -36,13 +167,211 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
       });
 
-      // Make API call to update business details
-      const response = await authAxios.patch("/api/v1/business", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+      const response = await authAxios.post("/api/v1/products", formData);
+
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const serverError = error.response?.data?.error || "Unknown error";
+        const status = error.response?.status || "No status";
+
+        throw new Error(`Request failed with status ${status}: ${serverError}`);
+      }
+
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred. Please try again.");
+    }
+  }, []);
+
+  const createTask = useCallback(async (data: createTaskData) => {
+    try {
+      const formData = new FormData();
+
+      // Append all fields to FormData
+      Object.entries(data).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          formData.append(key, value as string);
+        }
       });
 
+      const response = await authAxios.post("/api/v1/tasks", formData);
+
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const serverError = error.response?.data?.error || "Unknown error";
+        const status = error.response?.status || "No status";
+
+        throw new Error(`Request failed with status ${status}: ${serverError}`);
+      }
+
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred. Please try again.");
+    }
+  }, []);
+
+  const updateSettings = useCallback(async (data: updateSettingsData) => {
+    try {
+      const formData = new FormData();
+
+      // Append all fields to FormData
+      Object.entries(data).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          formData.append(key, value as string);
+        }
+      });
+
+      const response = await authAxios.post(
+        "/api/v1/business/settings",
+        formData
+      );
+
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const serverError = error.response?.data?.error || "Unknown error";
+        const status = error.response?.status || "No status";
+
+        throw new Error(`Request failed with status ${status}: ${serverError}`);
+      }
+
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred. Please try again.");
+    }
+  }, []);
+
+  const addCustomer = useCallback(async (data: addCustomerData) => {
+    try {
+      const formData = new FormData();
+
+      // Append all fields to FormData
+      Object.entries(data).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          formData.append(key, value as string);
+        }
+      });
+
+      const response = await authAxios.post("/api/v1/customer", formData);
+
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const serverError = error.response?.data?.error || "Unknown error";
+        const status = error.response?.status || "No status";
+
+        throw new Error(`Request failed with status ${status}: ${serverError}`);
+      }
+
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred. Please try again.");
+    }
+  }, []);
+
+  const addStaff = useCallback(async (data: addStaffData) => {
+    try {
+      const formData = new FormData();
+
+      // Append all fields to FormData
+      Object.entries(data).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          formData.append(key, value as string);
+        }
+      });
+
+      const response = await authAxios.post("/api/v1/customer", formData);
+
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const serverError = error.response?.data?.error || "Unknown error";
+        const status = error.response?.status || "No status";
+
+        throw new Error(`Request failed with status ${status}: ${serverError}`);
+      }
+
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred. Please try again.");
+    }
+  }, []);
+
+  const makeOrder = useCallback(async (data: makeOrderData) => {
+    try {
+      const formData = new FormData();
+
+      // Append all fields to FormData
+      Object.entries(data).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          formData.append(key, value as string);
+        }
+      });
+
+      const response = await authAxios.post("/api/v1/order", formData);
+
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const serverError = error.response?.data?.error || "Unknown error";
+        const status = error.response?.status || "No status";
+
+        throw new Error(`Request failed with status ${status}: ${serverError}`);
+      }
+
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred. Please try again.");
+    }
+  }, []);
+
+  const addGroup = useCallback(async (name: string) => {
+    try {
+      const response = await authAxios.post("/api/v1/group", name);
+
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const serverError = error.response?.data?.error || "Unknown error";
+        const status = error.response?.status || "No status";
+
+        throw new Error(`Request failed with status ${status}: ${serverError}`);
+      }
+
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred. Please try again.");
+    }
+  }, []);
+
+  const forgetPassword = useCallback(async (data: forgetPasswordData) => {
+    const formData = new FormData();
+    try {
+      Object.entries(data).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          formData.append(key, value as string);
+        }
+      });
+
+      const response = await authAxios.post("/api/v1/group", formData);
+
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const serverError = error.response?.data?.error || "Unknown error";
+        const status = error.response?.status || "No status";
+
+        throw new Error(`Request failed with status ${status}: ${serverError}`);
+      }
+
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred. Please try again.");
+    }
+  }, []);
+
+  // Get resqusts
+
+  const getBusiness = useCallback(async () => {
+    try {
+      const response = await authAxios.get(`/api/v1/business/${user?.id}`);
+
       // Update user details after successful API call
-      setUserDetails({...response.data.user, id: user?.id});
+      setUserDetails({ ...response.data.data, id: user?.id });
 
       return response.data;
     } catch (error) {
@@ -58,8 +387,122 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   }, [user?.id]);
 
+  const getProducts = useCallback(async (id?: string) => {
+    try {
+      const response = await authAxios.get(`/api/v1/products/${id ? id : ""}`);
+
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const serverError = error.response?.data?.error || "Unknown error";
+        const status = error.response?.status || "No status";
+
+        throw new Error(`Request failed with status ${status}: ${serverError}`);
+      }
+
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred. Please try again.");
+    }
+  }, []);
+  const getTask = useCallback(async (id?: string) => {
+    try {
+      const response = await authAxios.get(`/api/v1/tasks/${id ? id : ""}`);
+
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const serverError = error.response?.data?.error || "Unknown error";
+        const status = error.response?.status || "No status";
+
+        throw new Error(`Request failed with status ${status}: ${serverError}`);
+      }
+
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred. Please try again.");
+    }
+  }, []);
+
+  const markTaskDone = useCallback(async (id: string) => {
+    try {
+      const response = await authAxios.patch(`/api/v1/tasks/${id}/done`);
+
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const serverError = error.response?.data?.error || "Unknown error";
+        const status = error.response?.status || "No status";
+
+        throw new Error(`Request failed with status ${status}: ${serverError}`);
+      }
+
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred. Please try again.");
+    }
+  }, []);
+
+  const updateOrder = useCallback(
+    async ({ id, payment_status }: { id: string; payment_status: string }) => {
+      try {
+        const response = await authAxios.patch(`/api/v1/order/${id}`, {
+          payment_status,
+        });
+
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          const serverError = error.response?.data?.error || "Unknown error";
+          const status = error.response?.status || "No status";
+
+          throw new Error(
+            `Request failed with status ${status}: ${serverError}`
+          );
+        }
+
+        console.error("Unexpected error:", error);
+        throw new Error("An unexpected error occurred. Please try again.");
+      }
+    },
+    []
+  );
+
+  const deleteAccount = useCallback(async () => {
+    try {
+      const response = await authAxios.delete(`/api/v1/user/`);
+
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const serverError = error.response?.data?.error || "Unknown error";
+        const status = error.response?.status || "No status";
+
+        throw new Error(`Request failed with status ${status}: ${serverError}`);
+      }
+
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred. Please try again.");
+    }
+  }, []);
+
   return (
-    <DataContext.Provider value={{ updateBusiness }}>
+    <DataContext.Provider
+      value={{
+        updateBusiness,
+        getBusiness,
+        addProducts,
+        getProducts,
+        createTask,
+        updateSettings,
+        addCustomer,
+        addStaff,
+        addGroup,
+        getTask,
+        markTaskDone,
+        makeOrder,
+        updateOrder,
+        deleteAccount,
+        forgetPassword,
+      }}
+    >
       {children}
       <Toaster />
     </DataContext.Provider>

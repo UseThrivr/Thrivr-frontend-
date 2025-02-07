@@ -9,11 +9,49 @@ export interface UserDetails {
   business_name: string;
   location: string;
   email: string;
-  role: string;
-  tagline: string;
   phone_number: string;
   description: string;
   image_path: string;
+  tagline: string;
+  role: string;
+  Settings: [
+    {
+      id: number;
+      banner_image: string;
+      theme: string;
+      working_days: string;
+      opening_hours: string;
+      currency: string;
+      store_id: number;
+      createdAt: string;
+      updatedAt: string;
+    }
+  ];
+  Groups: [
+    //customer groups
+    {
+      id: number;
+      name: string;
+      store_id: 1;
+      createdAt: string;
+      updatedAt: string;
+    }
+  ];
+  products: [
+    {
+      id: number;
+      name: string;
+      price: number;
+      category: string;
+      description: string;
+      purchaseDate: string;
+      supplier: string;
+      business_id: number;
+      amount_left: number;
+      createdAt: string;
+      updatedAt: string;
+    }
+  ];
 }
 
 export const setToken = (token: string): void => {

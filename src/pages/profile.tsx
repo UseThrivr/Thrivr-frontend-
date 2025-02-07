@@ -1,6 +1,7 @@
 import { Seo } from "@/components/global";
 import { profiles } from "@/constants";
 import {
+  Check,
   Copy,
   CreditCard,
   KeySquare,
@@ -48,8 +49,15 @@ const cta = [
 
 const Profile = () => {
   const [isStoreSettingOpen, setIsStoreSettingOpen] = useState(false);
+  const [copied, setCopied] = useState(false)
   const { user } = useAuth();
   const profile = user;
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(profiles.link)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   const contact = [
     {
@@ -140,12 +148,20 @@ const Profile = () => {
                   <p className="font-medium text-sm 2xl:text-base text-text-secondary">
                     Store Link
                   </p>
-                  <div className="flex items-center text-action-default hover:text-action-hover cursor-pointer gap-2 2xl:gap-4">
+                  <button
+                  disabled={copied}
+                    onClick={handleCopy}
+                    className="flex items-center text-action-default hover:text-action-hover cursor-pointer gap-2 2xl:gap-4"
+                  >
                     <span className=" font-medium text-lg 2xl:text-xl max-w-64 truncate">
                       {profiles.link}
                     </span>
-                    <Copy className="w-6 h-6 2xl:w-8 2xl:h-8" />
-                  </div>
+                    {copied ? (
+                      <Check className="w-6 h-6 2xl:w-8 2xl:h-8" />
+                    ) : (
+                      <Copy className="w-6 h-6 2xl:w-8 2xl:h-8" />
+                    )}
+                  </button>
                 </div>
               </div>
               <div className="hidden box-border cursor-pointer lg:flex justify-center items-center py-[8px] px-[16px] h-[46px] gap-[16px] bg-white border border-solid border-action-default rounded-[24px] font-medium text-[20px] leading-[30px] text-action-default">
@@ -159,12 +175,20 @@ const Profile = () => {
               <p className="font-medium text-sm 2xl:text-base text-text-secondary">
                 Store Link
               </p>
-              <div className="flex items-center text-action-default hover:text-action-hover cursor-pointer gap-1">
-                <span className=" font-medium text-base md:text-lg 2xl:text-xl max-w-60 truncate">
+              <button
+              disabled={copied}
+                onClick={handleCopy}
+                className="flex items-center text-action-default hover:text-action-hover cursor-pointer gap-2 2xl:gap-4"
+              >
+                <span className=" font-medium text-lg 2xl:text-xl max-w-64 truncate">
                   {profiles.link}
                 </span>
-                <Copy className="w-6 h-6 2xl:w-8 2xl:h-8" />
-              </div>
+                {copied ? (
+                  <Check className="w-6 h-6 2xl:w-8 2xl:h-8" />
+                ) : (
+                  <Copy className="w-6 h-6 2xl:w-8 2xl:h-8" />
+                )}
+              </button>
             </div>
             <div className="flex box-border cursor-pointer w-max justify-center items-center py-[4px] md:py-[8px] px-[16px] gap-[16px] bg-white border border-solid border-action-default rounded-[24px] font-medium text-[16px] md:text-[20px] leading-[30px] text-action-default">
               <Trash size={24} className="text-action-default" />
