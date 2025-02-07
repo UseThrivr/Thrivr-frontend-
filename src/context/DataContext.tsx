@@ -5,9 +5,10 @@ import React, {
   useCallback,
 } from "react";
 import authAxios from "../api/authAxios";
-import { getUserDetails, setUserDetails } from "../api/tokenService";
+import { setUserDetails } from "../api/tokenService";
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
+import { useAuth } from "./AuthContext";
 
 // Types for updating business details
 interface BusinessUpdateData {
@@ -119,7 +120,7 @@ const DataContext = createContext<DataContextType | undefined>(undefined);
 export const DataProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const user = getUserDetails();
+  const { user } = useAuth()
   // Post or Patch request
   const updateBusiness = useCallback(
     async (data: BusinessUpdateData) => {
