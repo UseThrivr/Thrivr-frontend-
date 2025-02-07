@@ -5,11 +5,18 @@ import { useState } from "react";
 const MobileStoreSettings = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [formData, setFormData] = useState<{
+    storeTheme: string;
+    photo: File | null;
+    workingDays: string;
+    openingHours: string | null;
+    group: string;
+  }>({});
 
   const MAX_FILE_SIZE_MB = 10;
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0 ];
+    const file = event.target.files?.[0];
 
     if (!file) return;
 
@@ -17,6 +24,7 @@ const MobileStoreSettings = () => {
     if (fileSizeMB > MAX_FILE_SIZE_MB) {
       setErrorMessage(`File size exceeds ${MAX_FILE_SIZE_MB}MB.`);
       setImagePreview(null);
+      setFormData({ ...formData, photo: null });
       return;
     }
 
@@ -24,8 +32,14 @@ const MobileStoreSettings = () => {
     const reader = new FileReader();
     reader.onload = () => {
       setImagePreview(reader.result as string);
+      setFormData({ ...formData, photo: file });
     };
     reader.readAsDataURL(file);
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { id, value } = event.target;
+    setFormData({ ...formData, [id]: value });
   };
 
   return (
@@ -42,6 +56,8 @@ const MobileStoreSettings = () => {
             <select
               className="border border-neutral-border p-3 rounded-lg w-full focus:outline-none appearance-none text-text-secondary text-base font-medium"
               id="store-theme"
+              value={formData.storeTheme}
+              onChange={handleChange}
             >
               <option>Default</option>
               <option>Dark</option>
@@ -104,6 +120,8 @@ const MobileStoreSettings = () => {
             <select
               className="border border-neutral-border p-3 rounded-lg w-full focus:outline-none appearance-none text-text-secondary text-base font-medium"
               id="day-range"
+              value={formData.workingDays}
+              onChange={handleChange}
               required
             >
               <option>Mon - Fri</option>
@@ -130,6 +148,8 @@ const MobileStoreSettings = () => {
             <select
               className="border border-neutral-border p-3 rounded-lg w-full focus:outline-none appearance-none text-text-secondary text-base font-medium"
               id="group"
+              value={formData.group}
+              onChange={handleChange}
             >
               <option>Nigerian Naira (NGN)</option>
               <option>US Dollar (USD)</option>
@@ -140,10 +160,12 @@ const MobileStoreSettings = () => {
         <button
           type="button"
           className="w-full bg-action-default text-white rounded-2xl  hover:opacity-80 p-4"
+          onClick={() => console.log(formData)}
         >
           Confirm
         </button>
       </form>
+      {/* </form> */}
     </div>
   );
 };
