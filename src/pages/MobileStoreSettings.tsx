@@ -11,7 +11,13 @@ const MobileStoreSettings = () => {
     workingDays: string;
     openingHours: string | null;
     group: string;
-  }>({});
+  }>({
+    storeTheme: "Dark",
+    photo: null,
+    workingDays: "Mon - Fri",
+    openingHours: "8",
+    group: ""
+  });
 
   const MAX_FILE_SIZE_MB = 10;
 
