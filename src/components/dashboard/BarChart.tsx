@@ -13,8 +13,8 @@ import {
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 interface BarChartProps {
-  labels: string[]; // Months or other x-axis labels
-  dataPoints: number[]; // Data points for each month
+  labels?: string[]; // Months or other x-axis labels
+  dataPoints?: number[]; // Data points for each month
 }
 
 const BarChart: React.FC<BarChartProps> = ({ labels, dataPoints }) => {

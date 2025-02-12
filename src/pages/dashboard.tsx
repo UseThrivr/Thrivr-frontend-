@@ -100,7 +100,10 @@ const Dashboard = () => {
                 </a>
               </div>
             </div>
-            <BarChart labels={dashboardData.orderTrends.labels} dataPoints={dashboardData.orderTrends.data} />
+            <BarChart 
+            // labels={dashboardData.orderTrends.labels} 
+            // dataPoints={dashboardData.orderTrends.data} 
+            />
           </div>
           <div className="flex sm:hidden flex-col gap-4 items-start w-full">
             <h2 className="font-medium text-base leading-5 text-text-primary">To do</h2>
@@ -131,7 +134,7 @@ const Dashboard = () => {
               <button className="text-action-default font-normal text-base flex md:hidden">View all</button>
             </div>
             <div className="h-full flex flex-col gap-[24px] pb-2">
-              {dashboardData.topSalesChannels.map((item: any) => (
+              {dashboardData.topSalesChannels.map((item) => (
                 <ProgressBar key={item.name} name={item.name} percentage={item.percentage} />
               ))}
             </div>

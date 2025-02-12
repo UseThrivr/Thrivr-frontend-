@@ -1,28 +1,42 @@
 import type React from "react"
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react"
 import authAxios from "../api/authAxios"
-import { getUserDetails } from "../api/tokenService"
+// import { getUserDetails } from "../api/tokenService"
 
 interface DashboardContextType {
   fetchDashboardData: () => Promise<void>
   fetchInventory: () => Promise<void>
   fetchOrders: () => Promise<void>
   fetchSales: () => Promise<void>
-  addProduct: (productData: any) => Promise<void>
+  addProduct: (productData: unknown) => Promise<void>
   updateOrder: (orderId: string, status: string) => Promise<void>
-  dashboardData: any
-  inventoryData: any[]
-  ordersData: any[]
-  salesData: any[]
+  dashboardData: {
+    storeUrl: string
+    totalSales: number
+    overview: string[]
+    orderTrends: { data: string; labels: string }
+    todos: string[]
+    topSalesChannels: { name: string; percentage: number}[]
+  } | null
+  inventoryData: unknown[]
+  ordersData: unknown[]
+  salesData: unknown[]
 }
 
 const DashboardContext = createContext<DashboardContextType | undefined>(undefined)
 
 export const DashboardProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [dashboardData, setDashboardData] = useState<any>(null)
-  const [inventoryData, setInventoryData] = useState<any[]>([])
-  const [ordersData, setOrdersData] = useState<any[]>([])
-  const [salesData, setSalesData] = useState<any[]>([])
+  const [dashboardData, setDashboardData] = useState<{
+    storeUrl: string
+    totalSales: number
+    overview: string[]
+    orderTrends: { data: string; labels: string }
+    todos: string[]
+    topSalesChannels: { name: string; percentage: number}[]
+  } | null>(null)
+  const [inventoryData, setInventoryData] = useState<unknown[]>([])
+  const [ordersData, setOrdersData] = useState<unknown[]>([])
+  const [salesData, setSalesData] = useState<unknown[]>([])
 
   const fetchDashboardData = useCallback(async () => {
     try {
@@ -61,7 +75,7 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({ children 
   }, [])
 
   const addProduct = useCallback(
-    async (productData: any) => {
+    async (productData: unknown) => {
       try {
         await authAxios.post("/api/v1/products", productData)
         await fetchInventory()
