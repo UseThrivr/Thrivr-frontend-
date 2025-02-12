@@ -137,7 +137,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
         const response = await authAxios.patch("/api/v1/business", formData);
 
         // Update user details after successful API call
-        setUserDetails({ ...response.data.user, id: user?.id });
+        setUserDetails({ ...response.data.user, settings: response.data.settings});
 
         return response.data;
       } catch (error) {
@@ -149,7 +149,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
         throw new Error("An unexpected error occurred. Please try again.");
       }
     },
-    [user?.id]
+    []
   );
   const addProducts = useCallback(async (data: addProductsData) => {
     try {
@@ -214,6 +214,8 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
         "/api/v1/business/settings",
         formData
       );
+
+      setUserDetails({ ...response.data.user, id: user?.id });
 
       return response.data;
     } catch (error) {
