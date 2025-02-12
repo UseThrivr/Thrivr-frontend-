@@ -1,23 +1,29 @@
 import { ChevronDown, FileDown } from "lucide-react";
 import TimeRangePicker from "../components/dashboard/timRange";
 import { useState } from "react";
+import { useData } from "@/context/DataContext";
+import toast from "react-hot-toast";
 
 const MobileStoreSettings = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<{
     storeTheme: string;
     photo: File | null;
     workingDays: string;
-    openingHours: string | null;
-    group: string;
+    openingHours: string;
+    currency: string;
   }>({
     storeTheme: "Dark",
     photo: null,
     workingDays: "Mon - Fri",
-    openingHours: "8",
-    group: ""
+    openingHours: "09:00 - 18:00",
+    currency: "NGN",
   });
+
+  const { updateSettings } = useData();
 
   const MAX_FILE_SIZE_MB = 10;
 
@@ -48,12 +54,49 @@ const MobileStoreSettings = () => {
     setFormData({ ...formData, [id]: value });
   };
 
+  const handleTimeChange = (time: string) => {
+    setFormData({ ...formData, openingHours: time });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+
+      // Attempt login using AuthContext's login method
+      await updateSettings({
+        theme: formData.storeTheme,
+        banner_image: formData.photo,
+        working_days: formData.workingDays,
+        opening_hours: formData.openingHours,
+        currency: formData.currency,
+      });
+
+      // Show success toast and navigate to dashboard
+      toast.success("Updated Successfullly!");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        const errorMessage = err.message || "Update failed. Please try again.";
+        toast.error(errorMessage);
+
+        // Optionally set specific error states
+        setError(errorMessage);
+      } else {
+        toast.error("Update Failed!");
+        setError("Update Failed");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="py-6 overflow-auto invincible-scrollbar">
-      <form className="w-full flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
         <div className="flex flex-col w-full gap-4">
           <label
-            htmlFor="store-theme"
+            htmlFor="storeTheme"
             className="block text-base font-medium text-text-primary"
           >
             Store theme <span className="text-red-500">*</span>
@@ -61,9 +104,10 @@ const MobileStoreSettings = () => {
           <div className="w-full flex relative items-center h-auto">
             <select
               className="border border-neutral-border p-3 rounded-lg w-full focus:outline-none appearance-none text-text-secondary text-base font-medium"
-              id="store-theme"
+              id="storeTheme"
               value={formData.storeTheme}
               onChange={handleChange}
+              required
             >
               <option>Default</option>
               <option>Dark</option>
@@ -117,7 +161,7 @@ const MobileStoreSettings = () => {
         </div>
         <div className="flex flex-col w-full gap-4">
           <label
-            htmlFor="day-range"
+            htmlFor="workingDays"
             className="block text-base font-medium text-text-primary"
           >
             Working days <span className="text-red-500">*</span>
@@ -125,7 +169,7 @@ const MobileStoreSettings = () => {
           <div className="w-full flex relative items-center h-auto">
             <select
               className="border border-neutral-border p-3 rounded-lg w-full focus:outline-none appearance-none text-text-secondary text-base font-medium"
-              id="day-range"
+              id="workingDays"
               value={formData.workingDays}
               onChange={handleChange}
               required
@@ -141,34 +185,43 @@ const MobileStoreSettings = () => {
           <label className="block text-base font-medium text-text-primary">
             Opening hours <span className="text-red-500">*</span>
           </label>
-          <TimeRangePicker />
+          <TimeRangePicker value={formData.openingHours} change={handleTimeChange} />
         </div>
         <div className="flex flex-col w-full gap-4">
           <label
-            htmlFor="group"
+            htmlFor="currency"
             className="block text-base font-medium text-text-primary"
           >
-            Group <span className="text-red-500">*</span>
+            Currency <span className="text-red-500">*</span>
           </label>
           <div className="w-full flex relative items-center h-auto">
             <select
               className="border border-neutral-border p-3 rounded-lg w-full focus:outline-none appearance-none text-text-secondary text-base font-medium"
-              id="group"
-              value={formData.group}
+              id="currency"
+              required
+              value={formData.currency}
               onChange={handleChange}
             >
-              <option>Nigerian Naira (NGN)</option>
-              <option>US Dollar (USD)</option>
+              <option value="NGN">Nigerian Naira (NGN)</option>
+              <option value="USD">US Dollar (USD)</option>
             </select>
             <ChevronDown className="pointer-events-none right-3 size-6 absolute" />
           </div>
         </div>
+
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative my-6">
+            {error}
+          </div>
+        )}
+
         <button
-          type="button"
+          type="submit"
+          disabled={loading}
           className="w-full bg-action-default text-white rounded-2xl  hover:opacity-80 p-4"
           onClick={() => console.log(formData)}
         >
-          Confirm
+          {loading === true ? "Saving..." : "Confirm"}
         </button>
       </form>
       {/* </form> */}

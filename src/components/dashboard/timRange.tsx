@@ -1,12 +1,15 @@
 import { Calendar } from "lucide-react";
 import React, { useState } from "react";
 
-const TimeRangePicker = () => {
+const TimeRangePicker = ({value, change}: {value: string, change: (time: string) => void}) => {
   const [startTime, setStartTime] = useState("09:00");
   const [endTime, setEndTime] = useState("18:00");
   const [isPickerOpen, setIsPickerOpen] = useState(false);
 
-  const togglePicker = () => setIsPickerOpen(!isPickerOpen);
+  const togglePicker = () => {
+    change(`${startTime} - ${endTime}`)
+    setIsPickerOpen(!isPickerOpen)
+  }
 
   const handleStartTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newStartTime = e.target.value;
@@ -22,7 +25,7 @@ const TimeRangePicker = () => {
     <div className="relative w-full flex items-center">
       <input
         type="text"
-        value={`${startTime} - ${endTime}`}
+        value={value}
         readOnly
         onClick={togglePicker}
         className="border border-neutral-border bg-transparent p-3 rounded-lg w-full focus:outline-none appearance-none text-text-secondary text-base font-medium z-10 cursor-default"

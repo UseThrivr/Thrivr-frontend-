@@ -24,11 +24,10 @@ interface BusinessUpdateData {
 
 interface updateSettingsData {
   theme: string;
-  banner_image: string;
+  banner_image: File | null | string;
   working_days: string;
   opening_hours: string;
   currency: string; //format: +234XXX-XXXX-XXX
-  logo: File | null | string; // single file
 }
 
 interface createTaskData {
@@ -143,12 +142,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
         return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          const serverError = error.response?.data?.error || "Unknown error";
-          const status = error.response?.status || "No status";
-
-          throw new Error(
-            `Request failed with status ${status}: ${serverError}`
-          );
+          throw new Error(error.message);
         }
 
         console.error("Unexpected error:", error);
@@ -173,10 +167,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const serverError = error.response?.data?.error || "Unknown error";
-        const status = error.response?.status || "No status";
-
-        throw new Error(`Request failed with status ${status}: ${serverError}`);
+        throw new Error(error.message);
       }
 
       console.error("Unexpected error:", error);
@@ -200,10 +191,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const serverError = error.response?.data?.error || "Unknown error";
-        const status = error.response?.status || "No status";
-
-        throw new Error(`Request failed with status ${status}: ${serverError}`);
+        throw new Error(error.message);
       }
 
       console.error("Unexpected error:", error);
@@ -230,10 +218,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const serverError = error.response?.data?.error || "Unknown error";
-        const status = error.response?.status || "No status";
-
-        throw new Error(`Request failed with status ${status}: ${serverError}`);
+        throw new Error(error.message);
       }
 
       console.error("Unexpected error:", error);
@@ -257,10 +242,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const serverError = error.response?.data?.error || "Unknown error";
-        const status = error.response?.status || "No status";
-
-        throw new Error(`Request failed with status ${status}: ${serverError}`);
+        throw new Error(error.message);
       }
 
       console.error("Unexpected error:", error);
@@ -284,10 +266,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const serverError = error.response?.data?.error || "Unknown error";
-        const status = error.response?.status || "No status";
-
-        throw new Error(`Request failed with status ${status}: ${serverError}`);
+        throw new Error(error.message);
       }
 
       console.error("Unexpected error:", error);
@@ -311,10 +290,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const serverError = error.response?.data?.error || "Unknown error";
-        const status = error.response?.status || "No status";
-
-        throw new Error(`Request failed with status ${status}: ${serverError}`);
+        throw new Error(error.message);
       }
 
       console.error("Unexpected error:", error);
@@ -329,10 +305,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const serverError = error.response?.data?.error || "Unknown error";
-        const status = error.response?.status || "No status";
-
-        throw new Error(`Request failed with status ${status}: ${serverError}`);
+        throw new Error(error.message);
       }
 
       console.error("Unexpected error:", error);
@@ -354,10 +327,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const serverError = error.response?.data?.error || "Unknown error";
-        const status = error.response?.status || "No status";
-
-        throw new Error(`Request failed with status ${status}: ${serverError}`);
+        throw new Error(error.message);
       }
 
       console.error("Unexpected error:", error);
@@ -377,10 +347,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const serverError = error.response?.data?.error || "Unknown error";
-        const status = error.response?.status || "No status";
-
-        throw new Error(`Request failed with status ${status}: ${serverError}`);
+        throw new Error(error.message);
       }
 
       console.error("Unexpected error:", error);
@@ -395,10 +362,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const serverError = error.response?.data?.error || "Unknown error";
-        const status = error.response?.status || "No status";
-
-        throw new Error(`Request failed with status ${status}: ${serverError}`);
+        throw new Error(error.message);
       }
 
       console.error("Unexpected error:", error);
@@ -412,10 +376,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const serverError = error.response?.data?.error || "Unknown error";
-        const status = error.response?.status || "No status";
-
-        throw new Error(`Request failed with status ${status}: ${serverError}`);
+        throw new Error(error.message);
       }
 
       console.error("Unexpected error:", error);
@@ -430,12 +391,8 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const serverError = error.response?.data?.error || "Unknown error";
-        const status = error.response?.status || "No status";
-
-        throw new Error(`Request failed with status ${status}: ${serverError}`);
+        throw new Error(error.message);
       }
-
       console.error("Unexpected error:", error);
       throw new Error("An unexpected error occurred. Please try again.");
     }
@@ -451,12 +408,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
         return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          const serverError = error.response?.data?.error || "Unknown error";
-          const status = error.response?.status || "No status";
-
-          throw new Error(
-            `Request failed with status ${status}: ${serverError}`
-          );
+          throw new Error(error.message);
         }
 
         console.error("Unexpected error:", error);
@@ -473,10 +425,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const serverError = error.response?.data?.error || "Unknown error";
-        const status = error.response?.status || "No status";
-
-        throw new Error(`Request failed with status ${status}: ${serverError}`);
+        throw new Error(error.message);
       }
 
       console.error("Unexpected error:", error);

@@ -14,6 +14,7 @@ import { ChevronDown } from "lucide-react";
 import authAxios from "@/api/authAxios";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface TopProductData {
   productName: string;
@@ -62,6 +63,8 @@ const Sales = () => {
     };
     fetchSales();
   }, []);
+
+  const navigate = useNavigate()
 
   return (
     <>
@@ -130,14 +133,14 @@ const Sales = () => {
               <h2 className="font-semibold tracking-[-1%] md:leading-[35.2px] text-base md:text-[24px] text-text-primary">
                 Top products
               </h2>
-              <button className="text-[#870E73] text-[16px] leading-[30px]">
+              <button onClick={() => navigate("/inventory")} className="text-[#870E73] text-[16px] leading-[30px]">
                 View all
               </button>
             </div>
 
             {error ? (
               <div className="flex flex-col items-center justify-center gap-4">
-                <div className="h-20 w-20 text-gray-400 bg-red-500">
+                <div className="h-20 w-20 text-5xl items-center justify-center flex text-white bg-red-500 rounded-full">
                   !
                 </div>
                 <p className="text-gray-600 text-lg">

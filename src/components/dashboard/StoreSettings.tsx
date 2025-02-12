@@ -1,6 +1,8 @@
 import { ChevronDown, CloudDownload, FileDown, X } from "lucide-react";
 import TimeRangePicker from "./timRange";
 import { useState } from "react";
+import { useData } from "@/context/DataContext";
+import toast from "react-hot-toast";
 
 interface StoreSettingsProps {
   isOpen: boolean;
@@ -10,6 +12,23 @@ interface StoreSettingsProps {
 const StoreSettings: React.FC<StoreSettingsProps> = ({ isOpen, onClose }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState<{
+    storeTheme: string;
+    photo: File | null;
+    workingDays: string;
+    openingHours: string;
+    currency: string;
+  }>({
+    storeTheme: "Dark",
+    photo: null,
+    workingDays: "Mon - Fri",
+    openingHours: "8",
+    currency: "",
+  });
+
+  const { updateSettings } = useData();
   if (!isOpen) return null;
 
   const MAX_FILE_SIZE_MB = 10;
@@ -34,6 +53,48 @@ const StoreSettings: React.FC<StoreSettingsProps> = ({ isOpen, onClose }) => {
     reader.readAsDataURL(file);
   };
 
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { id, value } = event.target;
+    setFormData({ ...formData, [id]: value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+
+      // Attempt login using AuthContext's login method
+      await updateSettings({
+        theme: formData.storeTheme,
+        banner_image: formData.photo,
+        working_days: formData.workingDays,
+        opening_hours: formData.openingHours,
+        currency: formData.currency,
+      });
+
+      // Show success toast and navigate to dashboard
+      toast.success("Updated Successfullly!");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        const errorMessage = err.message || "Update failed. Please try again.";
+        toast.error(errorMessage);
+
+        // Optionally set specific error states
+        setError(errorMessage);
+      } else {
+        toast.error("Update Failed!");
+        setError("Update Failed");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleTimeChange = (time: string) => {
+    setFormData({ ...formData, openingHours: time });
+  };
+
   return (
     <div className="absolute top-0 left-0 w-full h-full bg-[#000000CC] hidden lg:flex justify-center z-50 overflow-auto">
       <div className="py-24 flex items-center min-h-fit w-full justify-center">
@@ -49,10 +110,13 @@ const StoreSettings: React.FC<StoreSettingsProps> = ({ isOpen, onClose }) => {
               Store Settings
             </h2>
 
-            <form className="w-full flex flex-col gap-4 py-4">
+            <form
+              onSubmit={handleSubmit}
+              className="w-full flex flex-col gap-4 py-4"
+            >
               <div className="flex flex-col w-full gap-4">
                 <label
-                  htmlFor="store-theme"
+                  htmlFor="storeTheme"
                   className="block text-base font-medium text-text-primary"
                 >
                   Store theme <span className="text-red-500">*</span>
@@ -60,7 +124,10 @@ const StoreSettings: React.FC<StoreSettingsProps> = ({ isOpen, onClose }) => {
                 <div className="w-full flex relative items-center h-auto">
                   <select
                     className="border border-neutral-border p-3 rounded-lg w-full focus:outline-none appearance-none text-text-secondary text-base font-medium"
-                    id="store-theme"
+                    id="storeTheme"
+                    value={formData.storeTheme}
+                    onChange={handleChange}
+                    required
                   >
                     <option>Default</option>
                     <option>Dark</option>
@@ -116,7 +183,7 @@ const StoreSettings: React.FC<StoreSettingsProps> = ({ isOpen, onClose }) => {
               <div className="flex w-full gap-4">
                 <div className="flex flex-col flex-1 gap-4">
                   <label
-                    htmlFor="day-range"
+                    htmlFor="workingDays"
                     className="block text-base font-medium text-text-primary"
                   >
                     Working days <span className="text-red-500">*</span>
@@ -124,8 +191,10 @@ const StoreSettings: React.FC<StoreSettingsProps> = ({ isOpen, onClose }) => {
                   <div className="w-full flex relative items-center h-auto">
                     <select
                       className="border border-neutral-border p-3 rounded-lg w-full focus:outline-none appearance-none text-text-secondary text-base font-medium"
-                      id="day-range"
+                      id="workingDays"
                       required
+                      value={formData.workingDays}
+                      onChange={handleChange}
                     >
                       <option>Mon - Fri</option>
                       <option>Mon - Sun</option>
@@ -138,32 +207,46 @@ const StoreSettings: React.FC<StoreSettingsProps> = ({ isOpen, onClose }) => {
                   <label className="block text-base font-medium text-text-primary">
                     Opening hours <span className="text-red-500">*</span>
                   </label>
-                  <TimeRangePicker />
+                  <TimeRangePicker
+                    value={formData.openingHours}
+                    change={handleTimeChange}
+                  />
                 </div>
               </div>
               <div className="flex flex-col w-full gap-4">
                 <label
-                  htmlFor="group"
+                  htmlFor="currency"
                   className="block text-base font-medium text-text-primary"
                 >
-                  Group <span className="text-red-500">*</span>
+                  Currency <span className="text-red-500">*</span>
                 </label>
                 <div className="w-full flex relative items-center h-auto">
                   <select
                     className="border border-neutral-border p-3 rounded-lg w-full focus:outline-none appearance-none text-text-secondary text-base font-medium"
-                    id="group"
+                    id="currency"
+                    value={formData.currency}
+                    onChange={handleChange}
+                    required
                   >
-                    <option>Nigerian Naira (NGN)</option>
-                    <option>US Dollar (USD)</option>
+                    <option value="NGN">Nigerian Naira (NGN)</option>
+                    <option value="USD">US Dollar (USD)</option>
                   </select>
                   <ChevronDown className="pointer-events-none right-3 size-6 absolute" />
                 </div>
               </div>
+
+              {error && (
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative my-6">
+                  {error}
+                </div>
+              )}
+
               <button
-                type="button"
+                type="submit"
+                disabled={loading}
                 className="w-full bg-action-default text-white rounded-2xl  hover:opacity-80 p-4"
               >
-                Confirm
+                {loading === true ? "Saving..." : "Confirm"}
               </button>
             </form>
           </div>

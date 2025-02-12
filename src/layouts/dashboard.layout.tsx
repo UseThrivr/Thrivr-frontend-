@@ -25,7 +25,7 @@ interface NavBarProps {
 
 const DashboardLayout: React.FC<NavBarProps> = (navBarProps) => {
   const { isMobileSidebarOpen, setMobileSidebarOpen } = useSidebar();
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated } = useAuth();
 
   const navigate = useNavigate();
 
