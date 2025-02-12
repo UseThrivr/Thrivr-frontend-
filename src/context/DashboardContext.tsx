@@ -3,6 +3,17 @@ import { createContext, useContext, useState, useCallback, type ReactNode } from
 import authAxios from "../api/authAxios"
 // import { getUserDetails } from "../api/tokenService"
 
+interface InventoryData {
+  id: number
+  name: string
+  price: number
+  category: string
+  description: string
+  purchaseDate: string
+  supplier: string
+  amount_left: number
+}
+
 interface DashboardContextType {
   fetchDashboardData: () => Promise<void>
   fetchInventory: () => Promise<void>
@@ -18,7 +29,7 @@ interface DashboardContextType {
     todos: string[]
     topSalesChannels: { name: string; percentage: number}[]
   } | null
-  inventoryData: unknown[]
+  inventoryData: InventoryData[]
   ordersData: unknown[]
   salesData: unknown[]
 }
@@ -34,7 +45,7 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({ children 
     todos: string[]
     topSalesChannels: { name: string; percentage: number}[]
   } | null>(null)
-  const [inventoryData, setInventoryData] = useState<unknown[]>([])
+  const [inventoryData, setInventoryData] = useState<InventoryData[]>([])
   const [ordersData, setOrdersData] = useState<unknown[]>([])
   const [salesData, setSalesData] = useState<unknown[]>([])
 
