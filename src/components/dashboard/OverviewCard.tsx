@@ -1,6 +1,6 @@
 import { overviewData } from "@/constants";
 
-const OverviewCard = ({ data }: {data: string[]}) => {
+const OverviewCard = ({ data }: {data: {name: string; amount: number; percentage: number}[]}) => {
     console.log(data);
     return (
         <div className="grid grid-cols-2 min-[400px]:grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 w-full mt-8 mb-[64px]">

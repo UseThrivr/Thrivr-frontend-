@@ -24,8 +24,8 @@ interface DashboardContextType {
   dashboardData: {
     storeUrl: string
     totalSales: number
-    overview: string[]
-    orderTrends: { data: string; labels: string }
+    overview: {name: string; amount: number; percentage: number}[]
+    orderTrends: { data: number[]; labels: string[] }
     todos: string[]
     topSalesChannels: { name: string; percentage: number}[]
   } | null
@@ -40,8 +40,8 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({ children 
   const [dashboardData, setDashboardData] = useState<{
     storeUrl: string
     totalSales: number
-    overview: string[]
-    orderTrends: { data: string; labels: string }
+    overview: {name: string; amount: number; percentage: number}[]
+    orderTrends: { data: number[]; labels: string[] }
     todos: string[]
     topSalesChannels: { name: string; percentage: number}[]
   } | null>(null)
@@ -53,6 +53,7 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({ children 
     try {
       const response = await authAxios.get("/api/v1/dashboard")
       setDashboardData(response.data)
+      return response.data
     } catch (error) {
       console.error("Error fetching dashboard data:", error)
     }

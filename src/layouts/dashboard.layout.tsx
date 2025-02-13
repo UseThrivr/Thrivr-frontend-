@@ -6,6 +6,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useSidebar } from "@/context/SidebarContext";
 import { useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { DashboardProvider } from "@/context/DashboardContext";
 
 // First, create the custom scrollbar utility in your global CSS file (e.g., index.css or globals.css)
 // @layer utilities {
@@ -65,7 +66,10 @@ const DashboardLayout: React.FC<NavBarProps> = (navBarProps) => {
                 "overflow-y-auto scrollbar-hide" // Add these classes
               )}
             >
+              <DashboardProvider>
+
               <Outlet />
+              </DashboardProvider>
             </main>
           </div>
         </div>

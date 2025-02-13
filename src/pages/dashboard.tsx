@@ -6,22 +6,55 @@ import ProgressBar from "@/components/dashboard/ProgressBar"
 // import { progressData } from "@/constants"
 import { useAuth } from "@/context/AuthContext"
 import { useDashboard } from "@/context/DashboardContext"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 const Dashboard = () => {
   const { user } = useAuth()
   const { dashboardData, fetchDashboardData } = useDashboard()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    fetchDashboardData()
+    const fetch = async () => {
+      setLoading(true)
+      try {
+        const data = await fetchDashboardData()
+        console.log("Dashboard data:", data)
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetch()
   }, [fetchDashboardData])
 
   const handleCopy = (data: string) => {
     navigator.clipboard.writeText(data)
   }
 
+  if (loading) {
+    return (
+      <div className="flex flex-col gap-6 p-4">
+        <div className="flex justify-between gap-4">
+          <div className="w-1/3 h-24 bg-gray-300 animate-pulse rounded"></div>
+          <div className="w-1/3 h-24 bg-gray-300 animate-pulse rounded"></div>
+          <div className="w-1/3 h-24 bg-gray-300 animate-pulse rounded"></div>
+        </div>
+        <div className="w-full h-64 bg-gray-300 animate-pulse rounded"></div>
+        <div className="flex justify-between">
+          <div className="w-1/2 h-48 bg-gray-300 animate-pulse rounded"></div>
+          <div className="w-1/2 h-48 bg-gray-300 animate-pulse rounded"></div>
+        </div>
+      </div>
+    )
+  }
+
   if (!dashboardData) {
-    return <div>Loading...</div>
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-lg font-medium text-red-500">Error: No data available</p>
+      </div>
+    )
   }
 
   return (
@@ -101,8 +134,8 @@ const Dashboard = () => {
               </div>
             </div>
             <BarChart 
-            // labels={dashboardData.orderTrends.labels} 
-            // dataPoints={dashboardData.orderTrends.data} 
+            labels={dashboardData.orderTrends.labels} 
+            dataPoints={dashboardData.orderTrends.data} 
             />
           </div>
           <div className="flex sm:hidden flex-col gap-4 items-start w-full">
