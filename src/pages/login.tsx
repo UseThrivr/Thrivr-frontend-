@@ -25,7 +25,7 @@ const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
-  const { getBusiness } = useData()
+  const { getBusiness } = useData();
 
   const [loginData, setLoginData] = useState<LoginFormData>({
     email: "",
@@ -87,13 +87,14 @@ const Login: React.FC = () => {
       setIsLoading(true);
 
       // Attempt login using AuthContext's login method
-      await login({
+      const data = (await login({
         email: loginData.email,
         password: loginData.password,
-      });
+      })) as { user: { id: string } };
+      console.log(data);
 
-      const business = await getBusiness()
-      setUserDetails(business.data)
+      const business = await getBusiness(data.user.id);
+      setUserDetails(business.data);
 
       // Show success toast and navigate to dashboard
       toast.success("Login Successful!");

@@ -69,13 +69,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const register = useCallback(async (data: BusinessRegistrationData) => {
     try {
       // Create FormData for file upload
-      const formData = new FormData();
-      Object.entries(data).forEach(([key, value]) => {
-        formData.append(key, value instanceof File ? value : String(value));
-      });
+      // const formData = new FormData();
+      // Object.entries(data).forEach(([key, value]) => {
+      //   formData.append(key, value instanceof File ? value : String(value));
+      // });
   
-      const response = await axiosInstance.post('/api/v1/auth/signup/business', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+      const response = await axiosInstance.post('/api/v1/auth/signup/business', data, {
+        // headers: { 'Content-Type': 'multipart/form-data' },
       });
   
       return response.data;
