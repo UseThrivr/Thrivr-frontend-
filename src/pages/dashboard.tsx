@@ -1,36 +1,36 @@
-import { Seo } from "@/components/global"
-import OverviewCard from "@/components/dashboard/OverviewCard"
-import { ChevronDown, Copy, ShoppingBag, Store } from "lucide-react"
-import BarChart from "@/components/dashboard/BarChart"
-import ProgressBar from "@/components/dashboard/ProgressBar"
+import { Seo } from "@/components/global";
+import OverviewCard from "@/components/dashboard/OverviewCard";
+import { ChevronDown, Copy, ShoppingBag, Store } from "lucide-react";
+import BarChart from "@/components/dashboard/BarChart";
+import ProgressBar from "@/components/dashboard/ProgressBar";
 // import { progressData } from "@/constants"
-import { useAuth } from "@/context/AuthContext"
-import { useDashboard } from "@/context/DashboardContext"
-import { useEffect, useState } from "react"
+import { useAuth } from "@/context/AuthContext";
+import { useDashboard } from "@/context/DashboardContext";
+import { useEffect, useState } from "react";
 
 const Dashboard = () => {
-  const { user } = useAuth()
-  const { dashboardData, fetchDashboardData } = useDashboard()
-  const [loading, setLoading] = useState(false)
+  const { user } = useAuth();
+  const { dashboardData, fetchDashboardData } = useDashboard();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
-      setLoading(true)
+      setLoading(true);
       try {
-        const data = await fetchDashboardData()
-        console.log("Dashboard data:", data)
+        const data = await fetchDashboardData();
+        console.log("Dashboard data:", data);
       } catch (error) {
-        console.error("Error fetching dashboard data:", error)
+        console.error("Error fetching dashboard data:", error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
-    fetch()
-  }, [fetchDashboardData])
+    };
+    fetch();
+  }, [fetchDashboardData]);
 
   const handleCopy = (data: string) => {
-    navigator.clipboard.writeText(data)
-  }
+    navigator.clipboard.writeText(data);
+  };
 
   if (loading) {
     return (
@@ -46,15 +46,20 @@ const Dashboard = () => {
           <div className="w-1/2 h-48 bg-gray-300 animate-pulse rounded"></div>
         </div>
       </div>
-    )
+    );
   }
 
   if (!dashboardData) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-lg font-medium text-red-500">Error: No data available</p>
+      <div className="flex items-center justify-center mt-[30vh] flex-col">
+        <div className="h-20 w-20 text-5xl items-center justify-center flex text-white bg-gray-500 rounded-full">
+          !
+        </div>
+        <p className="text-lg font-medium text-gray-500">
+          Oops No data available!
+        </p>
       </div>
-    )
+    );
   }
 
   return (
@@ -78,7 +83,11 @@ const Dashboard = () => {
           ].map(({ name, icon, color, link }, i) => (
             <button
               key={i}
-              onClick={() => (name === "Copy link" ? handleCopy(link) : window.open(link, "_blank"))}
+              onClick={() =>
+                name === "Copy link"
+                  ? handleCopy(link)
+                  : window.open(link, "_blank")
+              }
               className={`bg-neutral-alt-b py-[6px] px-2 rounded-full gap-2 flex items-center ${color} font-medium text-xs cursor-pointer leading-[18px]`}
             >
               {icon}
@@ -97,10 +106,14 @@ const Dashboard = () => {
         <div className="w-full flex items-end">
           <div className="flex-col flex md:hidden items-start gap-4">
             <h2 className="font-medium text-xs">Total sales</h2>
-            <p className="font-semibold text-2xl text-text-primary">₦{dashboardData.totalSales.toLocaleString()}</p>
+            <p className="font-semibold text-2xl text-text-primary">
+              ₦{dashboardData.totalSales.toLocaleString()}
+            </p>
           </div>
           <div className="flex items-center justify-end w-full py-[8px] px-[16px] gap-[16px] text-action-default md:text-[#5c636d]">
-            <h4 className="font-[500] text-[12px] md:text-[20px] md:leading-[30px]">Last 7 days</h4>
+            <h4 className="font-[500] text-[12px] md:text-[20px] md:leading-[30px]">
+              Last 7 days
+            </h4>
             <ChevronDown className="size-[18px] md:size-6" />
           </div>
         </div>
@@ -110,7 +123,9 @@ const Dashboard = () => {
           <div className="chart w-full lg:w-2/3 lg:h-[484px] hidden md:flex flex-col gap-[32px]">
             <div className="w-full h-[65px] flex justify-between">
               <div className="lg:w-[312px] h-[65px] flex flex-col gap-[8px]">
-                <h1 className="font-semibold tracking-[-1%] leading-[35.2px] text-[32px]">Order Trends</h1>
+                <h1 className="font-semibold tracking-[-1%] leading-[35.2px] text-[32px]">
+                  Order Trends
+                </h1>
                 <p className="font-[400] text-sm lg:text-[16px] leading-[20.83px] text-[#5c636d]">
                   How your orders fluctuate overtime
                 </p>
@@ -133,16 +148,21 @@ const Dashboard = () => {
                 </a>
               </div>
             </div>
-            <BarChart 
-            labels={dashboardData.orderTrends.labels} 
-            dataPoints={dashboardData.orderTrends.data} 
+            <BarChart
+              labels={dashboardData.orderTrends.labels}
+              dataPoints={dashboardData.orderTrends.data}
             />
           </div>
           <div className="flex sm:hidden flex-col gap-4 items-start w-full">
-            <h2 className="font-medium text-base leading-5 text-text-primary">To do</h2>
+            <h2 className="font-medium text-base leading-5 text-text-primary">
+              To do
+            </h2>
             <div className="flex flex-col items-start gap-2 relative">
               {dashboardData.todos.map((todo: string, i: number) => (
-                <div key={i} className="flex items-center gap-4 font-normal text-basemmt65 text-text-secondary">
+                <div
+                  key={i}
+                  className="flex items-center gap-4 font-normal text-basemmt65 text-text-secondary"
+                >
                   <div>
                     <ShoppingBag size={24} />
                   </div>
@@ -152,10 +172,13 @@ const Dashboard = () => {
               <div
                 className="absolute bottom-0 left-0 w-full bg-black h-[55px] items-end flex rounded-t-2xl p-[9px]"
                 style={{
-                  background: "linear-gradient(180deg, #FDF2FB 0%, #FFFFFF 51.17%)",
+                  background:
+                    "linear-gradient(180deg, #FDF2FB 0%, #FFFFFF 51.17%)",
                 }}
               >
-                <button className="text-action-default font-normal text-base flex md:hidden">View all</button>
+                <button className="text-action-default font-normal text-base flex md:hidden">
+                  View all
+                </button>
               </div>
             </div>
           </div>
@@ -164,19 +187,24 @@ const Dashboard = () => {
               <h2 className="md:font-semibold font-medium text-[16px] md:text-[32px] md:leading-[35.2px] tracking-[-1%] text-primary whitespace-nowrap">
                 Top sales channels
               </h2>
-              <button className="text-action-default font-normal text-base flex md:hidden">View all</button>
+              <button className="text-action-default font-normal text-base flex md:hidden">
+                View all
+              </button>
             </div>
             <div className="h-full flex flex-col gap-[24px] pb-2">
               {dashboardData.topSalesChannels.map((item) => (
-                <ProgressBar key={item.name} name={item.name} percentage={item.percentage} />
+                <ProgressBar
+                  key={item.name}
+                  name={item.name}
+                  percentage={item.percentage}
+                />
               ))}
             </div>
           </div>
         </div>
       </section>
     </>
-  )
-}
+  );
+};
 
-export default Dashboard
-
+export default Dashboard;

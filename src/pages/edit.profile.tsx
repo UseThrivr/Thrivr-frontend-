@@ -17,7 +17,7 @@ const EditProfile = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [file, setFile] = useState<File | null>(null);
+  // const [file, setFile] = useState<File | null>(null);
   const [formData, setFormData] = useState<UserDetails>(user as UserDetails);
 
   const handleChange = (
@@ -29,25 +29,41 @@ const EditProfile = () => {
 
   const MAX_FILE_SIZE_MB = 10;
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const file = event.target.files?.[0];
+  if (!file) return;
 
-    if (!file) return;
+  const fileSizeMB = file.size / (1024 * 1024);
+  if (fileSizeMB > MAX_FILE_SIZE_MB) {
+    setErrorMessage(`File size exceeds ${MAX_FILE_SIZE_MB}MB.`);
+    setImagePreview(null);
+    return;
+  }
 
-    const fileSizeMB = file.size / (1024 * 1024);
-    if (fileSizeMB > MAX_FILE_SIZE_MB) {
-      setErrorMessage(`File size exceeds ${MAX_FILE_SIZE_MB}MB.`);
-      setImagePreview(null);
-      return;
+  // setFile(file);
+  setErrorMessage(null);
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "Thrivr"); // Replace with your Cloudinary preset
+
+  try {
+    const response = await fetch("https://api.cloudinary.com/v1_1/drajqudmp/image/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.json();
+    if (data.secure_url) {
+      setImagePreview(data.secure_url);
+    } else {
+      setErrorMessage("Failed to upload image.");
     }
-    setFile(file)
-    setErrorMessage(null);
-    const reader = new FileReader();
-    reader.onload = () => {
-      setImagePreview(reader.result as string);
-    };
-    reader.readAsDataURL(file);
-  };
+  } catch {
+    setErrorMessage("Error uploading image.");
+  }
+};
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -63,7 +79,7 @@ const EditProfile = () => {
         email: formData?.email as string,
         phone_number: formData?.phone_number as string,
         description: formData?.description as string,
-        logo: file || (formData?.image_path as string),
+        logo: imagePreview,
       });
 
       // Show success toast and navigate to dashboard

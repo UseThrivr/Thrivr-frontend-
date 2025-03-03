@@ -19,6 +19,7 @@ const BusinessSetup = () => {
   const [otpLoading, setOtpLoading] = useState(false);
   const [resendOtpLoading, setResendOtpLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null)
 
   useEffect(() => {
     if (!userData.email) {
@@ -32,7 +33,7 @@ const BusinessSetup = () => {
     location: "",
     phoneNumber: "",
     description: "",
-    logo: null as File | null,
+    logo: null as string | null,
   });
 
   const countryList = [
@@ -47,12 +48,44 @@ const BusinessSetup = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  // const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0];
+  //   if (file && file.size <= 10 * 1024 * 1024) {
+  //     setFormData((prev) => ({ ...prev, logo: image }));
+  //   } else {
+  //     alert("File size should be less than 10MB");
+  //   }
+  // };
+
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "Thrivr"); // Replace with your Cloudinary preset
     if (file && file.size <= 10 * 1024 * 1024) {
-      setFormData((prev) => ({ ...prev, logo: file }));
-    } else {
-      alert("File size should be less than 10MB");
+      try {
+        const response = await fetch(
+          "https://api.cloudinary.com/v1_1/drajqudmp/image/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        const data = await response.json();
+        if (data.secure_url) {
+          setFormData((prev) => ({ ...prev, logo: data.secure_url }));
+          setFile(file);
+        } else {
+          console.error("Failed to upload image.");
+        }
+      } catch {
+        console.error("Error uploading image.");
+      }
     }
   };
 
@@ -76,18 +109,18 @@ const BusinessSetup = () => {
     try {
       // Combine initial signup data with business data
       const completeRegistrationData = {
-            full_name: userData.fullname,
-            email: userData.email,
-            password: userData.password,
-            business_name: formData.businessName,
-            location: formData.location,
-            phone_number:
-              formData.businessLocation === "NG"
-                ? `+234${formData.phoneNumber.trim()}`
-                : `+233${formData.phoneNumber.trim()}`,
-            description: formData.description,
-            logo: formData.logo || "",
-          }
+        full_name: userData.fullname,
+        email: userData.email,
+        password: userData.password,
+        business_name: formData.businessName,
+        location: formData.location,
+        phone_number:
+          formData.businessLocation === "NG"
+            ? `+234${formData.phoneNumber.trim()}`
+            : `+233${formData.phoneNumber.trim()}`,
+        description: formData.description,
+        logo: formData.logo || "",
+      };
       await register(completeRegistrationData);
       toast.success("Registration Successful!");
       setShowOtp(true);
@@ -117,7 +150,7 @@ const BusinessSetup = () => {
     } catch (err: unknown) {
       if (err instanceof Error) {
         setotpErrorMessage(err.message);
-        toast.error(err.message)
+        toast.error(err.message);
       } else {
         toast.error("An unexpected error occurred!");
         setotpErrorMessage("An unexpected error occurred.");
@@ -136,12 +169,12 @@ const BusinessSetup = () => {
       await resendOTP(otpVerification);
       setotpErrorMessage("");
       setotpMessage("otp sent");
-      toast.success("OTP Sent!")
+      toast.success("OTP Sent!");
     } catch (err: unknown) {
       setotpMessage("");
       if (err instanceof Error) {
         setotpErrorMessage(err.message);
-        toast.error(err.message)
+        toast.error(err.message);
       } else {
         setotpErrorMessage("An unexpected error occurred.");
         toast.error("An unexpected error occurred.");
@@ -186,15 +219,9 @@ const BusinessSetup = () => {
               ))}
             </div>
             {otpErrorMessage && (
-              <div className="text-red-700">
-                {otpErrorMessage}
-              </div>
+              <div className="text-red-700">{otpErrorMessage}</div>
             )}
-            {otpMessage && (
-              <div className="text-green-700">
-                {otpMessage}
-              </div>
-            )}
+            {otpMessage && <div className="text-green-700">{otpMessage}</div>}
             <button
               className="text-sm underline text-[#870E73] my-3 disabled:opacity-50"
               onClick={handleResendOtp}
@@ -323,7 +350,7 @@ const BusinessSetup = () => {
             <p className="text-sm text-gray-500">PNG, JPG | 10MB max</p>
             {formData.logo && (
               <p className="mt-2 text-sm text-[#870E73]">
-                {formData.logo.name}
+                {file?.name}
               </p>
             )}
           </div>
@@ -333,7 +360,9 @@ const BusinessSetup = () => {
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
             {error}{" "}
             {error.includes("Login") && (
-              <a className="text-blue-500 hover:underline" href="/login">Login</a>
+              <a className="text-blue-500 hover:underline" href="/login">
+                Login
+              </a>
             )}
           </div>
         )}

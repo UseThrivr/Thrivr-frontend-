@@ -3,10 +3,13 @@ import TimeRangePicker from "../components/dashboard/timRange";
 import { useState } from "react";
 import { useData } from "@/context/DataContext";
 import toast from "react-hot-toast";
+import { useAuth } from "@/context/AuthContext";
 
 const MobileStoreSettings = () => {
+  const { updateSettings } = useData();
+  const { user } = useAuth();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(user?.Settings[0].banner_image || null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<{
@@ -16,14 +19,12 @@ const MobileStoreSettings = () => {
     openingHours: string;
     currency: string;
   }>({
-    storeTheme: "Dark",
+    storeTheme: user?.Settings[0].theme || "Dark",
     photo: null,
-    workingDays: "Mon - Fri",
-    openingHours: "09:00 - 18:00",
-    currency: "NGN",
+    workingDays: user?.Settings[0].working_days || "Mon - Fri",
+    openingHours: user?.Settings[0].opening_hours || "09:00 - 18:00",
+    currency: user?.Settings[0].currency || "NGN",
   });
-
-  const { updateSettings } = useData();
 
   const MAX_FILE_SIZE_MB = 10;
 
@@ -185,7 +186,10 @@ const MobileStoreSettings = () => {
           <label className="block text-base font-medium text-text-primary">
             Opening hours <span className="text-red-500">*</span>
           </label>
-          <TimeRangePicker value={formData.openingHours} change={handleTimeChange} />
+          <TimeRangePicker
+            value={formData.openingHours}
+            change={handleTimeChange}
+          />
         </div>
         <div className="flex flex-col w-full gap-4">
           <label

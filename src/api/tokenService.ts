@@ -14,7 +14,7 @@ export interface UserDetails {
   image_path: string;
   tagline: string;
   role: string;
-  settings: 
+  Settings: [
     {
       id: number;
       banner_image: string;
@@ -26,6 +26,7 @@ export interface UserDetails {
       createdAt: string;
       updatedAt: string;
     }
+  ];
   Groups: [
     //customer groups
     {

@@ -3,6 +3,7 @@ import TimeRangePicker from "./timRange";
 import { useState } from "react";
 import { useData } from "@/context/DataContext";
 import toast from "react-hot-toast";
+import { useAuth } from "@/context/AuthContext";
 
 interface StoreSettingsProps {
   isOpen: boolean;
@@ -10,8 +11,10 @@ interface StoreSettingsProps {
 }
 
 const StoreSettings: React.FC<StoreSettingsProps> = ({ isOpen, onClose }) => {
+  const { updateSettings } = useData();
+  const { user } = useAuth();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(user?.Settings[0].banner_image || null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<{
@@ -21,36 +24,51 @@ const StoreSettings: React.FC<StoreSettingsProps> = ({ isOpen, onClose }) => {
     openingHours: string;
     currency: string;
   }>({
-    storeTheme: "Dark",
+    storeTheme: user?.Settings[0].theme || "Dark",
     photo: null,
-    workingDays: "Mon - Fri",
-    openingHours: "8",
-    currency: "",
+    workingDays: user?.Settings[0].working_days || "Mon - Fri",
+    openingHours: user?.Settings[0].opening_hours || "09:00 - 18:00",
+    currency: user?.Settings[0].currency || "NGN",
   });
 
-  const { updateSettings } = useData();
+
   if (!isOpen) return null;
 
   const MAX_FILE_SIZE_MB = 10;
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-
     if (!file) return;
-
+  
     const fileSizeMB = file.size / (1024 * 1024);
     if (fileSizeMB > MAX_FILE_SIZE_MB) {
       setErrorMessage(`File size exceeds ${MAX_FILE_SIZE_MB}MB.`);
       setImagePreview(null);
       return;
     }
-
+  
+    // setFile(file);
     setErrorMessage(null);
-    const reader = new FileReader();
-    reader.onload = () => {
-      setImagePreview(reader.result as string);
-    };
-    reader.readAsDataURL(file);
+  
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "Thrivr"); // Replace with your Cloudinary preset
+  
+    try {
+      const response = await fetch("https://api.cloudinary.com/v1_1/drajqudmp/image/upload", {
+        method: "POST",
+        body: formData,
+      });
+  
+      const data = await response.json();
+      if (data.secure_url) {
+        setImagePreview(data.secure_url);
+      } else {
+        setErrorMessage("Failed to upload image.");
+      }
+    } catch {
+      setErrorMessage("Error uploading image.");
+    }
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -67,7 +85,7 @@ const StoreSettings: React.FC<StoreSettingsProps> = ({ isOpen, onClose }) => {
       // Attempt login using AuthContext's login method
       await updateSettings({
         theme: formData.storeTheme,
-        banner_image: formData.photo,
+        banner_image: imagePreview,
         working_days: formData.workingDays,
         opening_hours: formData.openingHours,
         currency: formData.currency,

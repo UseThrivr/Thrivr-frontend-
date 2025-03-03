@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/table";
 import { ChevronDown } from "lucide-react";
 import authAxios from "@/api/authAxios";
-import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -57,7 +56,7 @@ const Sales = () => {
         console.log(error);
         setError(true);
         if (axios.isAxiosError(error)) {
-          toast.error(error.message);
+          console.error(error.message);
         }
       }
     };
