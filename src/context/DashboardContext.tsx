@@ -14,6 +14,16 @@ interface InventoryData {
   amount_left: number
 }
 
+interface OrderData {
+  order_id: string;
+  name: string;
+  list_of_products: string[];
+  amount: string;
+  channel: string;
+  date: string;
+  status: "paid" | "part-paid" | "unpaid";
+}
+
 interface DashboardContextType {
   fetchDashboardData: () => Promise<void>
   fetchInventory: () => Promise<void>
@@ -30,7 +40,7 @@ interface DashboardContextType {
     topSalesChannels: { name: string; percentage: number}[]
   } | null
   inventoryData: InventoryData[]
-  ordersData: unknown[]
+  ordersData: OrderData[]
   salesData: unknown[]
 }
 
@@ -46,7 +56,7 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({ children 
     topSalesChannels: { name: string; percentage: number}[]
   } | null>(null)
   const [inventoryData, setInventoryData] = useState<InventoryData[]>([])
-  const [ordersData, setOrdersData] = useState<unknown[]>([])
+  const [ordersData, setOrdersData] = useState<OrderData[]>([])
   const [salesData, setSalesData] = useState<unknown[]>([])
 
   const fetchDashboardData = useCallback(async () => {
@@ -63,6 +73,7 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({ children 
     try {
       const response = await authAxios.get("/api/v1/products")
       setInventoryData(response.data.data)
+      return response.data
     } catch (error) {
       console.error("Error fetching inventory data:", error)
     }
@@ -72,6 +83,7 @@ export const DashboardProvider: React.FC<{ children: ReactNode }> = ({ children 
     try {
       const response = await authAxios.get("/api/v1/order")
       setOrdersData(response.data.data)
+      return response.data
     } catch (error) {
       console.error("Error fetching orders data:", error)
     }

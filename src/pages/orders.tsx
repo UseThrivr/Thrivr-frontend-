@@ -13,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useDashboard } from "@/context/DashboardContext";
 import { cn } from "@/lib/utils";
 import {
   type CellContext,
@@ -42,9 +43,9 @@ import { useState, useEffect } from "react";
 
 // Define the InventoryData type if not already defined
 interface OrderData {
-  orderId: string;
+  order_id: string;
   name: string;
-  listOfProducts: string[];
+  list_of_products: string[];
   amount: string;
   channel: string;
   date: string;
@@ -53,7 +54,7 @@ interface OrderData {
 
 interface MobileData {
   status: "paid" | "part-paid" | "unpaid";
-  orderId: string;
+  order_id: string;
   name: string;
   amount: string;
   chevronRight?: string;
@@ -107,7 +108,7 @@ const mobile = [
     ),
     header: "",
   }),
-  mobileHelper.accessor("orderId", {
+  mobileHelper.accessor("order_id", {
     cell: (info) => info.getValue(),
     header: "Order ID",
   }),
@@ -126,7 +127,7 @@ const mobile = [
 ];
 
 const columns = [
-  columnHelper.accessor("orderId", {
+  columnHelper.accessor("order_id", {
     cell: (info) => (
       <span className="text-action-default underline">{info.getValue()}</span>
     ),
@@ -136,7 +137,7 @@ const columns = [
     cell: shortenCell,
     header: "Name",
   }),
-  columnHelper.accessor("listOfProducts", {
+  columnHelper.accessor("list_of_products", {
     cell: (info) => (
       <div className="flex flex-col items-start">
         {info.getValue().map((_, i) => (
@@ -241,56 +242,18 @@ const useIsSmallScreen = () => {
   return isSmallScreen;
 };
 
-// Mock data function - replace this with your actual data fetching logic
-const fetchOrderData = async (): Promise<OrderData[]> => {
-  // Replace this with your actual API call
-  return [
-    {
-      orderId: "ORD-00123",
-      name: "John M.",
-      listOfProducts: [
-        "Iphone 14 (Pro)",
-        "Iphone 14 (Pro max)",
-        "Logitech Wireless Mouse",
-      ],
-      amount: "236,900",
-      channel: "Instagram",
-      date: "10-4-2024",
-      status: "paid",
-    },
-    {
-      orderId: "ORD-04123",
-      name: "Oyedepo E.",
-      listOfProducts: ["Iphone 14 (Pro)", "Iphone 14 (Pro max)"],
-      amount: "236,900",
-      channel: "Physical sales",
-      date: "10-4-2024",
-      status: "part-paid",
-    },
-    {
-      orderId: "ORD-04123",
-      name: "Oyedepo E.",
-      listOfProducts: ["Iphone 14 (Pro)", "Iphone 14 (Pro max)"],
-      amount: "236,900",
-      channel: "Physical sales",
-      date: "10-4-2024",
-      status: "paid",
-    },
-    // Add more mock data as needed
-  ];
-};
-
 const Orders = () => {
   const [data, setData] = useState<OrderData[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { fetchOrders, ordersData } = useDashboard()
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        const orderData = await fetchOrderData();
-        setData(orderData);
+        await fetchOrders();
+        setData(ordersData);
       } catch (error) {
         console.error("Failed to fetch Order data:", error);
         // Handle error appropriately
@@ -300,7 +263,7 @@ const Orders = () => {
     };
 
     loadData();
-  }, []);
+  }, [ordersData, fetchOrders]);
   const isSmallScreen = useIsSmallScreen();
 
   const table = useReactTable({
@@ -325,6 +288,8 @@ const Orders = () => {
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
+
+  console.log(data)
 
   if (isLoading) {
     return (

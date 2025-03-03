@@ -5,7 +5,7 @@ import React, {
   useCallback,
 } from "react";
 import authAxios from "../api/authAxios";
-import { setUserDetails } from "../api/tokenService";
+import { setUserDetails, UserDetails } from "../api/tokenService";
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
 import { useAuth } from "./AuthContext";
@@ -92,7 +92,9 @@ interface makeOrderData {
 // Data Context Type
 interface DataContextType {
   updateBusiness: (data: BusinessUpdateData) => Promise<unknown>;
-  getBusiness: () => Promise<unknown>;
+  getBusiness: (id?: string) => Promise<{
+    data: UserDetails
+  }>;
   addProducts: (data: addProductsData) => Promise<unknown>;
   createTask: (data: createTaskData) => Promise<unknown>;
   getProducts: (id?: string) => Promise<unknown>;
@@ -137,7 +139,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
         const response = await authAxios.patch("/api/v1/business", formData);
 
         // Update user details after successful API call
-        setUserDetails({ ...response.data.user, settings: response.data.settings});
+        setUserDetails({ ...user, ...response.data.user});
 
         return response.data;
       } catch (error) {
@@ -210,7 +212,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
         }
       });
 
-      const response = await authAxios.post(
+      const response = await authAxios.patch(
         "/api/v1/business/settings",
         formData
       );
@@ -263,7 +265,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
         }
       });
 
-      const response = await authAxios.post("/api/v1/customer", formData);
+      const response = await authAxios.post("/api/v1/staff", formData);
 
       return response.data;
     } catch (error) {
@@ -339,9 +341,9 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
 
   // Get resqusts
 
-  const getBusiness = useCallback(async () => {
+  const getBusiness = useCallback(async (id?: string) => {
     try {
-      const response = await authAxios.get(`/api/v1/business/${user?.id}`);
+      const response = await authAxios.get(`/api/v1/business/${user?.id || id}`);
 
       // Update user details after successful API call
       setUserDetails({ ...response.data.data, id: user?.id });

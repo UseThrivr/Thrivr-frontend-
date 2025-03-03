@@ -7,6 +7,9 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"; // Adjust the import path as needed
 import googleImg from "../assets/devicon_google.png";
 import { toast } from "react-hot-toast"; // Assuming you're using react-hot-toast for notifications
+import { AxiosError } from "axios";
+import { useData } from "@/context/DataContext";
+import { setUserDetails } from "@/api/tokenService";
 
 interface LoginFormData {
   email: string;
@@ -22,6 +25,7 @@ const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
+  const { getBusiness } = useData()
 
   const [loginData, setLoginData] = useState<LoginFormData>({
     email: "",
@@ -88,11 +92,14 @@ const Login: React.FC = () => {
         password: loginData.password,
       });
 
+      const business = await getBusiness()
+      setUserDetails(business.data)
+
       // Show success toast and navigate to dashboard
       toast.success("Login Successful!");
       navigate("/dashboard"); // Adjust the route as needed
     } catch (err: unknown) {
-      if (err instanceof Error) {
+      if (err instanceof AxiosError) {
         const errorMessage = err.message || "Login failed. Please try again.";
         toast.error(errorMessage);
 
