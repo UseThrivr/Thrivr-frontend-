@@ -5,16 +5,21 @@ import {
   Copy,
   CreditCard,
   KeySquare,
+  Loader2,
   MoveRight,
   Settings,
   SquarePen,
   Trash,
+  TriangleAlert,
   Users,
 } from "lucide-react";
 import Camera from "/src/assets/profile/add_a_photo.png";
 import { useState } from "react";
 import { StoreSettings } from "@/components/dashboard";
 import { useAuth } from "@/context/AuthContext";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { useData } from "@/context/DataContext";
 
 const cta = [
   {
@@ -47,17 +52,68 @@ const cta = [
   },
 ];
 
+
 const Profile = () => {
   const [isStoreSettingOpen, setIsStoreSettingOpen] = useState(false);
-  const [copied, setCopied] = useState(false)
+  const [copied, setCopied] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { user } = useAuth();
+  const { deleteAccount } = useData();
+  const navigate = useNavigate();
   const profile = user;
 
+  const DeleteConfirmationModal = ({ onConfirm, onCancel }: { onConfirm: () => void; onCancel: () => void }) => (
+    <div className="absolute top-0 left-0 w-full h-full bg-[#000000CC] flex justify-center z-50 overflow-auto">
+            <div className="py-24 flex items-center min-h-fit w-full justify-center">
+      <div className="bg-white p-6 rounded-md shadow-md">
+        <h2 className="text-xl font-semibold mb-4 flex gap-2"><TriangleAlert className="text-red-600" /> Confirm Deletion</h2>
+        <p className="mb-4">Are you sure you want to delete your {profile?.business_name} account forever? This action cannot be undone.</p>
+        <div className="flex justify-end gap-4">
+          <button onClick={onCancel} className="px-4 py-2 bg-gray-200 rounded-md">Cancel</button>
+          <button onClick={onConfirm} className="px-4 py-2 bg-red-600 text-white rounded-md">{loading ? <Loader2 className="animate-spin" /> : "Delete"}</button>
+        </div>
+      </div>
+      </div>
+    </div>
+  );
+
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+
+  const handleDelete = () => {
+    setShowDeletePopup(true);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      setLoading(true);
+
+      // Attempt login using AuthContext's login method
+      await deleteAccount();
+
+      // Show success toast and navigate to dashboard
+      navigate("/login");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        const errorMessage = err.message || "Delete failed. Please try again.";
+        toast.error(errorMessage);
+      } else {
+        toast.error("Delete Failed!");
+      }
+    } finally {
+      setLoading(false);
+      setShowDeletePopup(false);
+    }
+  };
+
+  const cancelDelete = () => {
+    setShowDeletePopup(false);
+  };
+
   const handleCopy = () => {
-    navigator.clipboard.writeText(profiles.link)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
+    navigator.clipboard.writeText(profiles.link);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const contact = [
     {
@@ -149,7 +205,7 @@ const Profile = () => {
                     Store Link
                   </p>
                   <button
-                  disabled={copied}
+                    disabled={copied}
                     onClick={handleCopy}
                     className="flex items-center text-action-default hover:text-action-hover cursor-pointer gap-2 2xl:gap-4"
                   >
@@ -164,10 +220,10 @@ const Profile = () => {
                   </button>
                 </div>
               </div>
-              <div className="hidden box-border cursor-pointer lg:flex justify-center items-center py-[8px] px-[16px] h-[46px] gap-[16px] bg-white border border-solid border-action-default rounded-[24px] font-medium text-[20px] leading-[30px] text-action-default">
+              <button onClick={handleDelete} className="hidden box-border cursor-pointer lg:flex justify-center items-center py-[8px] px-[16px] h-[46px] gap-[16px] bg-white border border-solid border-action-default rounded-[24px] font-medium text-[20px] leading-[30px] text-action-default">
                 <Trash size={24} className="text-action-default" />
                 Delete account
-              </div>
+              </button>
             </div>
           </div>
           <div className="md:hidden flex flex-col gap-4 items-start -mt-8 mb-8">
@@ -176,7 +232,7 @@ const Profile = () => {
                 Store Link
               </p>
               <button
-              disabled={copied}
+                disabled={copied}
                 onClick={handleCopy}
                 className="flex items-center text-action-default hover:text-action-hover cursor-pointer gap-2 2xl:gap-4"
               >
@@ -190,10 +246,10 @@ const Profile = () => {
                 )}
               </button>
             </div>
-            <div className="flex box-border cursor-pointer w-max justify-center items-center py-[4px] md:py-[8px] px-[16px] gap-[16px] bg-white border border-solid border-action-default rounded-[24px] font-medium text-[16px] md:text-[20px] leading-[30px] text-action-default">
+            <button onClick={handleDelete} className="flex box-border cursor-pointer w-max justify-center items-center py-[4px] md:py-[8px] px-[16px] gap-[16px] bg-white border border-solid border-action-default rounded-[24px] font-medium text-[16px] md:text-[20px] leading-[30px] text-action-default">
               <Trash size={24} className="text-action-default" />
               Delete account
-            </div>
+            </button>
           </div>
           <div className="flex flex-col md:flex-row gap-16 2xl:gap-24">
             <div className="flex flex-col gap-4">
@@ -291,6 +347,12 @@ const Profile = () => {
           isOpen={isStoreSettingOpen}
           onClose={() => setIsStoreSettingOpen(false)}
         />
+        {showDeletePopup && (
+          <DeleteConfirmationModal
+            onConfirm={confirmDelete}
+            onCancel={cancelDelete}
+          />
+        )}
       </section>
     </>
   );
