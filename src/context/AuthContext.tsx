@@ -74,9 +74,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       //   formData.append(key, value instanceof File ? value : String(value));
       // });
   
-      const response = await axiosInstance.post('/api/v1/auth/signup/business', data, {
-        // headers: { 'Content-Type': 'multipart/form-data' },
-      });
+      const response = await axiosInstance.post('/api/v1/auth/signup/business', data);
   
       return response.data;
     } catch (error) {
