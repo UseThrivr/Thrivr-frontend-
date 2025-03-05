@@ -76,6 +76,11 @@ interface forgetPasswordData {
   url: string; //url of the frontend website
 }
 
+interface resetPasswordData {
+  signature: string;
+  password: string; //url of the frontend website
+}
+
 interface makeOrderData {
   product_id: number[]; // [12, 10, 9]
   business_id: string;
@@ -106,6 +111,7 @@ interface DataContextType {
   markTaskDone: (id: string) => Promise<unknown>;
   makeOrder: (data: makeOrderData) => Promise<unknown>;
   forgetPassword: (data: forgetPasswordData) => Promise<unknown>;
+  resetPassword: (data: resetPasswordData) => Promise<unknown>;
   deleteAccount: () => Promise<unknown>;
   updateOrder: ({
     id,
@@ -326,7 +332,29 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
         }
       });
 
-      const response = await authAxios.post("/api/v1/group", formData);
+      const response = await authAxios.post("/api/v1/forgot-password", formData);
+
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.message);
+      }
+
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred. Please try again.");
+    }
+  }, []);
+
+  const resetPassword = useCallback(async (data: resetPasswordData) => {
+    const formData = new FormData();
+    try {
+      Object.entries(data).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          formData.append(key, value as string);
+        }
+      });
+
+      const response = await authAxios.post("/api/v1/reset-password", formData);
 
       return response.data;
     } catch (error) {
@@ -455,6 +483,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
         updateOrder,
         deleteAccount,
         forgetPassword,
+        resetPassword,
       }}
     >
       {children}
