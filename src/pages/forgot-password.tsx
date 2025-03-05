@@ -1,11 +1,12 @@
 import { useData } from "@/context/DataContext";
 import axios from "axios";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
+  const navigate = useNavigate();
   const token = queryParams.get("token");
 
   const [loading, setLoading] = useState(false);
@@ -36,6 +37,7 @@ const ForgotPassword = () => {
         password: password as string,
       });
       setSuccess(true);
+      navigate("/login");
     } catch (error) {
         if (axios.isAxiosError(error)) {
             setError(error.response?.data?.error || "Failed to send reset link");
@@ -180,6 +182,14 @@ const ForgotPassword = () => {
           </button>
         </form>
       )}
+      <div className="text-center mt-4">
+        <a
+          href="/login"
+          className="text-[#870E73] hover:underline"
+        >
+          Back to Login
+        </a>
+      </div>
     </div>
   );
 };
