@@ -20,3 +20,4 @@ export { default as MobileNewGroup } from "./MobileNewGroup";
 export { default as MobileCreatePlan } from "./MobileCreatePlan";
 export { default as MobilePayment } from "./MobilePayment";
 export { default as MobileCampaign } from "./MobileCampaign";
+export { default as ForgotPassword } from "./forgot-password";

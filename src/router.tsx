@@ -25,6 +25,7 @@ import {
   MobileStoreSettings,
   MobilePayment,
   MobileCampaign,
+  ForgotPassword,
 } from "./pages";
 import Ads from "./pages/ads";
 import Login from "./pages/login";
@@ -78,6 +79,7 @@ const Router = () => {
             <Route path="/onboarding" element={<Onboarding />} />
             <Route path="/setupbusiness" element={<Businesssetup />} />
             <Route path="/business" element={<BusinessSetup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
           </Route>
         </Routes>
       </SidebarProvider>
