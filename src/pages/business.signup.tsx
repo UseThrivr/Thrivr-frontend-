@@ -3,10 +3,13 @@ import { MapPin, Phone, Building2, Upload, X, House } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"; // Adjust import path as needed
 import toast from "react-hot-toast";
+import { setUserDetails } from "@/api/tokenService";
+import { useData } from "@/context/DataContext";
 
 const BusinessSetup = () => {
   const navigate = useNavigate();
   const { register, verifyOTP, resendOTP } = useAuth();
+  const { getBusiness } = useData();
   const location = useLocation();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const userData = location.state?.userData || {};
@@ -144,7 +147,9 @@ const BusinessSetup = () => {
         otp: otp.join(""),
         email: userData.email,
       };
-      await verifyOTP(otpVerification);
+      const data = (await  verifyOTP(otpVerification)) as { user: { id: string } };
+      const business = await getBusiness(data.user.id);
+            setUserDetails(business.data);
       toast.success("Email Verified!");
       navigate("/onboarding");
     } catch (err: unknown) {

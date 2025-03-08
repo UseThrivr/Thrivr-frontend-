@@ -19,7 +19,7 @@ interface BusinessUpdateData {
   email: string;
   phone_number: string;
   description: string;
-  logo?: File | null | string; // j
+  image_path?: File | null | string; // j
 }
 
 interface updateSettingsData {

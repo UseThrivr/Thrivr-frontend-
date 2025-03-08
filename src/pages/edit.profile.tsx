@@ -79,7 +79,7 @@ const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         email: formData?.email as string,
         phone_number: formData?.phone_number as string,
         description: formData?.description as string,
-        logo: imagePreview,
+        image_path: imagePreview,
       });
 
       // Show success toast and navigate to dashboard
