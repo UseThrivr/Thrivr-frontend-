@@ -11,6 +11,14 @@ import userImage from "@/assets/user-img.png";
 import { useSidebar } from "@/context/SidebarContext";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 const NavRight = () => {
   const { toggleMobileSidebar } = useSidebar();
@@ -28,7 +36,9 @@ const NavRight = () => {
               <a href="/profile" className="flex gap-4 items-center">
                 <div
                   className="box-border size-[32px] border border-solid border-text-secondary rounded-[24px] bg-cover bg-center"
-                  style={{ backgroundImage: `url(${user?.image_path || userImage})` }}
+                  style={{
+                    backgroundImage: `url(${user?.image_path || userImage})`,
+                  }}
                 />
                 <div className="flex flex-col items-start">
                   <p className="font-normal text-xs text-text-primary">
@@ -113,7 +123,41 @@ const NavRight = () => {
 
       <div className="hidden lg:flex items-center gap-4 ml-auto">
         <BellDot size={24} className="text-text-secondary" />
-        <a href="/profile" className="flex items-center gap-2">
+        <DropdownMenu>
+          <DropdownMenuTrigger className="flex items-center gap-2">
+            <div
+              className="box-border size-[48px] border border-solid border-text-secondary rounded-[24px] bg-cover bg-center"
+              style={{
+                backgroundImage: `url(${user?.image_path || userImage})`,
+              }}
+            />
+            <ChevronDown
+              size={24}
+              className="text-text-secondary hidden lg:block"
+            />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="mr-4">
+            <DropdownMenuLabel>
+              <div className="flex flex-col items-start">
+                <p className="font-normal text-base text-text-primary">
+                  {user?.business_name}
+                </p>
+                <p className="font-medium text-sm text-text-secondary">
+                  johngadgets.thrivr.shop
+                </p>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <a href="/profile">Profile</a>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <a href={`/profile/${user?.id}/edit`}>Settings</a>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        {/* <a href="/profile" className="flex items-center gap-2">
           <div
             className="box-border size-[48px] border border-solid border-text-secondary rounded-[24px] bg-cover bg-center"
             style={{ backgroundImage: `url(${user?.image_path || userImage})` }}
@@ -122,7 +166,7 @@ const NavRight = () => {
             size={24}
             className="text-text-secondary hidden lg:block"
           />
-        </a>
+        </a> */}
       </div>
     </div>
   );
