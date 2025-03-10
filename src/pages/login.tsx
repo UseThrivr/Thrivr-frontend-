@@ -91,7 +91,6 @@ const Login: React.FC = () => {
         email: loginData.email,
         password: loginData.password,
       })) as { user: { id: string } };
-      console.log(data);
 
       const business = await getBusiness(data.user.id);
       setUserDetails(business.data);
