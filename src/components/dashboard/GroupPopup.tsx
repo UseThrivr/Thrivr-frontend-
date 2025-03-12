@@ -1,4 +1,7 @@
-import { X } from "lucide-react";
+import { useData } from "@/context/DataContext";
+import { Loader2, X } from "lucide-react";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 interface GroupPopupProps {
   isOpen: boolean;
@@ -6,7 +9,46 @@ interface GroupPopupProps {
 }
 
 const GroupPopup: React.FC<GroupPopupProps> = ({ isOpen, onClose }) => {
+  const { addGroup } = useData();
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState<{
+    name: string;
+  }>({
+    name: "",
+  });
   if (!isOpen) return null;
+
+  const handleChange = (
+    event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
+  ) => {
+    const { id, value } = event.target;
+    setFormData({ ...formData, [id]: value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      await addGroup(formData.name);
+      toast.success("Group added successfully!");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        const errorMessage = err.message || "Update failed. Please try again.";
+        toast.error(errorMessage);
+
+        // Optionally set specific error states
+        setError(errorMessage);
+      } else {
+        toast.error("Update Failed!");
+        setError("Update Failed");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="absolute top-0 left-0 w-full h-full bg-[#000000CC] hidden lg:flex justify-center z-50 overflow-auto">
@@ -25,24 +67,30 @@ const GroupPopup: React.FC<GroupPopupProps> = ({ isOpen, onClose }) => {
               </h2>
             </div>
 
-            <form className="space-y-4 w-full flex flex-col gap-[16px]">
+            <form
+              className="space-y-4 w-full flex flex-col gap-[16px]"
+              onSubmit={handleSubmit}
+            >
               <div>
                 <label className="block text-[20px] font-medium text-[#24272E]">
                   Group name <span className="text-red-500">*</span>
                 </label>
                 <input
+                  id="name"
                   className="w-full border bg-transparent border-[#CDCED3] rounded-[8px] p-[16px] mt-2"
                   placeholder="Enter group name"
+                  onChange={handleChange}
+                  value={formData.name}
+                  required
                 />
               </div>
-              <div>
+              {/* <div>
                 <label className="block text-[20px] font-medium text-[#24272E] mb-1">
                   Group
                 </label>
                 <div className="w-full border bg-transparent border-[#CDCED3] rounded-[8px] p-[14px] mt-1">
                   <select className="h-full w-full bg-transparent outline-none border-none">
                     <option>Select customers</option>
-                    {/* Add bank options here */}
                   </select>
                 </div>
               </div>
@@ -57,12 +105,24 @@ const GroupPopup: React.FC<GroupPopupProps> = ({ isOpen, onClose }) => {
                   className="w-full border bg-transparent border-[#CDCED3] rounded-[8px] h-[197px] p-[16px] mt-2"
                   rows={4}
                 />
-              </div>
+              </div> */}
+              {error && (
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative my-6">
+                  {error}
+                </div>
+              )}
               <button
-                type="button"
-                className="w-full bg-action-default text-white rounded-[24px] mt-4 hover:opacity-80 h-[67px] p-[16px]"
+                type="submit"
+                disabled={loading}
+                className="w-full bg-action-default text-white rounded-2xl  hover:opacity-80 p-4 flex items-center justify-center gap-4"
               >
-                Save
+                {loading ? (
+                  <>
+                    <Loader2 className="animate-spin" /> Saving...
+                  </>
+                ) : (
+                  "Save"
+                )}
               </button>
             </form>
           </div>

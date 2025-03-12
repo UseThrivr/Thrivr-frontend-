@@ -252,8 +252,9 @@ const Orders = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        await fetchOrders();
+        console.log("received data", await fetchOrders());
         setData(ordersData);
+        console.log('stored data', ordersData)
       } catch (error) {
         console.error("Failed to fetch Order data:", error);
         // Handle error appropriately

@@ -53,6 +53,12 @@ interface MobileData {
   chevronRight?: string;
 }
 
+interface groupMobileData {
+  id: string;
+  groupName: string;
+  chevronRight?: string;
+}
+
 interface GroupData {
   id: string;
   groupName: string;
@@ -110,7 +116,7 @@ const customerData: CustomerData[] | MobileData[] = [
   },
 ];
 
-const groupData: GroupData[] = [
+const groupData: GroupData[] | groupMobileData[] = [
   {
     id: "1",
     groupName: "Customers with no purchase in the last 30 days",
@@ -160,23 +166,40 @@ const useIsSmallScreen = () => {
 };
 
 const columnHelper = createColumnHelper<CustomerData>();
-const mobilHelper = createColumnHelper<MobileData>();
+const mobileCustomerHelper = createColumnHelper<MobileData>();
+const mobileGroupHelper = createColumnHelper<groupMobileData>();
 const groupColumnHelper = createColumnHelper<GroupData>();
 
-const mobileColumns = [
-  mobilHelper.accessor("customerName", {
+const mobileCustomerColumns = [
+  mobileCustomerHelper.accessor("customerName", {
     cell: (info) => info.getValue(),
     header: "Name",
   }),
-  mobilHelper.accessor("channels", {
+  mobileCustomerHelper.accessor("channels", {
     cell: (info) => info.getValue(),
     header: "Channels",
   }),
-  mobilHelper.accessor("amountSpent", {
+  mobileCustomerHelper.accessor("amountSpent", {
     cell: (info) => info.getValue(),
     header: "Amount",
   }),
-  mobilHelper.accessor("chevronRight", {
+  mobileCustomerHelper.accessor("chevronRight", {
+    cell:() => <ChevronRight size={24} className="text-action-default" />,
+    header: "",
+  }),
+]
+
+const mobileGroupColumns = [
+  mobileGroupHelper.accessor("id", {
+    cell: () => <Checkbox />,
+    header: "select",
+    enableSorting: false,
+  }),
+  mobileGroupHelper.accessor("groupName", {
+    cell: (info) => info.getValue(),
+    header: "Group name",
+  }),
+  mobileCustomerHelper.accessor("chevronRight", {
     cell:() => <ChevronRight size={24} className="text-action-default" />,
     header: "",
   }),
@@ -255,7 +278,9 @@ const Customer = () => {
         ? customerData
         : (groupData as unknown as CustomerData[]),
     columns: isSmallScreen
-    ? (mobileColumns as ColumnDef<TableDataType, unknown>[])
+    ? activeTab === "customers" 
+    ? (mobileCustomerColumns as ColumnDef<TableDataType, unknown>[])
+    : (mobileGroupColumns as ColumnDef<TableDataType, unknown>[])
     : 
       activeTab === "customers"
         ? (customerColumns as ColumnDef<TableDataType, unknown>[])
@@ -298,8 +323,8 @@ const Customer = () => {
         </p>
       </div>
 
-      <div className="lg:mt-[54px] flex justify-between items-center gap-4">
-        <div className="items-start gap-[16px] hidden lg:flex">
+      <div className="lg:mt-[54px] flex justify-between md:items-center gap-4 flex-col md:flex-row">
+        <div className="items-start gap-[16px] flex">
           {[
             { title: "Customers", value: "customers" },
             { title: "Groups", value: "groups" },

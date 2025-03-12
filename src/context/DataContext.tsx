@@ -310,7 +310,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
 
   const addGroup = useCallback(async (name: string) => {
     try {
-      const response = await authAxios.post("/api/v1/group", name);
+      const response = await authAxios.post("/api/v1/group", {name: name});
 
       return response.data;
     } catch (error) {
