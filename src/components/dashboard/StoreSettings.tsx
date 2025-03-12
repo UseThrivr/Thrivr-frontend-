@@ -1,4 +1,4 @@
-import { ChevronDown, CloudDownload, FileDown, X } from "lucide-react";
+import { ChevronDown, CloudDownload, FileDown, Loader2, X } from "lucide-react";
 import TimeRangePicker from "./timRange";
 import { useState } from "react";
 import { useData } from "@/context/DataContext";
@@ -14,7 +14,9 @@ const StoreSettings: React.FC<StoreSettingsProps> = ({ isOpen, onClose }) => {
   const { updateSettings } = useData();
   const { user } = useAuth();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(user?.Settings[0].banner_image || null);
+  const [imagePreview, setImagePreview] = useState<string | null>(
+    user?.Settings[0].banner_image || null
+  );
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<{
@@ -31,35 +33,39 @@ const StoreSettings: React.FC<StoreSettingsProps> = ({ isOpen, onClose }) => {
     currency: user?.Settings[0].currency || "NGN",
   });
 
-
   if (!isOpen) return null;
 
   const MAX_FILE_SIZE_MB = 10;
 
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
-  
+
     const fileSizeMB = file.size / (1024 * 1024);
     if (fileSizeMB > MAX_FILE_SIZE_MB) {
       setErrorMessage(`File size exceeds ${MAX_FILE_SIZE_MB}MB.`);
       setImagePreview(null);
       return;
     }
-  
+
     // setFile(file);
     setErrorMessage(null);
-  
+
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", "Thrivr"); // Replace with your Cloudinary preset
-  
+
     try {
-      const response = await fetch("https://api.cloudinary.com/v1_1/drajqudmp/image/upload", {
-        method: "POST",
-        body: formData,
-      });
-  
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/drajqudmp/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
       const data = await response.json();
       if (data.secure_url) {
         setImagePreview(data.secure_url);
@@ -78,10 +84,10 @@ const StoreSettings: React.FC<StoreSettingsProps> = ({ isOpen, onClose }) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
 
     try {
-      setLoading(true);
-
       // Attempt login using AuthContext's login method
       await updateSettings({
         theme: formData.storeTheme,
@@ -264,7 +270,13 @@ const StoreSettings: React.FC<StoreSettingsProps> = ({ isOpen, onClose }) => {
                 disabled={loading}
                 className="w-full bg-action-default text-white rounded-2xl  hover:opacity-80 p-4"
               >
-                {loading === true ? "Saving..." : "Confirm"}
+                {loading ? (
+                  <>
+                    <Loader2 className="animate-spin" /> Saving...
+                  </>
+                ) : (
+                  "Confirm"
+                )}
               </button>
             </form>
           </div>
