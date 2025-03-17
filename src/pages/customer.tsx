@@ -40,11 +40,14 @@ import clsx from "clsx";
 import { cn } from "@/lib/utils";
 
 interface CustomerData {
-  customerName: string;
-  email: string;
-  channels: string;
   amountSpent: number;
   debt: number;
+  id: number;
+  name: string;
+  email: string;
+  phone_number: string;
+  group: string;
+  instagram: string;
 }
 interface MobileData {
   customerName: string;
@@ -63,58 +66,6 @@ interface GroupData {
   id: string;
   groupName: string;
 }
-
-const customerData: CustomerData[] | MobileData[] = [
-  {
-    customerName: "John Nwachukwu",
-    email: "johnnwa2349@gmail.com",
-    channels: "Thrivr store",
-    amountSpent: 553000,
-    debt: 450,
-  },
-  {
-    customerName: "Amaka Chukwudi",
-    email: "johnnwa2349@gmail.com",
-    channels: "Thrivr store",
-    amountSpent: 553000,
-    debt: 0,
-  },
-  {
-    customerName: "Tope Adeyemi",
-    email: "johnnwa2349@gmail.com",
-    channels: "WhatsApp",
-    amountSpent: 553000,
-    debt: 0,
-  },
-  {
-    customerName: "Seyi Onyekachi",
-    email: "johnnwa2349@gmail.com",
-    channels: "Offline",
-    amountSpent: 553000,
-    debt: 0,
-  },
-  {
-    customerName: "Amina Bello",
-    email: "johnnwa2349@gmail.com",
-    channels: "Offline",
-    amountSpent: 553000,
-    debt: 0,
-  },
-  {
-    customerName: "Bisi Ogunlana",
-    email: "johnnwa2349@gmail.com",
-    channels: "Offline",
-    amountSpent: 553000,
-    debt: 0,
-  },
-  {
-    customerName: "Funke Oladipo",
-    email: "johnnwa2349@gmail.com",
-    channels: "Offline",
-    amountSpent: 553000,
-    debt: 0,
-  },
-];
 
 const groupData: GroupData[] | groupMobileData[] = [
   {
@@ -206,7 +157,7 @@ const mobileGroupColumns = [
 ]
 
 const customerColumns = [
-  columnHelper.accessor("customerName", {
+  columnHelper.accessor("name", {
     cell: (info) => info.getValue(),
     header: "Customer name",
   }),
@@ -214,7 +165,7 @@ const customerColumns = [
     cell: (info) => info.getValue(),
     header: "Email",
   }),
-  columnHelper.accessor("channels", {
+  columnHelper.accessor("instagram", {
     cell: (info) => info.getValue(),
     header: (header) =>
       sortableHeader(
@@ -258,9 +209,11 @@ const groupColumns = [
 // Add these imports
 import CustomerPopup from "@/components/dashboard/CustomerPopup";
 import GroupPopup from "@/components/dashboard/GroupPopup";
+import { useData } from "@/context/DataContext";
 type TableDataType = CustomerData | GroupData;
 
 const Customer = () => {
+  const { getCustomer } = useData()
   const [activeTab, setActiveTab] = useState<"customers" | "groups">(
     "customers"
   );
@@ -269,6 +222,33 @@ const Customer = () => {
   // Add these state variables
   const [isCustomerPopupOpen, setIsCustomerPopupOpen] = useState(false);
   const [isGroupPopupOpen, setIsGroupPopupOpen] = useState(false);
+  const [customerData, setCustomerData] = useState<CustomerData[]>([]);
+
+  useEffect(() => {
+    // Fetch customer data from an API or other source
+    const fetchCustomerData = async () => {
+      try {
+        const response = await getCustomer()
+        const data = response.map((customer: {
+          id: number;
+          name: string;
+          email: string;
+          phone_number: string;
+          group: string;
+          instagram: string;
+        }) => ({
+          ...customer,
+          amountSpent: 0,
+          debt: 0,
+        }));
+        setCustomerData(data);
+      } catch (error) {
+        console.error("Error fetching customer data:", error);
+      }
+    };
+
+    fetchCustomerData();
+  }, []);
 
   const isSmallScreen = useIsSmallScreen();
 
