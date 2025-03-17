@@ -46,7 +46,7 @@ const DashboardLayout: React.FC<NavBarProps> = (navBarProps) => {
           } as React.CSSProperties
         }
       >
-        <div className="flex h-screen w-full">
+        <div className="flex h-dvh w-full">
           <Sidebar
             className={cn(
               "fixed inset-y-0 left-0 z-50 w-64 lg:w-[var(--dashboard-sidebar-width)] bg-white transform transition-transform duration-300 ease-in-out",

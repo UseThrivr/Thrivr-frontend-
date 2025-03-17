@@ -31,7 +31,6 @@ interface updateSettingsData {
 }
 
 interface createTaskData {
-  status: string;
   title: string;
   details: string;
   due_date: string;
@@ -98,16 +97,34 @@ interface makeOrderData {
 interface DataContextType {
   updateBusiness: (data: BusinessUpdateData) => Promise<unknown>;
   getBusiness: (id?: string) => Promise<{
-    data: UserDetails
+    data: UserDetails;
   }>;
   addProducts: (data: addProductsData) => Promise<unknown>;
   createTask: (data: createTaskData) => Promise<unknown>;
   getProducts: (id?: string) => Promise<unknown>;
   updateSettings: (data: updateSettingsData) => Promise<unknown>;
   addCustomer: (data: addCustomerData) => Promise<unknown>;
+  getCustomer: () => Promise<{
+    id: number;
+    name: string;
+    email: string;
+    phone_number: string;
+    group: string;
+    instagram: string;
+  }[]>;
   addStaff: (data: addStaffData) => Promise<unknown>;
   addGroup: (name: string) => Promise<unknown>;
-  getTask: () => Promise<unknown>;
+  getTask: () => Promise<
+    {
+      status: string;
+      id: number;
+      title: string;
+      details: string;
+      due_date: string;
+      time: string;
+      reminder: string;
+    }[]
+  >;
   markTaskDone: (id: string) => Promise<unknown>;
   makeOrder: (data: makeOrderData) => Promise<unknown>;
   forgetPassword: (data: forgetPasswordData) => Promise<unknown>;
@@ -127,38 +144,35 @@ const DataContext = createContext<DataContextType | undefined>(undefined);
 export const DataProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const { user } = useAuth()
+  const { user } = useAuth();
   // Post or Patch request
-  const updateBusiness = useCallback(
-    async (data: BusinessUpdateData) => {
-      try {
-        const formData = new FormData();
+  const updateBusiness = useCallback(async (data: BusinessUpdateData) => {
+    try {
+      const formData = new FormData();
 
-        // Append all fields to FormData
-        Object.entries(data).forEach(([key, value]) => {
-          if (value !== undefined && value !== null) {
-            formData.append(key, value as string);
-          }
-        });
-
-        // Make API call to update business details
-        const response = await authAxios.patch("/api/v1/business", formData);
-
-        // Update user details after successful API call
-        setUserDetails({ ...user, ...response.data.user});
-
-        return response.data;
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          throw new Error(error.message);
+      // Append all fields to FormData
+      Object.entries(data).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          formData.append(key, value as string);
         }
+      });
 
-        console.error("Unexpected error:", error);
-        throw new Error("An unexpected error occurred. Please try again.");
+      // Make API call to update business details
+      const response = await authAxios.patch("/api/v1/business", formData);
+
+      // Update user details after successful API call
+      setUserDetails({ ...user, ...response.data.user });
+
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.message);
       }
-    },
-    []
-  );
+
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred. Please try again.");
+    }
+  }, []);
   const addProducts = useCallback(async (data: addProductsData) => {
     try {
       const formData = new FormData();
@@ -310,7 +324,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
 
   const addGroup = useCallback(async (name: string) => {
     try {
-      const response = await authAxios.post("/api/v1/group", {name: name});
+      const response = await authAxios.post("/api/v1/group", { name: name });
 
       return response.data;
     } catch (error) {
@@ -332,7 +346,10 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
         }
       });
 
-      const response = await authAxios.post("/api/v1/forgot-password", formData);
+      const response = await authAxios.post(
+        "/api/v1/forgot-password",
+        formData
+      );
 
       return response.data;
     } catch (error) {
@@ -369,23 +386,28 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
 
   // Get resqusts
 
-  const getBusiness = useCallback(async (id?: string) => {
-    try {
-      const response = await authAxios.get(`/api/v1/business/${user?.id || id}`);
+  const getBusiness = useCallback(
+    async (id?: string) => {
+      try {
+        const response = await authAxios.get(
+          `/api/v1/business/${user?.id || id}`
+        );
 
-      // Update user details after successful API call
-      setUserDetails({ ...response.data.data, id: user?.id });
+        // Update user details after successful API call
+        setUserDetails({ ...response.data.data, id: user?.id });
 
-      return response.data;
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(error.message);
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          throw new Error(error.message);
+        }
+
+        console.error("Unexpected error:", error);
+        throw new Error("An unexpected error occurred. Please try again.");
       }
-
-      console.error("Unexpected error:", error);
-      throw new Error("An unexpected error occurred. Please try again.");
-    }
-  }, [user?.id]);
+    },
+    [user?.id]
+  );
 
   const getProducts = useCallback(async (id?: string) => {
     try {
@@ -401,11 +423,27 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
       throw new Error("An unexpected error occurred. Please try again.");
     }
   }, []);
+
+  const getCustomer = useCallback(async () => {
+    try {
+      const response = await authAxios.get('/api/v1/customer');
+
+      return response.data.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.message);
+      }
+
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred. Please try again.");
+    }
+  }, []);
+
   const getTask = useCallback(async (id?: string) => {
     try {
       const response = await authAxios.get(`/api/v1/tasks/${id ? id : ""}`);
 
-      return response.data;
+      return response.data.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw new Error(error.message);
@@ -469,6 +507,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
     <DataContext.Provider
       value={{
         updateBusiness,
+        getCustomer,
         getBusiness,
         addProducts,
         getProducts,
