@@ -26,6 +26,7 @@ interface BusinessRegistrationData {
   phone_number: string;
   description: string;
   password: string;
+  oauth: boolean;
   logo?: File | null | string;
 }
 
@@ -74,7 +75,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       //   formData.append(key, value instanceof File ? value : String(value));
       // });
   
-      const response = await axiosInstance.post('/api/v1/auth/signup/business', data);
+      const response = await axiosInstance.post('/api/v1/auth/signup/business', {...data});
   
       return response.data;
     } catch (error) {
@@ -92,7 +93,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             throw new Error(`Validation failed: ${serverError}`);
           }
   
-          throw new Error(`Request failed with status ${status}: ${serverError}`);
+          throw new Error(serverError);
         } else if (error.request) {
           // Handle cases where no response was received
           console.error('No response received:', error.request);
@@ -109,7 +110,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const login = useCallback(async (data: LoginData) => {
     try {
-      const response = await axiosInstance.post('/api/v1/auth/login', data);
+      const response = await axiosInstance.post('/api/v1/auth/login', {...data, oauth: false});
       
       // Store token and user details
       setToken(response.data.token);
@@ -134,7 +135,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             throw new Error(`Validation failed: ${serverError}`);
           }
   
-          throw new Error(`Request failed with status ${status}: ${serverError}`);
+          throw new Error(serverError);
         } else if (error.request) {
           // Handle cases where no response was received
           console.error('No response received:', error.request);

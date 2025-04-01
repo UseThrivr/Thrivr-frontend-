@@ -50,8 +50,8 @@ interface CustomerData {
   instagram: string;
 }
 interface MobileData {
-  customerName: string;
-  channels: string;
+  name: string;
+  instagram: string;
   amountSpent: number;
   chevronRight?: string;
 }
@@ -122,11 +122,11 @@ const mobileGroupHelper = createColumnHelper<groupMobileData>();
 const groupColumnHelper = createColumnHelper<GroupData>();
 
 const mobileCustomerColumns = [
-  mobileCustomerHelper.accessor("customerName", {
+  mobileCustomerHelper.accessor("name", {
     cell: (info) => info.getValue(),
     header: "Name",
   }),
-  mobileCustomerHelper.accessor("channels", {
+  mobileCustomerHelper.accessor("instagram", {
     cell: (info) => info.getValue(),
     header: "Channels",
   }),
@@ -136,7 +136,7 @@ const mobileCustomerColumns = [
   }),
   mobileCustomerHelper.accessor("chevronRight", {
     cell:() => <ChevronRight size={24} className="text-action-default" />,
-    header: "",
+    header: () => <div className="flex w-[20px]" />,
   }),
 ]
 
