@@ -22,7 +22,7 @@ const BusinessSetup = () => {
   const [otpLoading, setOtpLoading] = useState(false);
   const [resendOtpLoading, setResendOtpLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [file, setFile] = useState<File | null>(null)
+  const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
     if (!userData.email) {
@@ -111,23 +111,36 @@ const BusinessSetup = () => {
 
     try {
       const oauth = userData.oauth;
-      console.log(oauth)
+      console.log(oauth);
       // Combine initial signup data with business data
-      const completeRegistrationData = {
-        oauth: oauth,
-        full_name: userData.fullname,
-        email: userData.email,
-        password: userData.password || "",
-        business_name: formData.businessName,
-        location: formData.location,
-        phone_number:
-          formData.businessLocation === "NG"
-            ? `+234${formData.phoneNumber.trim()}`
-            : `+233${formData.phoneNumber.trim()}`,
-        description: formData.description,
-        logo: formData.logo || userData.photoUrl || "",
-      };
-      await register(completeRegistrationData);
+      const country = countryList.filter(c => c.code === formData.location)
+      const dialCode = country[0].dialCode
+      if (oauth) {
+        const completeRegistrationData = {
+          oauth: oauth,
+          full_name: userData.fullname,
+          email: userData.email,
+          business_name: formData.businessName,
+          location: formData.location,
+          phone_number:`${dialCode}${formData.phoneNumber.trim()}`,
+          description: formData.description,
+          logo: formData.logo || userData.photoUrl || "",
+        };
+        await register(completeRegistrationData);
+      } else {
+        const completeRegistrationData = {
+          oauth: oauth,
+          full_name: userData.fullname,
+          email: userData.email,
+          password: userData.password,
+          business_name: formData.businessName,
+          location: formData.location,
+          phone_number:`${dialCode}${formData.phoneNumber.trim()}`,
+          description: formData.description,
+          logo: formData.logo || userData.photoUrl || "",
+        };
+        await register(completeRegistrationData);
+      }
       toast.success("Registration Successful!");
       setShowOtp(true);
     } catch (err: unknown) {
@@ -150,9 +163,11 @@ const BusinessSetup = () => {
         otp: otp.join(""),
         email: userData.email,
       };
-      const data = (await  verifyOTP(otpVerification)) as { user: { id: string } };
+      const data = (await verifyOTP(otpVerification)) as {
+        user: { id: string };
+      };
       const business = await getBusiness(data.user.id);
-            setUserDetails(business.data);
+      setUserDetails(business.data);
       toast.success("Email Verified!");
       navigate("/onboarding");
     } catch (err: unknown) {
@@ -357,9 +372,7 @@ const BusinessSetup = () => {
             <Upload className="w-8 h-8 mx-auto mb-2 text-gray-500" />
             <p className="text-sm text-gray-500">PNG, JPG | 10MB max</p>
             {formData.logo && (
-              <p className="mt-2 text-sm text-[#870E73]">
-                {file?.name}
-              </p>
+              <p className="mt-2 text-sm text-[#870E73]">{file?.name}</p>
             )}
           </div>
         </div>

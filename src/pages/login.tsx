@@ -7,11 +7,10 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"; // Adjust the import path as needed
 import googleImg from "../assets/devicon_google.png";
 import { toast } from "react-hot-toast"; // Assuming you're using react-hot-toast for notifications
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { useData } from "@/context/DataContext";
 import { setUserDetails } from "@/api/tokenService";
 import { auth, googleProvider, signInWithPopup } from "../../firebase";
-const API_URL = "https://thrivr.onrender.com";
 
 interface LoginFormData {
   email: string;
@@ -92,6 +91,7 @@ const Login: React.FC = () => {
       const data = (await login({
         email: loginData.email,
         password: loginData.password,
+        oauth: false,
       })) as { user: { id: string } };
 
       const business = await getBusiness(data.user.id);
@@ -148,14 +148,15 @@ const Login: React.FC = () => {
 
   const sendOAuthData = async (user: { email: string | null }) => {
     try {
-      const response = await axios.post(`${API_URL}/api/v1/auth/login`, {
+      const data = (await login({
         email: user.email,
-        oauth: true,
-      });
-      navigate("/dashboard");
-      toast.success("Login Successful!");
+        oauth: false,
+      })) as { user: { id: string } };
 
-      console.log("Backend Response:", response.data);
+      const business = await getBusiness(data.user.id);
+      setUserDetails(business.data);
+      toast.success("Login Successful!");
+      navigate("/dashboard");
     } catch (error) {
       console.error("Error sending OAuth data:", error);
       if (error instanceof AxiosError) {
