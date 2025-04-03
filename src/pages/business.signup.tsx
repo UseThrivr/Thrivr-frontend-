@@ -110,11 +110,14 @@ const BusinessSetup = () => {
     setError(null);
 
     try {
+      const oauth = userData.oauth;
+      console.log(oauth)
       // Combine initial signup data with business data
       const completeRegistrationData = {
+        oauth: oauth,
         full_name: userData.fullname,
         email: userData.email,
-        password: userData.password,
+        password: userData.password || "",
         business_name: formData.businessName,
         location: formData.location,
         phone_number:
@@ -122,7 +125,7 @@ const BusinessSetup = () => {
             ? `+234${formData.phoneNumber.trim()}`
             : `+233${formData.phoneNumber.trim()}`,
         description: formData.description,
-        logo: formData.logo || "",
+        logo: formData.logo || userData.photoUrl || "",
       };
       await register(completeRegistrationData);
       toast.success("Registration Successful!");

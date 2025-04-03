@@ -1,9 +1,11 @@
 import { FC, useState, ChangeEvent, FormEvent } from "react";
 import { P } from "@/components/global";
-import { Dot, Eye, EyeOff, Lock, Mail, User} from "lucide-react";
+import { Dot, Eye, EyeOff, Loader2, Lock, Mail, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import googleImg from "../assets/devicon_google.png";
-import facebookImg from "../assets/logos_facebook.png";
+import { auth, googleProvider, signInWithPopup } from "../../firebase";
+import toast from "react-hot-toast";
+// import facebookImg from "../assets/logos_facebook.png";
 
 interface FormData {
   fullName: string;
@@ -25,6 +27,7 @@ const Signup: FC = () => {
   const navigate = useNavigate();
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [showPassword, setShowPassword] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     fullName: "",
     email: "",
@@ -40,6 +43,42 @@ const Signup: FC = () => {
     confirmPassword: "",
     agreeToTerms: "",
   });
+
+  const handleGoogleLogin = async () => {
+    setIsGoogleLoading(true);
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      await sendOAuthData(result.user);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Google Sign-In Error:", error.message);
+        toast.error(error.message);
+      }
+    } finally {
+      setIsGoogleLoading(false);
+    }
+  };
+
+  const sendOAuthData = async (user: {
+    email: string | null;
+    displayName: string | null;
+    photoURL: string | null;
+  }) => {
+    try {
+      navigate("/business", {
+        state: {
+          userData: {
+            fullname: user.displayName,
+            email: user.email,
+            photoUrl: user.photoURL,
+            oauth: true,
+          },
+        },
+      });
+    } catch (error) {
+      console.error("Registration navigation error:", error);
+    }
+  };
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {
@@ -98,6 +137,7 @@ const Signup: FC = () => {
               fullname: formData.fullName,
               email: formData.email,
               password: formData.password,
+              oauth: false,
             },
           },
         });
@@ -291,20 +331,27 @@ const Signup: FC = () => {
       <div className="flex gap-x-10 flex-col lg:flex-row">
         <button
           type="button"
-          onClick={() => navigate("/setupbusiness")}
-          className="text-black bg-white mt-5 w-full rounded-lg py-2 border-2 flex justify-center gap-2"
+          onClick={handleGoogleLogin}
+          disabled={isGoogleLoading}
+          className="text-black bg-white mt-5 w-full rounded-lg py-2 border-2 flex justify-center gap-2 cursor-pointer hover:bg-gray-100 transition duration-300"
         >
-          <img src={googleImg} alt="" />
-          Sign In with Google
+          {isGoogleLoading ? (
+            <Loader2 className="animate-spin size-5 mr-2" />
+          ) : (
+            <>
+              <img src={googleImg} alt="Google login" />
+              Login with Google
+            </>
+          )}
         </button>
-        <button
+        {/* <button
           type="button"
           onClick={() => navigate("/setupbusiness")}
           className="text-black bg-white mt-5 w-full rounded-lg py-2 border-2 flex justify-center gap-2"
         >
           <img src={facebookImg} alt="" />
           Sign In with Facebook
-        </button>
+        </button> */}
       </div>
       <div className="mt-10">
         <p className="">

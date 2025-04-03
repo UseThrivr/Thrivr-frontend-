@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { H1, P } from "@/components/global";
 import { PersonIcon } from "@radix-ui/react-icons";
-import { Eye, EyeOff, Lock } from "lucide-react";
+import { Eye, EyeOff, Loader2, Lock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"; // Adjust the import path as needed
 import googleImg from "../assets/devicon_google.png";
 import { toast } from "react-hot-toast"; // Assuming you're using react-hot-toast for notifications
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { useData } from "@/context/DataContext";
 import { setUserDetails } from "@/api/tokenService";
+import { auth, googleProvider, signInWithPopup } from "../../firebase";
+const API_URL = "https://thrivr.onrender.com";
 
 interface LoginFormData {
   email: string;
@@ -27,6 +29,8 @@ const Login: React.FC = () => {
   const { login } = useAuth();
   const { getBusiness } = useData();
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false);
   const [loginData, setLoginData] = useState<LoginFormData>({
     email: "",
     password: "",
@@ -37,8 +41,6 @@ const Login: React.FC = () => {
     password: "",
   });
   const [error, setError] = useState("");
-
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Email validation function
   const validateEmail = (email: string): string => {
@@ -105,18 +107,63 @@ const Login: React.FC = () => {
 
         // Optionally set specific error states
         setError(errorMessage);
+      } else if (err instanceof Error) {
+        const errorMessage = err.message || "An unexpected error occurred.";
+        toast.error(errorMessage);
+
+        // Optionally set specific error states
+        setError(errorMessage);
       } else {
-        toast.error("Login Failed!");
-        setError("Login Failed");
+        console.log(err);
       }
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleGoogleLogin = () => {
-    // TODO: Implement Google OAuth login
-    toast.error("Google login not implemented yet");
+  const handleGoogleLogin = async () => {
+    setIsGoogleLoading(true);
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      await sendOAuthData(result.user);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Google Sign-In Error:", error.message);
+        toast.error(error.message);
+      }
+    } finally {
+      setIsGoogleLoading(false);
+    }
+  };
+
+  // Facebook Login
+  // const handleFacebookLogin = async () => {
+  //   try {
+  //     const result = await signInWithPopup(auth, facebookProvider);
+  //     sendOAuthData(result.user);
+  //   } catch (error) {
+  //     console.error("Facebook Sign-In Error:", error.message);
+  //   }
+  // };
+
+  const sendOAuthData = async (user: { email: string | null }) => {
+    try {
+      const response = await axios.post(`${API_URL}/api/v1/auth/login`, {
+        email: user.email,
+        oauth: true,
+      });
+      navigate("/dashboard");
+      toast.success("Login Successful!");
+
+      console.log("Backend Response:", response.data);
+    } catch (error) {
+      console.error("Error sending OAuth data:", error);
+      if (error instanceof AxiosError) {
+        const errorMessage = error.message || "Login failed. Please try again.";
+        toast.error(errorMessage || "An unexpected error occurred.");
+        setError(errorMessage);
+      }
+    }
   };
 
   return (
@@ -203,7 +250,7 @@ const Login: React.FC = () => {
           </div>
 
           {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative my-4">
               {error}
             </div>
           )}
@@ -212,13 +259,21 @@ const Login: React.FC = () => {
             type="submit"
             disabled={isLoading}
             className={`
-              text-white 
+              text-white flex items-center justify-center
               ${isLoading ? "bg-[#870E7388]" : "bg-[#870E73CC]"} 
               mt-5 w-full rounded-lg py-2
               ${isLoading ? "cursor-not-allowed" : ""}
             `}
           >
-            {isLoading ? "Logging in..." : "Login"}
+            {isLoading ? (
+              <>
+                {" "}
+                <Loader2 className="animate-spin size-4 mr-2" />
+                Logging in...
+              </>
+            ) : (
+              "Login"
+            )}
           </button>
 
           <div className="flex my-5 items-center">
@@ -230,10 +285,17 @@ const Login: React.FC = () => {
           <button
             type="button"
             onClick={handleGoogleLogin}
-            className="text-black bg-white mt-5 w-full rounded-lg py-2 border-2 flex justify-center gap-2"
+            disabled={isGoogleLoading}
+            className="text-black bg-white mt-5 w-full rounded-lg py-2 border-2 flex justify-center gap-2 cursor-pointer hover:bg-gray-100 transition duration-300"
           >
-            <img src={googleImg} alt="Google login" />
-            Login with Google
+            {isGoogleLoading ? (
+              <Loader2 className="animate-spin size-5 mr-2" />
+            ) : (
+              <>
+                <img src={googleImg} alt="Google login" />
+                Login with Google
+              </>
+            )}
           </button>
 
           <div className="mt-5 text-center">
