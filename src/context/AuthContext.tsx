@@ -25,14 +25,15 @@ interface BusinessRegistrationData {
   email: string;
   phone_number: string;
   description: string;
-  password: string;
+  password?: string;
   oauth: boolean;
   logo?: File | null | string;
 }
 
 interface LoginData {
-  email: string;
-  password: string;
+  email: string | null;
+  password?: string;
+  oauth: boolean
 }
 
 // Error type for consistent error handling
@@ -110,7 +111,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const login = useCallback(async (data: LoginData) => {
     try {
-      const response = await axiosInstance.post('/api/v1/auth/login', {...data, oauth: false});
+      const response = await axiosInstance.post('/api/v1/auth/login', {...data});
       
       // Store token and user details
       setToken(response.data.token);
