@@ -150,7 +150,7 @@ const Login: React.FC = () => {
     try {
       const data = (await login({
         email: user.email,
-        oauth: false,
+        oauth: true,
       })) as { user: { id: string } };
 
       const business = await getBusiness(data.user.id);
