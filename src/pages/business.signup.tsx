@@ -111,10 +111,7 @@ const BusinessSetup = () => {
 
     try {
       const oauth = userData.oauth;
-      console.log(oauth);
       // Combine initial signup data with business data
-      const country = countryList.filter(c => c.code === formData.location)
-      const dialCode = country[0].dialCode
       if (oauth) {
         const completeRegistrationData = {
           oauth: oauth,
@@ -122,7 +119,7 @@ const BusinessSetup = () => {
           email: userData.email,
           business_name: formData.businessName,
           location: formData.location,
-          phone_number:`${dialCode}${formData.phoneNumber.trim()}`,
+          phone_number:`${formData.phoneNumber.trim()}`,
           description: formData.description,
           logo: formData.logo || userData.photoUrl || "",
         };
@@ -135,7 +132,7 @@ const BusinessSetup = () => {
           password: userData.password,
           business_name: formData.businessName,
           location: formData.location,
-          phone_number:`${dialCode}${formData.phoneNumber.trim()}`,
+          phone_number:`${formData.phoneNumber.trim()}`,
           description: formData.description,
           logo: formData.logo || userData.photoUrl || "",
         };
